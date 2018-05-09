@@ -1,0 +1,16 @@
+[
+{
+  "modid": "tcexpansion",
+  "name": "Tinker's Construct Expansion",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["YaibaToKen"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
