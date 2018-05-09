@@ -12,6 +12,7 @@ import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
 import slimeknights.tconstruct.library.materials.HeadMaterialStats;
 import slimeknights.tconstruct.library.materials.Material;
+import slimeknights.tconstruct.tools.TinkerMaterials;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,9 +26,9 @@ import java.util.stream.Collectors;
 )
 public class TCE
 {
-    public static final String MODID = "tcexpansion";
-    public static final String NAME = "Tinker's Construct Expansion";
-    public static final String VERSION = "0.0.1";
+    static final String MODID = "tcexpansion";
+    static final String NAME = "Tinker's Construct Expansion";
+    static final String VERSION = "0.0.2";
 
     private static Logger logger;
 
@@ -66,20 +67,43 @@ public class TCE
                 if (!material.hasStats("core") && material.hasStats("head"))
                 {
                     // logger.info("DEBUG: Material Identifier: " + material.identifier);
-                    HeadMaterialStats stat = material.getStats("head");
-                    TinkerRegistry.addMaterialStats(material, new CoreMaterialStats(12 * stat.durability / 204, 15 * stat.attack / 4));
+                    HeadMaterialStats materialHead = material.getStats("head");
+                    HeadMaterialStats ironHead = TinkerMaterials.iron.getStats("head");
+                    CoreMaterialStats ironCore = TinkerMaterials.iron.getStats("core");
+
+                    TinkerRegistry.addMaterialStats(
+                            material,
+                            new CoreMaterialStats(
+                                    ironCore.durability * materialHead.durability / ironHead.durability,
+                                    ironCore.defense * materialHead.attack / ironHead.attack));
                 }
                 if (!material.hasStats("plates") && material.hasStats("handle"))
                 {
                     // logger.info("DEBUG: Material Identifier: " + material.identifier);
-                    HandleMaterialStats stat = material.getStats("handle");
-                    TinkerRegistry.addMaterialStats(material, new PlatesMaterialStats( stat.modifier, 5 * stat.durability / 60, 0 * stat.durability / 60));
+                    HandleMaterialStats materialHandle = material.getStats("handle");
+                    HandleMaterialStats ironHandle = TinkerMaterials.iron.getStats("handle");
+                    PlatesMaterialStats ironPlates = TinkerMaterials.iron.getStats("plates");
+
+                    float ironPlatesToughness = ironPlates.toughness > 0f ? ironPlates.toughness : 1;
+
+                    TinkerRegistry.addMaterialStats(
+                            material,
+                            new PlatesMaterialStats(
+                                    materialHandle.modifier,
+                                    ironPlates.durability * materialHandle.durability / ironHandle.durability,
+                                    ironPlatesToughness * materialHandle.durability / ironHandle.durability));
                 }
                 if (!material.hasStats("trim") && material.hasStats("extra"))
                 {
                     // logger.info("DEBUG: Material Identifier: " + material.identifier);
-                    ExtraMaterialStats stat = material.getStats("extra");
-                    TinkerRegistry.addMaterialStats(material, new TrimMaterialStats((3.5F * stat.extraDurability / 50)));
+                    ExtraMaterialStats materialExtra = material.getStats("extra");
+                    ExtraMaterialStats ironExtra = TinkerMaterials.iron.getStats("extra");
+                    TrimMaterialStats ironTrim = TinkerMaterials.iron.getStats("trim");
+
+                    TinkerRegistry.addMaterialStats(
+                            material,
+                            new TrimMaterialStats((
+                                    ironTrim.extraDurability * materialExtra.extraDurability / ironExtra.extraDurability)));
                 }
             }
         }
