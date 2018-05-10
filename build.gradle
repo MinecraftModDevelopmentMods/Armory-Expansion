@@ -40,8 +40,8 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "0.0.1"
-group = "org.softc.tce" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "0.0.2"
+group = "org.softc" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "tcexpansion"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
