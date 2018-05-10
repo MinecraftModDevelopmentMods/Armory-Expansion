@@ -21,13 +21,25 @@ import slimeknights.tconstruct.tools.TinkerMaterials;
         modid = TCE.MODID,
         name = TCE.NAME,
         version = TCE.VERSION,
-        dependencies = "required-after:tconstruct; required-after:conarm; after:basemetals; after:modernmetals; after:fantasymetals; after:plustic; after:moartinkers; after:taiga;"
+        dependencies = "required-after:tconstruct; " +
+                "required-after:conarm; " +
+                "after:basemetals; " +
+                "after:modernmetals; " +
+                "after:fantasymetals; " +
+                "after:plustic; " +
+                "after:moartinkers; " +
+                "after:taiga;" +
+                "after:acintegration;" +
+                "after:BloodArsenal;" +
+                "after:enderiointegrationtic;" +
+                "after:integrationforegoing;" +
+                "after:twilightforest;"
 )
 public class TCE
 {
     static final String MODID = "armoryexpansion";
     static final String NAME = "Armory Expansion";
-    static final String VERSION = "0.0.3";
+    static final String VERSION = "0.0.4";
 
     static Configuration config;
 
