@@ -7,7 +7,7 @@ import slimeknights.tconstruct.library.materials.Material;
 
 import java.util.ArrayList;
 
-public class Config
+class Config
 {
     static ArrayList<Property> properties = new ArrayList<>();
 
