@@ -11,5 +11,9 @@ List of currently supported mods:
 - PlusTiC;
 - Moar Tinkers;
 - TAIGA;
+- AbyssalCraft Integration;
+- Blood Arsenal;
+- Integration Foregoing;
+- Twilight Forest;
 
 Support for additional mods will be given on request :)
