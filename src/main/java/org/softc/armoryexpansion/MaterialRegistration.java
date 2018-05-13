@@ -4,6 +4,7 @@ import c4.conarm.lib.materials.CoreMaterialStats;
 import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
 import net.minecraftforge.common.config.Property;
+import scala.sys.Prop;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
@@ -56,23 +57,29 @@ class MaterialRegistration
                         ironTrim.extraDurability * materialExtra.extraDurability / ironExtra.extraDurability)));
     }
 
-    private static void registerFromToolMaterialStat(Property property)
+    private static void registerFromToolMaterialStat(Material material)
     {
+        registerCoreMaterialStat(material);
+        registerPlatesMaterialStat(material);
+        registerTrimMaterialStat(material);
+    }
+
+    private static boolean registerFromToolMaterialStat(Property property)
+    {
+        Material material = TinkerRegistry.getMaterial(property.getName());
         if (property.getBoolean())
         {
-            Material material = TinkerRegistry.getMaterial(property.getName());
-            ArmoryExpansion.logger.info("Adding armor parts for " + material.getLocalizedName());
-            registerCoreMaterialStat(material);
-            registerPlatesMaterialStat(material);
-            registerTrimMaterialStat(material);
+            registerFromToolMaterialStat(material);
+            return true;
         }
+        return false;
     }
 
     static void registerFromToolMaterialStat(Collection<Property> properties)
     {
         for (Property property:properties)
         {
-            registerFromToolMaterialStat(property);
+            ArmoryExpansion.logger.info("Attempting to add armor parts for " + property.getName() + " returned: " + registerFromToolMaterialStat(property));
         }
     }
 }
