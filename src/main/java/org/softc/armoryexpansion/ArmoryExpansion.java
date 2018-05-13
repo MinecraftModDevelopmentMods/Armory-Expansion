@@ -1,4 +1,4 @@
-package org.softc.tcexpansion;
+package org.softc.armoryexpansion;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;

@@ -1,4 +1,4 @@
-package org.softc.tcexpansion;
+package org.softc.armoryexpansion;
 
 import c4.conarm.lib.materials.CoreMaterialStats;
 import c4.conarm.lib.materials.PlatesMaterialStats;
