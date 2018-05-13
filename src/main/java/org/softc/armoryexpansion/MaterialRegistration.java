@@ -25,7 +25,7 @@ class MaterialRegistration
                 material,
                 new CoreMaterialStats(
                         ironCore.durability * materialHead.durability / ironHead.durability,
-                        ironCore.defense * materialHead.attack / ironHead.attack));
+                        1.5f * ironCore.defense * materialHead.attack / ironHead.attack));
     }
 
     private static void registerPlatesMaterialStat(Material material)
@@ -41,7 +41,7 @@ class MaterialRegistration
                 new PlatesMaterialStats(
                         materialHandle.modifier,
                         ironPlates.durability * materialHandle.durability / ironHandle.durability,
-                        ironPlatesToughness * materialHandle.durability / ironHandle.durability));
+                        3 * ironPlatesToughness * materialHandle.durability / ironHandle.durability));
     }
 
     private static void registerTrimMaterialStat(Material material)
@@ -53,7 +53,7 @@ class MaterialRegistration
         TinkerRegistry.addMaterialStats(
                 material,
                 new TrimMaterialStats((
-                        ironTrim.extraDurability * materialExtra.extraDurability / ironExtra.extraDurability)));
+                        2 * ironTrim.extraDurability * materialExtra.extraDurability / ironExtra.extraDurability)));
     }
 
     private static void registerFromToolMaterialStat(Material material)
