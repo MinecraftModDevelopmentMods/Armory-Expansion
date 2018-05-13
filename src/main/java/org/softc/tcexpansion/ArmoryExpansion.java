@@ -42,7 +42,7 @@ public class ArmoryExpansion
         Config.syncConfig();
 
         /* TODO Add traits for Nickel, Antimony, Cupronickel, Platinum, Tin, Invar, Zinc, Bismuth, Chromium, Titanium, Magnesium, Osmium, Aluminum, Manganese, Plutonium, Iridium, Tungsten, Thorium, Aluminum Brass, Beryllium, Cadmium, Nichrome, Stainless Steel, Uranium, Galvanized Steel, Tantalum, Zirconium, Boron, Rutile*/
-        MaterialRegistration.RegisterFromToolMaterialStat(Config.properties);
+        MaterialRegistration.registerFromToolMaterialStat(Config.properties);
 
     }
 
