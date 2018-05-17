@@ -22,7 +22,8 @@ import org.apache.logging.log4j.Logger;
                 "after:BloodArsenal;" +
                 "after:enderiointegrationtic;" +
                 "after:integrationforegoing;" +
-                "after:twilightforest;"
+                "after:twilightforest;" +
+                "after:pewter;"
 )
 public class ArmoryExpansion
 {
