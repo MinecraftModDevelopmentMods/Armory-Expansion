@@ -32,7 +32,7 @@ public class ArmoryExpansion
 {
     static final String MODID = "armoryexpansion";
     static final String NAME = "Armory Expansion";
-    static final String VERSION = "0.1.1";
+    static final String VERSION = "0.1.1a";
 
     static Configuration config;
     static Logger logger;
