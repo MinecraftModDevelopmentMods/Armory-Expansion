@@ -23,13 +23,16 @@ import org.apache.logging.log4j.Logger;
                 "after:enderiointegrationtic;" +
                 "after:integrationforegoing;" +
                 "after:twilightforest;" +
-                "after:pewter;"
+                "after:pewter;" +
+                "after:extrautils2;" +
+                "after:mysticalagriculture;" +
+                "after:mysticalagradditions;"
 )
 public class ArmoryExpansion
 {
     static final String MODID = "armoryexpansion";
     static final String NAME = "Armory Expansion";
-    static final String VERSION = "0.0.5";
+    static final String VERSION = "0.1.1";
 
     static Configuration config;
     static Logger logger;
