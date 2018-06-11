@@ -26,13 +26,14 @@ import org.apache.logging.log4j.Logger;
                 "after:pewter;" +
                 "after:extrautils2;" +
                 "after:mysticalagriculture;" +
-                "after:mysticalagradditions;"
+                "after:mysticalagradditions;" +
+                "after:silentgems;"
 )
 public class ArmoryExpansion
 {
     static final String MODID = "armoryexpansion";
     static final String NAME = "Armory Expansion";
-    static final String VERSION = "0.1.1a";
+    static final String VERSION = "0.1.2";
 
     static Configuration config;
     static Logger logger;
