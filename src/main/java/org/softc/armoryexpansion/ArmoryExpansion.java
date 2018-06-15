@@ -5,6 +5,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
+import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.MaterialRegistration;
 
 @Mod(
         modid = ArmoryExpansion.MODID,
@@ -36,7 +37,7 @@ public class ArmoryExpansion
     static final String VERSION = "0.1.2";
 
     static Configuration config;
-    static Logger logger;
+    public static Logger logger;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)

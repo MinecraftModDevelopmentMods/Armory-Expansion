@@ -1,9 +1,10 @@
-package org.softc.armoryexpansion;
+package org.softc.armoryexpansion.dynamic_systems.dynamic_materials;
 
 import c4.conarm.lib.materials.CoreMaterialStats;
 import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
 import net.minecraftforge.common.config.Property;
+import org.softc.armoryexpansion.ArmoryExpansion;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
@@ -13,7 +14,7 @@ import slimeknights.tconstruct.tools.TinkerMaterials;
 
 import java.util.Collection;
 
-class MaterialRegistration
+public class MaterialRegistration
 {
     private static void registerCoreMaterialStat(Material material)
     {
@@ -74,7 +75,7 @@ class MaterialRegistration
         return false;
     }
 
-    static void registerFromToolMaterialStat(Collection<Property> properties)
+    public static void registerFromToolMaterialStat(Collection<Property> properties)
     {
         for (Property property:properties)
         {
