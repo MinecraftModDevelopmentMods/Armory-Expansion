@@ -28,15 +28,16 @@ import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.MaterialRegis
                 "after:extrautils2;" +
                 "after:mysticalagriculture;" +
                 "after:mysticalagradditions;" +
-                "after:silentgems;"
+                "after:silentgems;" +
+                "after:botania;"
 )
 public class ArmoryExpansion
 {
     static final String MODID = "armoryexpansion";
     static final String NAME = "Armory Expansion";
-    static final String VERSION = "0.1.2";
+    static final String VERSION = "0.1.4";
 
-    static Configuration config;
+    public static Configuration config;
     public static Logger logger;
 
     @Mod.EventHandler

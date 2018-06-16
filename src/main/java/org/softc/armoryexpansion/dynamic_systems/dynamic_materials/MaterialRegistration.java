@@ -59,9 +59,9 @@ public class MaterialRegistration
 
     private static void registerFromToolMaterialStat(Material material)
     {
-        registerCoreMaterialStat(material);
-        registerPlatesMaterialStat(material);
-        registerTrimMaterialStat(material);
+        if (!material.hasStats("core") && material.hasStats("head")) registerCoreMaterialStat(material);
+        if (!material.hasStats("plates") && material.hasStats("handle")) registerPlatesMaterialStat(material);
+        if (!material.hasStats("trim") && material.hasStats("extra")) registerTrimMaterialStat(material);
     }
 
     private static boolean registerFromToolMaterialStat(Property property)
@@ -79,7 +79,12 @@ public class MaterialRegistration
     {
         for (Property property:properties)
         {
-            ArmoryExpansion.logger.info("Attempting to add armor parts for " + property.getName() + " returned: " + registerFromToolMaterialStat(property));
+            if (TinkerRegistry.getMaterial(property.getName())!=null) {
+                ArmoryExpansion.logger.info("Attempting to add armor parts for " + property.getName() + " returned: " + registerFromToolMaterialStat(property));
+            }
+            else {
+                properties.remove(property);
+            }
         }
     }
 }

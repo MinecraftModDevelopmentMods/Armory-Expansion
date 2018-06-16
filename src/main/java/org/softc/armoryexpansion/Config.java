@@ -18,17 +18,14 @@ class Config
 
             for (Material material:TinkerRegistry.getAllMaterials())
             {
-                if (!material.hasStats("core") && material.hasStats("head") && !material.hasStats("plates") && material.hasStats("handle") && !material.hasStats("trim") && material.hasStats("extra"))
-                {
-                    properties.add(
-                            ArmoryExpansion.config.get(
-                                    Configuration.CATEGORY_GENERAL,
-                                    material.identifier,
-                                    "true",
-                                    "Whether " + material.getLocalizedName() + " should be used for armor parts"
-                            )
-                    );
-                }
+                properties.add(
+                        ArmoryExpansion.config.get(
+                                Configuration.CATEGORY_GENERAL,
+                                material.identifier,
+                                "true",
+                                "Whether " + material.getLocalizedName() + " should be used for armor parts"
+                        )
+                );
             }
         } catch (Exception e) {
             // Failed reading/writing, just continue
