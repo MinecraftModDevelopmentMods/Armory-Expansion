@@ -5,6 +5,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
+import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.Config;
 import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.MaterialRegistration;
 
 @Mod(
@@ -35,7 +36,7 @@ public class ArmoryExpansion
 {
     static final String MODID = "armoryexpansion";
     static final String NAME = "Armory Expansion";
-    static final String VERSION = "0.1.4";
+    static final String VERSION = "0.1.5";
 
     public static Configuration config;
     public static Logger logger;
@@ -48,8 +49,7 @@ public class ArmoryExpansion
         config = new Configuration(event.getSuggestedConfigurationFile());
         Config.syncConfig();
 
-        /* TODO Add traits for Nickel, Antimony, Cupronickel, Platinum, Tin, Invar, Zinc, Bismuth, Chromium, Titanium, Magnesium, Osmium, Aluminum, Manganese, Plutonium, Iridium, Tungsten, Thorium, Aluminum Brass, Beryllium, Cadmium, Nichrome, Stainless Steel, Uranium, Galvanized Steel, Tantalum, Zirconium, Boron, Rutile*/
-        MaterialRegistration.registerFromToolMaterialStat(Config.properties);
+        MaterialRegistration.registerFromToolMaterialStat();
 
     }
 

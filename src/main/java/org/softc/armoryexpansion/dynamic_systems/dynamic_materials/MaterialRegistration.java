@@ -3,7 +3,6 @@ package org.softc.armoryexpansion.dynamic_systems.dynamic_materials;
 import c4.conarm.lib.materials.CoreMaterialStats;
 import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
-import net.minecraftforge.common.config.Property;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
@@ -11,8 +10,6 @@ import slimeknights.tconstruct.library.materials.HandleMaterialStats;
 import slimeknights.tconstruct.library.materials.HeadMaterialStats;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
-
-import java.util.Collection;
 
 public class MaterialRegistration
 {
@@ -57,33 +54,21 @@ public class MaterialRegistration
                         2 * ironTrim.extraDurability * materialExtra.extraDurability / ironExtra.extraDurability)));
     }
 
-    private static void registerFromToolMaterialStat(Material material)
+    public static void registerFromToolMaterialStat()
     {
-        if (!material.hasStats("core") && material.hasStats("head")) registerCoreMaterialStat(material);
-        if (!material.hasStats("plates") && material.hasStats("handle")) registerPlatesMaterialStat(material);
-        if (!material.hasStats("trim") && material.hasStats("extra")) registerTrimMaterialStat(material);
-    }
-
-    private static boolean registerFromToolMaterialStat(Property property)
-    {
-        Material material = TinkerRegistry.getMaterial(property.getName());
-        if (property.getBoolean())
-        {
-            registerFromToolMaterialStat(material);
-            return true;
-        }
-        return false;
-    }
-
-    public static void registerFromToolMaterialStat(Collection<Property> properties)
-    {
-        for (Property property:properties)
-        {
-            if (TinkerRegistry.getMaterial(property.getName())!=null) {
-                ArmoryExpansion.logger.info("Attempting to add armor parts for " + property.getName() + " returned: " + registerFromToolMaterialStat(property));
-            }
-            else {
-                properties.remove(property);
+        for (int i = 0; i < Config.propertiesMaterials.size(); i++) {
+            Material material = TinkerRegistry.getMaterial(Config.propertiesMaterials.get(i).getName());
+            if (Config.propertiesMaterials.get(i).getBoolean()  && material != null) {
+                ArmoryExpansion.logger.info("Registering parts for " + material.getLocalizedName());
+                if (Config.propertiesCore.get(i) != null && Config.propertiesCore.get(i).getBoolean()) {
+                    if (!material.hasStats("core")) registerCoreMaterialStat(material);
+                }
+                if (Config.propertiesPlates.get(i) != null && Config.propertiesPlates.get(i).getBoolean()) {
+                    if (!material.hasStats("plates")) registerPlatesMaterialStat(material);
+                }
+                if (Config.propertiesTrim.get(i) != null && Config.propertiesTrim.get(i).getBoolean()) {
+                    if (!material.hasStats("trim")) registerTrimMaterialStat(material);
+                }
             }
         }
     }
