@@ -37,6 +37,9 @@ public class Config
                     )
             );
         }
+        else {
+            properties.add(null);
+        }
     }
 
     public static void syncConfig() { // Gets called from preInit
@@ -52,7 +55,7 @@ public class Config
                         mat = core || plates || trim;
                 if (mat){
                     ArmoryExpansion.config.getCategory(material.getIdentifier());
-                    propertiesMaterials.add(ArmoryExpansion.config.get(material.getIdentifier(), "enable", "true", "Global toggle for the " + material.getLocalizedName() + " material"));
+                    propertiesMaterials.add(ArmoryExpansion.config.get(material.getIdentifier(), "enable_" + material.getIdentifier(), "true", "Global toggle for the " + material.getLocalizedName() + " material"));
                     if (core){
                         addMaterialProperty(material, "cores");
                     }

@@ -57,17 +57,17 @@ public class MaterialRegistration
     public static void registerFromToolMaterialStat()
     {
         for (int i = 0; i < Config.propertiesMaterials.size(); i++) {
-            Material material = TinkerRegistry.getMaterial(Config.propertiesMaterials.get(i).getName());
+            Material material = TinkerRegistry.getMaterial(Config.propertiesMaterials.get(i).getName().replaceAll("enable_", ""));
             if (Config.propertiesMaterials.get(i).getBoolean()  && material != null) {
                 ArmoryExpansion.logger.info("Registering parts for " + material.getLocalizedName());
-                if (Config.propertiesCore.get(i) != null && Config.propertiesCore.get(i).getBoolean()) {
-                    if (!material.hasStats("core")) registerCoreMaterialStat(material);
+                if (Config.propertiesCore.get(i) != null && Config.propertiesCore.get(i).getBoolean() && !material.hasStats("core")) {
+                    registerCoreMaterialStat(material);
                 }
-                if (Config.propertiesPlates.get(i) != null && Config.propertiesPlates.get(i).getBoolean()) {
-                    if (!material.hasStats("plates")) registerPlatesMaterialStat(material);
+                if (Config.propertiesPlates.get(i) != null && Config.propertiesPlates.get(i).getBoolean() && !material.hasStats("plates")) {
+                    registerPlatesMaterialStat(material);
                 }
-                if (Config.propertiesTrim.get(i) != null && Config.propertiesTrim.get(i).getBoolean()) {
-                    if (!material.hasStats("trim")) registerTrimMaterialStat(material);
+                if (Config.propertiesTrim.get(i) != null && Config.propertiesTrim.get(i).getBoolean() && !material.hasStats("trim")) {
+                    registerTrimMaterialStat(material);
                 }
             }
         }
