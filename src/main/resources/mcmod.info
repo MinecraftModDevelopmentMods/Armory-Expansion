@@ -1,11 +1,11 @@
 [
 {
-  "modid": "tcexpansion",
-  "name": "Tinker's Construct Expansion",
+  "modid": "armoryexpansion",
+  "name": "Armory Expansion",
   "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://minecraft.curseforge.com/projects/armory-expansion",
   "updateUrl": "",
   "authorList": ["YaibaToKen"],
   "credits": "",

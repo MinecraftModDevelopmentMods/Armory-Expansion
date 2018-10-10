@@ -11,13 +11,20 @@ import slimeknights.tconstruct.library.materials.HeadMaterialStats;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
 
-public class MaterialRegistration
+public final class MaterialRegistration
 {
-    private static void registerCoreMaterialStat(Material material)
+    private static final String CORE = "core";
+    private static final String EXTRA = "extra";
+    private static final String HANDLE = "handle";
+    private static final String HEAD = "head";
+    private static final String PLATES = "plates";
+    private static final String TRIM = "trim";
+
+    private static void registerCoreMaterialStat(final Material material)
     {
-        HeadMaterialStats materialHead = material.getStats("head");
-        HeadMaterialStats ironHead = TinkerMaterials.iron.getStats("head");
-        CoreMaterialStats ironCore = TinkerMaterials.iron.getStats("core");
+        final HeadMaterialStats materialHead = material.getStats(HEAD);
+        final HeadMaterialStats ironHead = TinkerMaterials.iron.getStats(HEAD);
+        final CoreMaterialStats ironCore = TinkerMaterials.iron.getStats(CORE);
 
         TinkerRegistry.addMaterialStats(
                 material,
@@ -26,13 +33,13 @@ public class MaterialRegistration
                         1.5f * ironCore.defense * materialHead.attack / ironHead.attack));
     }
 
-    private static void registerPlatesMaterialStat(Material material)
+    private static void registerPlatesMaterialStat(final Material material)
     {
-        HandleMaterialStats materialHandle = material.getStats("handle");
-        HandleMaterialStats ironHandle = TinkerMaterials.iron.getStats("handle");
-        PlatesMaterialStats ironPlates = TinkerMaterials.iron.getStats("plates");
+        final HandleMaterialStats materialHandle = material.getStats(HANDLE);
+        final HandleMaterialStats ironHandle = TinkerMaterials.iron.getStats(HANDLE);
+        final PlatesMaterialStats ironPlates = TinkerMaterials.iron.getStats(PLATES);
 
-        float ironPlatesToughness = ironPlates.toughness > 0f ? ironPlates.toughness : 1;
+        final float ironPlatesToughness = ironPlates.toughness > 0f ? ironPlates.toughness : 1;
 
         TinkerRegistry.addMaterialStats(
                 material,
@@ -42,11 +49,11 @@ public class MaterialRegistration
                         3 * ironPlatesToughness * materialHandle.durability / ironHandle.durability));
     }
 
-    private static void registerTrimMaterialStat(Material material)
+    private static void registerTrimMaterialStat(final Material material)
     {
-        ExtraMaterialStats materialExtra = material.getStats("extra");
-        ExtraMaterialStats ironExtra = TinkerMaterials.iron.getStats("extra");
-        TrimMaterialStats ironTrim = TinkerMaterials.iron.getStats("trim");
+        final ExtraMaterialStats materialExtra = material.getStats(EXTRA);
+        final ExtraMaterialStats ironExtra = TinkerMaterials.iron.getStats(EXTRA);
+        final TrimMaterialStats ironTrim = TinkerMaterials.iron.getStats(TRIM);
 
         TinkerRegistry.addMaterialStats(
                 material,
@@ -57,16 +64,16 @@ public class MaterialRegistration
     public static void registerFromToolMaterialStat()
     {
         for (int i = 0; i < Config.propertiesMaterials.size(); i++) {
-            Material material = TinkerRegistry.getMaterial(Config.propertiesMaterials.get(i).getName().replaceAll("enable_", ""));
+            final Material material = TinkerRegistry.getMaterial(Config.propertiesMaterials.get(i).getName().replaceAll("enable_", ""));
             if (Config.propertiesMaterials.get(i).getBoolean()  && material != null) {
                 ArmoryExpansion.logger.info("Registering parts for " + material.getLocalizedName());
-                if (Config.propertiesCore.get(i) != null && Config.propertiesCore.get(i).getBoolean() && !material.hasStats("core")) {
+                if (Config.propertiesCore.get(i) != null && Config.propertiesCore.get(i).getBoolean() && !material.hasStats(CORE)) {
                     registerCoreMaterialStat(material);
                 }
-                if (Config.propertiesPlates.get(i) != null && Config.propertiesPlates.get(i).getBoolean() && !material.hasStats("plates")) {
+                if (Config.propertiesPlates.get(i) != null && Config.propertiesPlates.get(i).getBoolean() && !material.hasStats(PLATES)) {
                     registerPlatesMaterialStat(material);
                 }
-                if (Config.propertiesTrim.get(i) != null && Config.propertiesTrim.get(i).getBoolean() && !material.hasStats("trim")) {
+                if (Config.propertiesTrim.get(i) != null && Config.propertiesTrim.get(i).getBoolean() && !material.hasStats(TRIM)) {
                     registerTrimMaterialStat(material);
                 }
             }
