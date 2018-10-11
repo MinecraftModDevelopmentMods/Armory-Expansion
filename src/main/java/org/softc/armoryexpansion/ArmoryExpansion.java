@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
 import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.Config;
 import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.MaterialRegistration;
+import org.softc.armoryexpansion.integration.Integrations;
 
 @Mod(
         modid = ArmoryExpansion.MODID,
@@ -39,8 +40,7 @@ import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.MaterialRegis
                 "after:tinkersaether"
 )
 @Mod.EventBusSubscriber
-public final class ArmoryExpansion
-{
+public final class ArmoryExpansion {
     static final String MODID = "armoryexpansion";
     static final String NAME = "Armory Expansion";
     static final String VERSION = "0.2.0";
@@ -49,11 +49,11 @@ public final class ArmoryExpansion
     public static Logger logger;
 
     @Mod.EventHandler
-    public void preInit(final FMLPreInitializationEvent event)
-    {
+    public void preInit(final FMLPreInitializationEvent event) {
         logger = event.getModLog();
         MinecraftForge.EVENT_BUS.register(this);
         config = new Configuration(event.getSuggestedConfigurationFile());
+        Integrations.preInit(event);
 
     }
 
@@ -61,5 +61,6 @@ public final class ArmoryExpansion
     public static void registerItems(final RegistryEvent.Register<Item> event) {
         Config.syncConfig();
         MaterialRegistration.registerFromToolMaterialStat();
+        Integrations.integrate();
     }
 }

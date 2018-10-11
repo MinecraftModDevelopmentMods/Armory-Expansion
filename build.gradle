@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         mavenLocal()
+        mavenCentral()
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
     }
@@ -11,30 +12,26 @@ buildscript {
 
 repositories {
     mavenLocal()
+    mavenCentral()
+    maven {
+        url = 'http://maven.mcmoddev.com'
+    }
     maven {
         name 'DVS1 Maven FS'
         url 'http://dvs1.progwml6.com/files/maven'
     }
-//    maven { // TOP
-//        name 'tterrag maven'
-//        url 'http://maven.tterrag.com/'
-//    }
-//    maven { // compatlayer
-//        name 'K-4u maven'
-//        url 'http://maven.k-4u.nl/'
-//    }
     maven {
         name 'forge'
         url 'http://files.minecraftforge.net/maven'
     }
-//    maven {
-//         name 'Tehnut Maven FS'
-//         url 'http://tehnut.info/maven'
-//    }
-//    maven {
-//        name = 'CoFH Maven'
-//        url = 'http://maven.covers1624.net'
-//    }
+    maven {
+        name = 'CoFH Maven'
+        url = 'http://maven.covers1624.net'
+    }
+    maven {
+        name = 'gegy1000'
+        url = 'https://maven.gegy1000.net'
+    }
     maven {
         name 'CurseForge'
         url 'https://minecraft.curseforge.com/api/maven/'
@@ -101,6 +98,9 @@ dependencies {
     deobfCompile 'slimeknights:TConstruct:1.12.2-2.10.1.87'
 
     deobfCompile 'constructs-armory:conarm:1.12.2:1.1.2'
+
+    deobfCompile 'net.ilexiconn:llibrary:1.7.9-1.12.2'
+    deobfCompile 'ice-and-fire-dragons:iceandfire:1.5.2'
 }
 
 processResources {

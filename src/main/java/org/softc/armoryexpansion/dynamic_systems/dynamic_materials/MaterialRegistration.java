@@ -11,8 +11,7 @@ import slimeknights.tconstruct.library.materials.HeadMaterialStats;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
 
-public final class MaterialRegistration
-{
+public final class MaterialRegistration {
     private static final String CORE = "core";
     private static final String EXTRA = "extra";
     private static final String HANDLE = "handle";
@@ -20,8 +19,7 @@ public final class MaterialRegistration
     private static final String PLATES = "plates";
     private static final String TRIM = "trim";
 
-    private static void registerCoreMaterialStat(final Material material)
-    {
+    private static void registerCoreMaterialStat(final Material material) {
         final HeadMaterialStats materialHead = material.getStats(HEAD);
         final HeadMaterialStats ironHead = TinkerMaterials.iron.getStats(HEAD);
         final CoreMaterialStats ironCore = TinkerMaterials.iron.getStats(CORE);
@@ -33,8 +31,7 @@ public final class MaterialRegistration
                         1.5f * ironCore.defense * materialHead.attack / ironHead.attack));
     }
 
-    private static void registerPlatesMaterialStat(final Material material)
-    {
+    private static void registerPlatesMaterialStat(final Material material) {
         final HandleMaterialStats materialHandle = material.getStats(HANDLE);
         final HandleMaterialStats ironHandle = TinkerMaterials.iron.getStats(HANDLE);
         final PlatesMaterialStats ironPlates = TinkerMaterials.iron.getStats(PLATES);
@@ -49,8 +46,7 @@ public final class MaterialRegistration
                         3 * ironPlatesToughness * materialHandle.durability / ironHandle.durability));
     }
 
-    private static void registerTrimMaterialStat(final Material material)
-    {
+    private static void registerTrimMaterialStat(final Material material) {
         final ExtraMaterialStats materialExtra = material.getStats(EXTRA);
         final ExtraMaterialStats ironExtra = TinkerMaterials.iron.getStats(EXTRA);
         final TrimMaterialStats ironTrim = TinkerMaterials.iron.getStats(TRIM);
@@ -61,8 +57,7 @@ public final class MaterialRegistration
                         2 * ironTrim.extraDurability * materialExtra.extraDurability / ironExtra.extraDurability)));
     }
 
-    public static void registerFromToolMaterialStat()
-    {
+    public static void registerFromToolMaterialStat() {
         for (int i = 0; i < Config.propertiesMaterials.size(); i++) {
             final Material material = TinkerRegistry.getMaterial(Config.propertiesMaterials.get(i).getName().replaceAll("enable_", ""));
             if (Config.propertiesMaterials.get(i).getBoolean()  && material != null) {
