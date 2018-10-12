@@ -7,6 +7,10 @@ import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.Material;
 
 public class ConArmStats {
+    private ConArmStats(){
+
+    }
+
     private static CoreMaterialStats getCoreMaterialStats() {
         return null;
     }

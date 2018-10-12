@@ -1,9 +1,14 @@
 package org.softc.armoryexpansion.integration.util.tinkers_construct;
 
+import net.minecraft.item.Item;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.*;
 
 public class TiCStats {
+    private TiCStats(){
+
+    }
+
     private static HeadMaterialStats getHeadMaterialStats(int durability, float hardness, float damage, int harvestLevel) {
         return new HeadMaterialStats(durability, hardness * 0.85f, damage * 2, harvestLevel);
     }
@@ -25,13 +30,13 @@ public class TiCStats {
             TinkerRegistry.addMaterialStats(material, TiCStats.getExtraMaterialStats(durability));
     }
 
-    public static void registerMaterialToolStats(String identifier, int durability, float hardness, float damage, float magicaffinity, int harvestLevel){
+    private static void registerMaterialToolStats(String identifier, int durability, float hardness, float damage, float magicaffinity, int harvestLevel){
         registerMaterialToolStats(TinkerRegistry.getMaterial(identifier), durability, hardness, damage, magicaffinity, harvestLevel);
     }
 
-    public static void registerMaterialToolStats(String identifier, int color, int durability, float hardness, float damage, float magicaffinity, int harvestLevel){
-        registerMaterialToolStats(new Material(identifier, color), durability, hardness, damage, magicaffinity, harvestLevel);
-    }
+//    public static void registerMaterialToolStats(String identifier, int color, int durability, float hardness, float damage, float magicaffinity, int harvestLevel){
+//        registerMaterialToolStats(new Material(identifier, color), durability, hardness, damage, magicaffinity, harvestLevel);
+//    }
 
 //    private static FletchingMaterialStats getFletchlingMaterialStats() {
 //        return null;
@@ -73,19 +78,38 @@ public class TiCStats {
             TinkerRegistry.addMaterialStats(material, TiCStats.getArrowShaftMaterialStats(magicaffinity));
     }
 
-    public static void registerMaterialBowStats(String identifier, int durability, float range, float damage, float magicaffinity){
+    private static void registerMaterialBowStats(String identifier, int durability, float range, float damage, float magicaffinity){
         registerMaterialBowStats(TinkerRegistry.getMaterial(identifier), durability, range, damage, magicaffinity);
     }
 
-    public static void registerMaterialBowStats(String identifier, int color, int durability, float range, float damage, float magicaffinity){
-        registerMaterialBowStats(new Material(identifier, color), durability, range, damage, magicaffinity);
+//    public static void registerMaterialBowStats(String identifier, int color, int durability, float range, float damage, float magicaffinity){
+//        registerMaterialBowStats(new Material(identifier, color), durability, range, damage, magicaffinity);
+//    }
+
+//    public static void setCraftable(String identifier, boolean craftable){
+//        TinkerRegistry.getMaterial(identifier).setCraftable(craftable);
+//    }
+//
+//    public static void setCastable(String identifier, boolean castable){
+//        TinkerRegistry.getMaterial(identifier).setCastable(castable);
+//    }
+
+    public static void addToolMaterial(String identifier, int durability, float hardness, float damage, float magicaffinity, int harvestLevel, float range){
+        registerMaterialToolStats(identifier, durability, hardness, damage, magicaffinity, harvestLevel);
+        registerMaterialBowStats(identifier, durability, range, damage, magicaffinity);
     }
 
-    public static void setCraftable(String identifier, boolean craftable){
-        TinkerRegistry.getMaterial(identifier).setCraftable(craftable);
+    public static void addTinkersMaterial(String identifier, int color, Item item){
+        Material material = new Material(identifier, color);
+        material.setCastable(false)
+                .setCraftable(true)
+                .addItemIngot(identifier);
+        material.addItem(item);
     }
 
-    public static void setCastable(String identifier, boolean castable){
-        TinkerRegistry.getMaterial(identifier).setCastable(castable);
+    public static void addTinkersMaterialItem(String identifier, Item item){
+        Material material = TinkerRegistry.getMaterial(identifier);
+        TinkerRegistry.addMaterial(material);
+        material.setRepresentativeItem(item);
     }
 }

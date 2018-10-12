@@ -1,14 +1,61 @@
 package org.softc.armoryexpansion.integration;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.ice_and_fire.IceAndFire;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import static net.minecraftforge.fml.common.Loader.isModLoaded;
+
+@Mod(
+        modid = Integrations.MODID,
+        name = Integrations.NAME,
+        version = ArmoryExpansion.VERSION,
+        dependencies = ArmoryExpansion.DEPENDENCIES + ";" + Integrations.DEPENDENCIES
+)
+@Mod.EventBusSubscriber
 public class Integrations {
-    public static void preInit(final FMLPreInitializationEvent event){
-        IceAndFire.preInit(event);
+    static final String MODID = "armoryexpansionintegrations";
+    static final String NAME = "Armory Expansion Integrations";
+    static final String DEPENDENCIES =
+            "required-after:armoryexpansion";
+
+    static List<IIntegration> integrationList = new LinkedList<>();
+
+    @Mod.EventHandler
+    public void preInit(final FMLPreInitializationEvent event){
+        integrationList.add(IceAndFire.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(this);
+        for (IIntegration integration:integrationList) {
+            if (isModLoaded(integration.getModId())){
+                integration.preInit(event);
+            }
+        }
     }
 
-    public static void integrate(){
-        IceAndFire.integrate();
+    @SubscribeEvent
+    public void registerItems(RegistryEvent.Register<Item> event){
+        for (IIntegration integration:integrationList) {
+            if (isModLoaded(integration.getModId())){
+                integration.registerItems(event);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void registerRecipes(RegistryEvent.Register<IRecipe> event){
+        for (IIntegration integration:integrationList) {
+            if (isModLoaded(integration.getModId())){
+                integration.registerRecipes(event);
+            }
+        }
     }
 }
