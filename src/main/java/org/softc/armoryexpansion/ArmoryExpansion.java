@@ -27,25 +27,6 @@ public final class ArmoryExpansion {
     public static final String DEPENDENCIES =
             "required-after:tconstruct; " +
             "required-after:conarm; " +
-            "after:basemetals; " +
-            "after:modernmetals; " +
-            "after:fantasymetals; " +
-            "after:plustic; " +
-            "after:moartinkers; " +
-            "after:taiga;" +
-            "after:acintegration;" +
-            "after:bloodarsenal;" +
-            "after:enderiointegrationtic;" +
-            "after:integrationforegoing;" +
-            "after:twilightforest;" +
-            "after:pewter;" +
-            "after:extrautils2;" +
-            "after:mysticalagriculture;" +
-            "after:mysticalagradditions;" +
-            "after:silentgems;" +
-            "after:botania;" +
-            "after:contenttweaker;" +
-            "after:tinkersaether;" +
             "after:*";
 
     public static Configuration config;
