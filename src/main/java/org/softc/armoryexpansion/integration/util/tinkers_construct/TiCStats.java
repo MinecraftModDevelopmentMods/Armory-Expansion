@@ -4,6 +4,8 @@ import net.minecraft.item.Item;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.*;
 
+import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
+
 public class TiCStats {
     private TiCStats(){
 
@@ -22,11 +24,11 @@ public class TiCStats {
     }
 
     private static void registerMaterialToolStats(Material material, int durability, float hardness, float damage, float magicaffinity, int harvestLevel){
-        if (!material.hasStats(TinkerToolParts.HEAD.toString()))
+        if (!material.hasStats(HEAD))
             TinkerRegistry.addMaterialStats(material, TiCStats.getHeadMaterialStats(durability, hardness, damage, harvestLevel));
-        if (!material.hasStats(TinkerToolParts.HANDLE.toString()))
+        if (!material.hasStats(HANDLE))
             TinkerRegistry.addMaterialStats(material, TiCStats.getHandledMaterialStats(durability, magicaffinity));
-        if (!material.hasStats(TinkerToolParts.EXTRA.toString()))
+        if (!material.hasStats(EXTRA))
             TinkerRegistry.addMaterialStats(material, TiCStats.getExtraMaterialStats(durability));
     }
 
@@ -72,9 +74,9 @@ public class TiCStats {
 //    }
 
     private static void registerMaterialBowStats(Material material, int durability, float range, float damage, float magicaffinity){
-        if (!material.hasStats(TinkerToolParts.BOW.toString()))
+        if (!material.hasStats(BOW))
             TinkerRegistry.addMaterialStats(material, TiCStats.getBowMaterialStats(durability, range, damage));
-        if (!material.hasStats(TinkerToolParts.SHAFT.toString()))
+        if (!material.hasStats(SHAFT))
             TinkerRegistry.addMaterialStats(material, TiCStats.getArrowShaftMaterialStats(magicaffinity));
     }
 

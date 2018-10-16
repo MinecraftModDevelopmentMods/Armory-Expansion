@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
 import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.Config;
-import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.MaterialRegistration;
+import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.constructs_armory.ConArmIntegration;
 
 @Mod(
         modid = ArmoryExpansion.MODID,
@@ -42,7 +42,7 @@ public final class ArmoryExpansion {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerItems(final RegistryEvent.Register<Item> event) {
         Config.syncConfig();
-        MaterialRegistration.registerFromToolMaterialStat();
+        ConArmIntegration.integrateMaterialsFromConfig();
     }
 
     @SubscribeEvent
