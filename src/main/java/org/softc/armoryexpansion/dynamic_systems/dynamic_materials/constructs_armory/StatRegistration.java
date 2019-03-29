@@ -18,7 +18,7 @@ import static slimeknights.tconstruct.library.materials.MaterialTypes.EXTRA;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.HANDLE;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.HEAD;
 
-public final class StatRegistration {
+final class StatRegistration {
     private static void registerCoreMaterialStat(final Material material) {
         final HeadMaterialStats materialHead = material.getStats(HEAD);
         final HeadMaterialStats ironHead = TinkerMaterials.iron.getStats(HEAD);
@@ -81,7 +81,7 @@ public final class StatRegistration {
         return false;
     }
 
-    public static Boolean handleArmorStats(int index, Material material){
+    static Boolean handleArmorStats(int index, Material material){
         if (Config.hasMaterialProperty(index) && Config.getMaterialProperty(index).getBoolean()){
             handleCoreStats(index, material);
             handlePlatesStats(index, material);

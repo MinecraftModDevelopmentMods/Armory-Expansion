@@ -3,6 +3,7 @@ package org.softc.armoryexpansion.integration.util.constructs_armory;
 import c4.conarm.lib.materials.CoreMaterialStats;
 import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
+import org.softc.armoryexpansion.integration.util.tinkers_construct.TiCMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.Material;
 
@@ -30,11 +31,15 @@ public class ConArmStats {
                 getPlatesMaterialStats());
     }
 
-    public static void registerMaterialArmorStats(String identifier){
-        registerMaterialArmorStats(TinkerRegistry.getMaterial(identifier));
+    private static void registerMaterialArmorStats(String identifier) {
+        Material material = TinkerRegistry.getMaterial(identifier);
+        if (material.identifier.equals("unknown")) {
+            return;
+        }
+        registerMaterialArmorStats(material);
     }
 
-    public static void registerMaterialArmorStats(String identifier, int color){
-        registerMaterialArmorStats(new Material(identifier, color));
+    public static void registerMaterialArmorStats(TiCMaterial material) {
+        //TODO Implement Armor Stats
     }
 }

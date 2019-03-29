@@ -3,6 +3,7 @@ package org.softc.armoryexpansion.integration;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public interface IIntegration {
@@ -11,6 +12,8 @@ public interface IIntegration {
     String getModId();
 
     void preInit(final FMLPreInitializationEvent event);
+
+    void init(final FMLInitializationEvent event);
 
     void registerItems(RegistryEvent.Register<Item> event);
 

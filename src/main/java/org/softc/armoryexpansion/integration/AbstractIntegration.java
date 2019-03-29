@@ -1,39 +1,55 @@
 package org.softc.armoryexpansion.integration;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import org.softc.armoryexpansion.integration.util.constructs_armory.ConArmStats;
+import org.softc.armoryexpansion.integration.util.tinkers_construct.TiCMaterial;
+import org.softc.armoryexpansion.integration.util.tinkers_construct.TiCStats;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class AbstractIntegration implements IIntegration {
-    String modId;
+    private String modId;
+    protected List<TiCMaterial> materials = new LinkedList<>();
 
     public AbstractIntegration(String modId){
         this.modId = modId;
-        //this.addToIntegrationList();
+        this.addToIntegrationList();
     }
 
     public String getModId(){
         return modId;
     }
 
+    protected abstract void setMaterials();
+
+    protected void oredictMaterials() {
+        this.materials.forEach(TiCMaterial::registerOreDict);
+    }
+
+    protected void registerMaterials() {
+        this.materials.forEach(TiCMaterial::registerTinkersMaterial);
+    }
+
+    protected void registerMaterialStats() {
+        this.materials.forEach(m -> {
+            m.updateTinkersMaterial();
+            if (m.isToolMaterial()) {
+                TiCStats.registerMaterialToolStats(m);
+            }
+            if (m.isBowMaterial()) {
+                TiCStats.registerMaterialBowStats(m);
+            }
+            if (m.isFletchingMaterial()) {
+                TiCStats.registerMaterialFletchingStats(m);
+            }
+            if (m.isArmorMaterial()) {
+                ConArmStats.registerMaterialArmorStats(m);
+            }
+        });
+    }
+
     @Override
     public void addToIntegrationList() {
         Integrations.integrationList.add(this);
-    }
-
-    @Override
-    public void preInit(FMLPreInitializationEvent event) {
-
-    }
-
-    @Override
-    public void registerItems(RegistryEvent.Register<Item> event) {
-
-    }
-
-    @Override
-    public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-
     }
 }
