@@ -48,6 +48,6 @@ public final class ArmoryExpansion {
 
     @SubscribeEvent
     public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-
+        // TODO Write better documentation
     }
 }
