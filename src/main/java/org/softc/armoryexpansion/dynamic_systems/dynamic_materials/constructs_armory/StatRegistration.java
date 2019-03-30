@@ -14,6 +14,7 @@ import slimeknights.tconstruct.tools.TinkerMaterials;
 import static c4.conarm.lib.materials.ArmorMaterialType.CORE;
 import static c4.conarm.lib.materials.ArmorMaterialType.PLATES;
 import static c4.conarm.lib.materials.ArmorMaterialType.TRIM;
+import static org.softc.armoryexpansion.util.Math.Clamp;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.EXTRA;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.HANDLE;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.HEAD;
@@ -24,11 +25,10 @@ final class StatRegistration {
         final HeadMaterialStats ironHead = TinkerMaterials.iron.getStats(HEAD);
         final CoreMaterialStats ironCore = TinkerMaterials.iron.getStats(CORE);
 
-        TinkerRegistry.addMaterialStats(
-                material,
-                new CoreMaterialStats(
-                        ironCore.durability * materialHead.durability / ironHead.durability,
-                        1.5f * ironCore.defense * materialHead.attack / ironHead.attack));
+        float durability = Clamp(ironCore.durability * materialHead.durability / ironHead.durability, 1, 120);
+        float defense = Clamp(1.5f * ironCore.defense * materialHead.attack / ironHead.attack, 0,50);
+
+        TinkerRegistry.addMaterialStats(material, new CoreMaterialStats(durability, defense));
     }
 
     private static void registerPlatesMaterialStat(final Material material) {
@@ -38,12 +38,10 @@ final class StatRegistration {
 
         final float ironPlatesToughness = ironPlates.toughness > 0f ? ironPlates.toughness : 1;
 
-        TinkerRegistry.addMaterialStats(
-                material,
-                new PlatesMaterialStats(
-                        materialHandle.modifier,
-                        ironPlates.durability * materialHandle.durability / ironHandle.durability,
-                        3 * ironPlatesToughness * materialHandle.durability / ironHandle.durability));
+        float durability = Clamp(ironPlates.durability * materialHandle.durability / ironHandle.durability, 1, 120);
+        float toughness = Clamp(3 * ironPlatesToughness * materialHandle.durability / ironHandle.durability, 0, 5);
+
+        TinkerRegistry.addMaterialStats(material, new PlatesMaterialStats(materialHandle.modifier, durability, toughness));
     }
 
     private static void registerTrimMaterialStat(final Material material) {
@@ -51,10 +49,9 @@ final class StatRegistration {
         final ExtraMaterialStats ironExtra = TinkerMaterials.iron.getStats(EXTRA);
         final TrimMaterialStats ironTrim = TinkerMaterials.iron.getStats(TRIM);
 
-        TinkerRegistry.addMaterialStats(
-                material,
-                new TrimMaterialStats((
-                        2 * ironTrim.extraDurability * materialExtra.extraDurability / ironExtra.extraDurability)));
+        float extra = 2 * ironTrim.extraDurability * materialExtra.extraDurability / ironExtra.extraDurability;
+
+        TinkerRegistry.addMaterialStats(material, new TrimMaterialStats(extra));
     }
 
     private static Boolean handleCoreStats(int index, Material material){

@@ -1,8 +1,11 @@
 package org.softc.armoryexpansion.integration;
 
-import org.softc.armoryexpansion.integration.util.constructs_armory.ConArmStats;
-import org.softc.armoryexpansion.integration.util.tinkers_construct.TiCMaterial;
-import org.softc.armoryexpansion.integration.util.tinkers_construct.TiCStats;
+import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import org.softc.armoryexpansion.integration.tinkers_construct.TiCMaterial;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,30 +25,47 @@ public abstract class AbstractIntegration implements IIntegration {
 
     protected abstract void setMaterials();
 
-    protected void oredictMaterials() {
+    private void oredictMaterials() {
         this.materials.forEach(TiCMaterial::registerOreDict);
     }
 
-    protected void registerMaterials() {
+    private void registerMaterials() {
         this.materials.forEach(TiCMaterial::registerTinkersMaterial);
     }
 
-    protected void registerMaterialStats() {
-        this.materials.forEach(m -> {
-            m.updateTinkersMaterial();
-            if (m.isToolMaterial()) {
-                TiCStats.registerMaterialToolStats(m);
-            }
-            if (m.isBowMaterial()) {
-                TiCStats.registerMaterialBowStats(m);
-            }
-            if (m.isFletchingMaterial()) {
-                TiCStats.registerMaterialFletchingStats(m);
-            }
-            if (m.isArmorMaterial()) {
-                ConArmStats.registerMaterialArmorStats(m);
-            }
-        });
+    private void registerMaterialStats() {
+        this.materials.forEach(TiCMaterial::registerTinkersMaterialStats);
+    }
+
+    private void updateMaterials() {
+        this.materials.forEach(TiCMaterial::updateTinkersMaterial);
+    }
+
+    private void registerMaterialTraits() {
+        this.materials.forEach(TiCMaterial::registerTinkersMaterialTraits);
+    }
+
+    @Override
+    public void preInit(FMLPreInitializationEvent event) {
+        registerMaterials();
+        registerMaterialStats();
+    }
+
+    @Override
+    public void init(FMLInitializationEvent event) {
+        oredictMaterials();
+        updateMaterials();
+        registerMaterialTraits();
+    }
+
+    @Override
+    public void registerItems(RegistryEvent.Register<Item> event) {
+
+    }
+
+    @Override
+    public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+
     }
 
     @Override

@@ -23,10 +23,11 @@ import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.constructs_ar
 public final class ArmoryExpansion {
     static final String MODID = "armoryexpansion";
     static final String NAME = "Armory Expansion";
-    public static final String VERSION = "0.2.0";
-    public static final String DEPENDENCIES =
+    public static final String VERSION = "1.1.3";
+    static final String DEPENDENCIES =
             "required-after:tconstruct; " +
             "required-after:conarm; " +
+            "required-after:mmdlib; " +
             "after:*";
 
     public static Configuration config;
