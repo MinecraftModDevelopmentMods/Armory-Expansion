@@ -60,12 +60,12 @@ public abstract class AbstractIntegration implements IIntegration {
 
     @Override
     public void registerItems(RegistryEvent.Register<Item> event) {
-
+        // TODO Write better documentation
     }
 
     @Override
     public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-
+        // TODO Write better documentation
     }
 
     @Override

@@ -72,10 +72,6 @@ public class TiCMaterial {
         return new ItemStack(this.getItem(), 1, this.meta);
     }
 
-    private Item getShard() {
-        return Item.getByNameOrId("tconstruct:shard");
-    }
-
     public int getColor() {
         return color;
     }
@@ -181,15 +177,6 @@ public class TiCMaterial {
 
     public TiCMaterial setToughness(float toughness) {
         this.toughness = toughness;
-        return this;
-    }
-
-    private List<Tuple<String, String>> getTraits() {
-        return traits;
-    }
-
-    private TiCMaterial setTraits(List<Tuple<String, String>> traits) {
-        this.traits = traits;
         return this;
     }
 
@@ -327,6 +314,7 @@ public class TiCMaterial {
                 break;
             case METALTEXTURED:
                 materialRenderInfo = new MaterialRenderInfo.MetalTextured(this.texture, this.color, 0.4f, 0.4f, 0.1f);
+                break;
         }
         material.setRenderInfo(materialRenderInfo);
         TinkerRegistry.addMaterial(material);

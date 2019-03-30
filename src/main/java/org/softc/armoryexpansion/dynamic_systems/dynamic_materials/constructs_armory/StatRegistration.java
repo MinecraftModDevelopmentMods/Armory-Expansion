@@ -14,7 +14,7 @@ import slimeknights.tconstruct.tools.TinkerMaterials;
 import static c4.conarm.lib.materials.ArmorMaterialType.CORE;
 import static c4.conarm.lib.materials.ArmorMaterialType.PLATES;
 import static c4.conarm.lib.materials.ArmorMaterialType.TRIM;
-import static org.softc.armoryexpansion.util.Math.Clamp;
+import static org.softc.armoryexpansion.util.Math.clamp;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.EXTRA;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.HANDLE;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.HEAD;
@@ -25,8 +25,8 @@ final class StatRegistration {
         final HeadMaterialStats ironHead = TinkerMaterials.iron.getStats(HEAD);
         final CoreMaterialStats ironCore = TinkerMaterials.iron.getStats(CORE);
 
-        float durability = Clamp(ironCore.durability * materialHead.durability / ironHead.durability, 1, 120);
-        float defense = Clamp(1.5f * ironCore.defense * materialHead.attack / ironHead.attack, 0,50);
+        float durability = clamp(ironCore.durability * materialHead.durability / ironHead.durability, 1, 120);
+        float defense = clamp(1.5f * ironCore.defense * materialHead.attack / ironHead.attack, 0,50);
 
         TinkerRegistry.addMaterialStats(material, new CoreMaterialStats(durability, defense));
     }
@@ -38,8 +38,8 @@ final class StatRegistration {
 
         final float ironPlatesToughness = ironPlates.toughness > 0f ? ironPlates.toughness : 1;
 
-        float durability = Clamp(ironPlates.durability * materialHandle.durability / ironHandle.durability, 1, 120);
-        float toughness = Clamp(3 * ironPlatesToughness * materialHandle.durability / ironHandle.durability, 0, 5);
+        float durability = clamp(ironPlates.durability * materialHandle.durability / ironHandle.durability, 1, 120);
+        float toughness = clamp(3 * ironPlatesToughness * materialHandle.durability / ironHandle.durability, 0, 5);
 
         TinkerRegistry.addMaterialStats(material, new PlatesMaterialStats(materialHandle.modifier, durability, toughness));
     }
