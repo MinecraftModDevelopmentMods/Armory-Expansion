@@ -6,6 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import org.softc.armoryexpansion.integration.constructs_armory.ConArmStats;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -299,6 +301,20 @@ public class TiCMaterial {
         return this;
     }
 
+    @SideOnly(Side.CLIENT)
+    private void setMaterialRenderInfo(Material material) {
+            MaterialRenderInfo materialRenderInfo = new MaterialRenderInfo.Default(this.color);
+            switch (this.type) {
+                case METAL:
+                    materialRenderInfo = new MaterialRenderInfo.Metal(this.color);
+                    break;
+                case METALTEXTURED:
+                    materialRenderInfo = new MaterialRenderInfo.MetalTextured(this.texture, this.color, 0.4f, 0.4f, 0.1f);
+                    break;
+            }
+            material.setRenderInfo(materialRenderInfo);
+    }
+
     public void registerTinkersMaterial(){
         if (!TinkerRegistry.getMaterial(this.identifier).identifier.equals("unknown")){
             return;
@@ -307,16 +323,7 @@ public class TiCMaterial {
         material.setCastable(this.isCastable)
                 .setCraftable(this.isCraftable)
                 .addItemIngot(this.identifier);
-        MaterialRenderInfo materialRenderInfo = new MaterialRenderInfo.Default(this.color);
-        switch (this.type) {
-            case METAL:
-                materialRenderInfo = new MaterialRenderInfo.Metal(this.color);
-                break;
-            case METALTEXTURED:
-                materialRenderInfo = new MaterialRenderInfo.MetalTextured(this.texture, this.color, 0.4f, 0.4f, 0.1f);
-                break;
-        }
-        material.setRenderInfo(materialRenderInfo);
+//        this.setMaterialRenderInfo(material);
         TinkerRegistry.addMaterial(material);
         TinkerRegistry.integrate(material);
     }

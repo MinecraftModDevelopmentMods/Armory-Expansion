@@ -7,15 +7,15 @@ import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
 
 public class TiCStats {
     private static HeadMaterialStats getHeadMaterialStats(int durability, float hardness, float damage, int harvestLevel) {
-        return new HeadMaterialStats(durability, hardness * 0.85f, damage * 2, harvestLevel);
+        return new HeadMaterialStats(durability * 8, hardness * 0.65f, damage, harvestLevel);
     }
 
     private static HandleMaterialStats getHandledMaterialStats(int durability, float magicaffinity) {
-        return new HandleMaterialStats(magicaffinity * 2 / 9 + 0.1f, durability / 7);
+        return new HandleMaterialStats(magicaffinity  / 6 + 0.1f, durability * 10 / 7);
     }
 
     private static ExtraMaterialStats getExtraMaterialStats(int durability) {
-        return new ExtraMaterialStats(durability / 10);
+        return new ExtraMaterialStats(durability * 5);
     }
 
     private static void registerMaterialToolStats(Material material, int durability, float hardness, float damage, float magicaffinity, int harvestLevel){
@@ -43,10 +43,10 @@ public class TiCStats {
     //TODO Credit the MMD team for this section
     private static Float calcDrawSpeed(final int durability) {
         float val;
-        if (durability < 204) {
+        if (durability < 25) {
             val = 1.0f;
         } else {
-            val = ((durability - 200) + 1) / 10.0f;
+            val = ((durability - 20) + 1) / 10.0f;
             val -= Math.floor(val);
         }
         return val;

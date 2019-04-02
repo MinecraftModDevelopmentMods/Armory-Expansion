@@ -1,7 +1,6 @@
 package org.softc.armoryexpansion.integration.ice_and_fire;
 
 import c4.conarm.common.armor.traits.ArmorTraits;
-import com.mcmoddev.lib.integration.plugins.armory.traits.MMDTraitsCA;
 import org.softc.armoryexpansion.integration.AbstractIntegration;
 import org.softc.armoryexpansion.integration.tinkers_construct.MaterialRenderType;
 import org.softc.armoryexpansion.integration.tinkers_construct.TiCMaterial;
@@ -76,7 +75,7 @@ public class IceAndFire extends AbstractIntegration {
                         .setArmorMaterial(true)
                         .setCraftable(true)
                         .addGlobalArmorTrait(ArmorTraits.rough.identifier)
-                        .addGlobalArmorTrait(MMDTraitsCA.icy.identifier)
+//                        .addGlobalArmorTrait(MMDTraitsCA.icy.identifier)
                         .addPrimaryArmorTrait(ArmorTraits.lightweight.identifier)
                         .setDurability(36)
                         .setMagicaffinity(15)
@@ -89,7 +88,7 @@ public class IceAndFire extends AbstractIntegration {
                         .setArmorMaterial(true)
                         .setCraftable(true)
                         .addGlobalArmorTrait(ArmorTraits.rough.identifier)
-                        .addGlobalArmorTrait(MMDTraitsCA.icy.identifier)
+//                        .addGlobalArmorTrait(MMDTraitsCA.icy.identifier)
                         .addPrimaryArmorTrait(TinkerTraits.writable2.identifier) // Writable
                         .setDurability(36)
                         .setMagicaffinity(15)
@@ -102,7 +101,7 @@ public class IceAndFire extends AbstractIntegration {
                         .setArmorMaterial(true)
                         .setCraftable(true)
                         .addGlobalArmorTrait(ArmorTraits.rough.identifier)
-                        .addGlobalArmorTrait(MMDTraitsCA.icy.identifier)
+//                        .addGlobalArmorTrait(MMDTraitsCA.icy.identifier)
                         .addPrimaryArmorTrait(ArmorTraits.aquaspeed.identifier)
                         .setDurability(36)
                         .setMagicaffinity(15)
@@ -115,7 +114,7 @@ public class IceAndFire extends AbstractIntegration {
                         .setArmorMaterial(true)
                         .setCraftable(true)
                         .addGlobalArmorTrait(ArmorTraits.rough.identifier)
-                        .addGlobalArmorTrait(MMDTraitsCA.icy.identifier)
+//                        .addGlobalArmorTrait(MMDTraitsCA.icy.identifier)
                         .addPrimaryArmorTrait(ArmorTraits.blessed.identifier)
                         .setDurability(36)
                         .setMagicaffinity(15)
@@ -130,6 +129,7 @@ public class IceAndFire extends AbstractIntegration {
                         .setProjectileMaterial(true)
                         .setCraftable(true)
                         .setDurability(36)
+                        .setRange(1.25f)
                         .setDamage(8)
                         .setHarvestLevel(4)
                         .setHardness(10)

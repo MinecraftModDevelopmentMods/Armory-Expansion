@@ -28,8 +28,8 @@ public class Integrations {
     static final String NAME = "Armory Expansion Integrations";
     static final String DEPENDENCIES =
             "required-after:tconstruct; " +
-            "required-after:conarm; " +
-            "required-after:mmdlib;";
+            "required-after:conarm;";
+//            "required-after:mmdlib;";
 
     static List<IIntegration> integrationList = new LinkedList<>();
 
