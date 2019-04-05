@@ -1,7 +1,10 @@
-package org.softc.armoryexpansion.integration.tinkers_construct;
+package org.softc.armoryexpansion.integration.plugins.tinkers_construct;
 
+import net.minecraftforge.common.config.Property;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.*;
+
+import java.util.Map;
 
 import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
 
@@ -18,25 +21,25 @@ public class TiCStats {
         return new ExtraMaterialStats(durability * 5);
     }
 
-    private static void registerMaterialToolStats(Material material, int durability, float hardness, float damage, float magicaffinity, int harvestLevel){
-        if (!material.hasStats(HEAD))
+    private static void registerMaterialToolStats(Material material, int durability, float hardness, float damage, float magicaffinity, int harvestLevel, Map<String, Property> properties){
+        if (!material.hasStats(HEAD) && properties.get(HEAD).getBoolean())
             TinkerRegistry.addMaterialStats(material, getHeadMaterialStats(durability, hardness, damage, harvestLevel));
-        if (!material.hasStats(HANDLE))
+        if (!material.hasStats(HANDLE) && properties.get(HANDLE).getBoolean())
             TinkerRegistry.addMaterialStats(material, getHandledMaterialStats(durability, magicaffinity));
-        if (!material.hasStats(EXTRA))
+        if (!material.hasStats(EXTRA) && properties.get(EXTRA).getBoolean())
             TinkerRegistry.addMaterialStats(material, getExtraMaterialStats(durability));
     }
 
-    private static void registerMaterialToolStats(String identifier, int durability, float hardness, float damage, float magicaffinity, int harvestLevel){
+    private static void registerMaterialToolStats(String identifier, int durability, float hardness, float damage, float magicaffinity, int harvestLevel, Map<String, Property> properties){
         Material material = TinkerRegistry.getMaterial(identifier);
         if (material.identifier.equals("unknown")){
             return;
         }
-        registerMaterialToolStats(material, durability, hardness, damage, magicaffinity, harvestLevel);
+        registerMaterialToolStats(material, durability, hardness, damage, magicaffinity, harvestLevel, properties);
     }
 
-    static void registerMaterialToolStats(TiCMaterial material) {
-        registerMaterialToolStats(material.getIdentifier(), material.getDurability(), material.getHardness(), material.getDamage(), material.getMagicaffinity(), material.getHarvestLevel());
+    static void registerMaterialToolStats(TiCMaterial material, Map<String, Property> properties) {
+        registerMaterialToolStats(material.getIdentifier(), material.getDurability(), material.getHardness(), material.getDamage(), material.getMagicaffinity(), material.getHarvestLevel(), properties);
     }
 
 
@@ -64,64 +67,64 @@ public class TiCStats {
         return new ArrowShaftMaterialStats(magicaffinity * 2 / 9 + 0.1f, (int)magicaffinity / 5);
     }
 
-    private static void registerMaterialBowStats(Material material, int durability, float range, float damage, float magicaffinity){
-        if (!material.hasStats(BOW))
+    private static void registerMaterialBowStats(Material material, int durability, float range, float damage, float magicaffinity, Map<String, Property> properties){
+        if (!material.hasStats(BOW) && properties.get(BOW).getBoolean())
             TinkerRegistry.addMaterialStats(material, getBowMaterialStats(durability, range, damage));
-        if (!material.hasStats(SHAFT))
+        if (!material.hasStats(SHAFT) && properties.get(SHAFT).getBoolean())
             TinkerRegistry.addMaterialStats(material, getArrowShaftMaterialStats(magicaffinity));
     }
 
-    private static void registerMaterialBowStats(String identifier, int durability, float range, float damage, float magicaffinity){
+    private static void registerMaterialBowStats(String identifier, int durability, float range, float damage, float magicaffinity, Map<String, Property> properties){
         Material material = TinkerRegistry.getMaterial(identifier);
         if (material.identifier.equals("unknown")){
             return;
         }
-        registerMaterialBowStats(material, durability, range, damage, magicaffinity);
+        registerMaterialBowStats(material, durability, range, damage, magicaffinity, properties);
     }
 
-    static void registerMaterialBowStats(TiCMaterial material) {
-        registerMaterialBowStats(material.getIdentifier(), material.getDurability(), material.getRange(), material.getDamage(), material.getMagicaffinity());
+    static void registerMaterialBowStats(TiCMaterial material,Map<String, Property> properties) {
+        registerMaterialBowStats(material.getIdentifier(), material.getDurability(), material.getRange(), material.getDamage(), material.getMagicaffinity(), properties);
     }
 
     private static FletchingMaterialStats getFletchlingMaterialStats(float accuracy, float magicaffinity) {
         return new FletchingMaterialStats(accuracy, magicaffinity);
     }
 
-    private static void registerMaterialFletchingStats(Material material, float accuracy, float magicaffinity){
-        if (!material.hasStats(FLETCHING))
+    private static void registerMaterialFletchingStats(Material material, float accuracy, float magicaffinity,Map<String, Property> properties){
+        if (!material.hasStats(FLETCHING) && properties.get(FLETCHING).getBoolean())
             TinkerRegistry.addMaterialStats(material, TiCStats.getFletchlingMaterialStats(accuracy, magicaffinity));
     }
 
-    private static void registerMaterialFletchingStats(String identifier, float accuracy, float magicaffinity){
+    private static void registerMaterialFletchingStats(String identifier, float accuracy, float magicaffinity,Map<String, Property> properties){
         Material material = TinkerRegistry.getMaterial(identifier);
         if (material.identifier.equals("unknown")){
             return;
         }
-        registerMaterialFletchingStats(material, accuracy, magicaffinity);
+        registerMaterialFletchingStats(material, accuracy, magicaffinity, properties);
     }
 
-    static void registerMaterialFletchingStats(TiCMaterial material) {
-        registerMaterialFletchingStats(material.getIdentifier(), 0, material.getMagicaffinity());
+    static void registerMaterialFletchingStats(TiCMaterial material, Map<String, Property> properties) {
+        registerMaterialFletchingStats(material.getIdentifier(), 0, material.getMagicaffinity(), properties);
     }
 
     private static ProjectileMaterialStats getProjectileMaterialStats() {
         return new ProjectileMaterialStats();
     }
 
-    private static void registerMaterialProjectileStats(Material material) {
-        if (!material.hasStats(PROJECTILE))
+    private static void registerMaterialProjectileStats(Material material, Map<String, Property> properties) {
+        if (!material.hasStats(PROJECTILE) && properties.get(PROJECTILE).getBoolean())
             TinkerRegistry.addMaterialStats(material, getProjectileMaterialStats());
     }
 
-    private static void registerMaterialProjectileStats(String identifier) {
+    private static void registerMaterialProjectileStats(String identifier, Map<String, Property> properties) {
         Material material = TinkerRegistry.getMaterial(identifier);
         if (material.identifier.equals("unknown")){
             return;
         }
-        registerMaterialProjectileStats(material);
+        registerMaterialProjectileStats(material, properties);
     }
 
-    static void registerMaterialProjectileStats(TiCMaterial material) {
-        registerMaterialProjectileStats(material.getIdentifier());
+    static void registerMaterialProjectileStats(TiCMaterial material, Map<String, Property> properties) {
+        registerMaterialProjectileStats(material.getIdentifier(), properties);
     }
 }

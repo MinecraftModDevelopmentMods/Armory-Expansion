@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.integration.tinkers_construct;
+package org.softc.armoryexpansion.integration.plugins.tinkers_construct;
 
 import c4.conarm.lib.materials.ArmorMaterialType;
 import com.mcmoddev.lib.integration.plugins.tinkers.TinkerTraitLocation;
@@ -6,10 +6,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-import org.softc.armoryexpansion.integration.constructs_armory.ConArmStats;
+import org.softc.armoryexpansion.integration.plugins.constructs_armory.ConArmStats;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 import slimeknights.tconstruct.library.materials.Material;
@@ -17,6 +18,7 @@ import slimeknights.tconstruct.library.traits.ITrait;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class TiCMaterial {
     private String identifier;
@@ -251,7 +253,7 @@ public class TiCMaterial {
         return this;
     }
 
-    private boolean isToolMaterial() {
+    public boolean isToolMaterial() {
         return isToolMaterial;
     }
 
@@ -260,7 +262,7 @@ public class TiCMaterial {
         return this;
     }
 
-    private boolean isBowMaterial() {
+    public boolean isBowMaterial() {
         return isBowMaterial;
     }
 
@@ -269,7 +271,7 @@ public class TiCMaterial {
         return this;
     }
 
-    private boolean isFletchingMaterial() {
+    public boolean isFletchingMaterial() {
         return isFletchingMaterial;
     }
 
@@ -278,7 +280,7 @@ public class TiCMaterial {
         return this;
     }
 
-    private boolean isProjectileMaterial() {
+    public boolean isProjectileMaterial() {
         return isProjectileMaterial;
     }
 
@@ -287,7 +289,7 @@ public class TiCMaterial {
         return this;
     }
 
-    private boolean isArmorMaterial() {
+    public boolean isArmorMaterial() {
         return isArmorMaterial;
     }
 
@@ -328,21 +330,21 @@ public class TiCMaterial {
         TinkerRegistry.integrate(material);
     }
 
-    public void registerTinkersMaterialStats(){
+    public void registerTinkersMaterialStats(Map<String, Property> properties){
         if (this.isToolMaterial()) {
-            TiCStats.registerMaterialToolStats(this);
+            TiCStats.registerMaterialToolStats(this, properties);
         }
         if (this.isBowMaterial()) {
-            TiCStats.registerMaterialBowStats(this);
+            TiCStats.registerMaterialBowStats(this, properties);
         }
         if (this.isFletchingMaterial()) {
-            TiCStats.registerMaterialFletchingStats(this);
+            TiCStats.registerMaterialFletchingStats(this, properties);
         }
         if (this.isProjectileMaterial()) {
-            TiCStats.registerMaterialProjectileStats(this);
+            TiCStats.registerMaterialProjectileStats(this, properties);
         }
         if (this.isArmorMaterial()) {
-            ConArmStats.registerMaterialArmorStats(this);
+            ConArmStats.registerMaterialArmorStats(this, properties);
         }
     }
 
