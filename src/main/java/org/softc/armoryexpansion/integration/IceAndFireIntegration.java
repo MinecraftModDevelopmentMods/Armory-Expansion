@@ -1,15 +1,43 @@
-package org.softc.armoryexpansion.integration.ice_and_fire;
+package org.softc.armoryexpansion.integration;
 
 import c4.conarm.common.armor.traits.ArmorTraits;
-import org.softc.armoryexpansion.integration.AbstractIntegration;
-import org.softc.armoryexpansion.integration.tinkers_construct.MaterialRenderType;
-import org.softc.armoryexpansion.integration.tinkers_construct.TiCMaterial;
+import com.github.alexthe666.iceandfire.IceAndFire;
+import com.mcmoddev.lib.integration.plugins.ConstructsArmory;
+import com.mcmoddev.lib.integration.plugins.TinkersConstruct;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import org.softc.armoryexpansion.ArmoryExpansion;
+import org.softc.armoryexpansion.integration.lib.AbstractIntegration;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.MaterialRenderType;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
 import slimeknights.tconstruct.tools.TinkerTraits;
 
-public class IceAndFire extends AbstractIntegration {
-    public IceAndFire(){
-        super(com.github.alexthe666.iceandfire.IceAndFire.MODID);
+@Mod(
+        modid = IceAndFireIntegration.MODID,
+        name = IceAndFireIntegration.NAME,
+        version = ArmoryExpansion.VERSION,
+        dependencies = IceAndFireIntegration.DEPENDENCIES
+)
+@Mod.EventBusSubscriber
+public class IceAndFireIntegration extends AbstractIntegration {
+    static final String MODID = ArmoryExpansion.MODID + "-" + IceAndFire.MODID;
+    static final String NAME = "Armory Expansion - " + IceAndFire.NAME;
+    static final String DEPENDENCIES =
+                    "required-after:" + TinkersConstruct.PLUGIN_MODID + "; " +
+                    "required-after:" + ConstructsArmory.PLUGIN_MODID + "; " +
+//                    "required-after:" + ArmoryExpansion.MODID + "; " +
+                    "required-after:" + IceAndFire.MODID + "; ";
+
+    @Mod.EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
         setMaterials();
+        super.preInit(event);
+    }
+
+    @Mod.EventHandler
+    public void init(FMLInitializationEvent event) {
+        super.init(event);
     }
 
     @Override

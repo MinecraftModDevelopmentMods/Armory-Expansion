@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.integration.tinkers_construct;
+package org.softc.armoryexpansion.integration.plugins.tinkers_construct;
 
 public enum MaterialRenderType {
     DEFAULT,

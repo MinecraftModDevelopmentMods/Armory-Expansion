@@ -1,7 +1,6 @@
 package org.softc.armoryexpansion;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
@@ -21,7 +20,7 @@ import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.constructs_ar
 )
 @Mod.EventBusSubscriber
 public final class ArmoryExpansion {
-    static final String MODID = "armoryexpansion";
+    public static final String MODID = "armoryexpansion";
     static final String NAME = "Armory Expansion";
     public static final String VERSION = "1.1.5";
     static final String DEPENDENCIES =
@@ -44,10 +43,5 @@ public final class ArmoryExpansion {
     public static void registerItems(final RegistryEvent.Register<Item> event) {
         Config.syncConfig();
         ConArmIntegration.integrateMaterialsFromConfig();
-    }
-
-    @SubscribeEvent
-    public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-        // TODO Write better documentation
     }
 }
