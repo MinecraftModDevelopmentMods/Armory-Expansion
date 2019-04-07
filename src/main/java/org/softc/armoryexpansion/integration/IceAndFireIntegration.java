@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.integration.lib.AbstractIntegration;
+import org.softc.armoryexpansion.integration.aelib.AbstractIntegration;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.MaterialRenderType;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
 import slimeknights.tconstruct.tools.TinkerTraits;
