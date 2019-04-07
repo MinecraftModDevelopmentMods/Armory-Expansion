@@ -31,7 +31,6 @@ public class IceAndFireIntegration extends AbstractIntegration {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        setMaterials();
         super.preInit(event);
     }
 
