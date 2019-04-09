@@ -5,7 +5,6 @@ import net.minecraftforge.common.config.Property;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static c4.conarm.lib.materials.ArmorMaterialType.*;
@@ -69,11 +68,11 @@ public class Config{
         materialProperties.put(part, addMaterialPartProperty(material, part, subcategory));
     }
 
-    void syncConfig(List<TiCMaterial> materials) { // Gets called from preInit
+    void syncConfig(Map<String, TiCMaterial> materials) { // Gets called from preInit
         try {
             // Load config
             configuration.load();
-            for (TiCMaterial material:materials)
+            for (TiCMaterial material:materials.values())
             {
                 Map<String, Property> materialProperties = new HashMap<>();
                 if(!properties.containsKey(material.getIdentifier())){

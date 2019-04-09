@@ -22,7 +22,7 @@ import org.softc.armoryexpansion.dynamic_systems.dynamic_materials.constructs_ar
 public final class ArmoryExpansion {
     public static final String MODID = "armoryexpansion";
     static final String NAME = "Armory Expansion";
-    public static final String VERSION = "1.1.5";
+    public static final String VERSION = "1.1.7b";
     static final String DEPENDENCIES =
             "required-after:tconstruct; " +
             "required-after:conarm; " +
@@ -30,7 +30,7 @@ public final class ArmoryExpansion {
             "after:*";
 
     public static Configuration config;
-    public static Logger logger;
+    private static Logger logger;
 
     @Mod.EventHandler
     public void preInit(final FMLPreInitializationEvent event) {

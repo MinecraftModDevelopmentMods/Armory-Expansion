@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TiCMaterial {
+    // TODO Add a localization key
     private String identifier;
     private String itemName;
     private int meta = 0;
