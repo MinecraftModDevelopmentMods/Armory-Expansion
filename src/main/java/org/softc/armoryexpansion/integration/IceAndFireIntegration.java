@@ -2,7 +2,6 @@ package org.softc.armoryexpansion.integration;
 
 import c4.conarm.common.armor.traits.ArmorTraits;
 import com.github.alexthe666.iceandfire.IceAndFire;
-import com.mcmoddev.lib.integration.plugins.ConstructsArmory;
 import com.mcmoddev.lib.integration.plugins.TinkersConstruct;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -23,16 +22,16 @@ import slimeknights.tconstruct.tools.TinkerTraits;
 @Mod.EventBusSubscriber
 public class IceAndFireIntegration extends AbstractIntegration {
     static final String MODID = ArmoryExpansion.MODID + "-" + IceAndFire.MODID;
-    static final String NAME = "Armory Expansion - " + IceAndFire.NAME;
+    static final String NAME = ArmoryExpansion.NAME + " - " + IceAndFire.NAME;
     static final String DEPENDENCIES =
-                    "required-after:" + TinkersConstruct.PLUGIN_MODID + "; " +
-                    "required-after:" + ConstructsArmory.PLUGIN_MODID + "; " +
-//                    "required-after:" + ArmoryExpansion.MODID + "; " +
-                    "after:" + IceAndFire.MODID + "; ";
+            "required-after:" + TinkersConstruct.PLUGIN_MODID + "; " +
+            "required-after:" + c4.conarm.ConstructsArmory.MODID + "; " +
+            "required-after:" + ArmoryExpansion.MODID + "; " +
+            "after:" + IceAndFire.MODID + "; ";
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        this.logger = event.getModLog();
+        this.modid = IceAndFire.MODID;
         super.preInit(event);
     }
 

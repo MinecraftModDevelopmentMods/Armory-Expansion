@@ -2,15 +2,38 @@
 {
   "modid": "armoryexpansion",
   "name": "Armory Expansion",
-  "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://minecraft.curseforge.com/projects/armory-expansion",
   "updateUrl": "",
   "authorList": ["YaibaToKen"],
-  "credits": "",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
-}
+  "logoFile": ""
+},
+{
+  "modid": "armoryexpansion-iceandfire",
+  "name": "Armory Expansion - Ice and Fire",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://minecraft.curseforge.com/projects/armory-expansion",
+  "authorList": ["YaibaToKen"],
+  "parent": "armoryexpansion"
+},
+{
+  "modid": "armoryexpansion-conarm",
+  "name": "Armory Expansion - Construct's Armory",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://minecraft.curseforge.com/projects/armory-expansion",
+  "authorList": ["YaibaToKen"],
+  "parent": "armoryexpansion"
+},
+  {
+    "modid": "armoryexpansion-custommaterials",
+    "name": "Armory Expansion - Custom Materials",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://minecraft.curseforge.com/projects/armory-expansion",
+    "authorList": ["YaibaToKen"],
+    "parent": "armoryexpansion"
+  }
 ]

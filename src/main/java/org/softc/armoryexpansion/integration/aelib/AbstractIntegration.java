@@ -10,6 +10,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
+import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
 
 import java.io.*;
@@ -20,35 +21,51 @@ import static org.softc.armoryexpansion.integration.aelib.Config.CATEGORY_MATERI
 
 public abstract class AbstractIntegration implements IIntegration {
     protected Logger logger;
+    protected String modid = "";
     private Config configHelper;
+    private boolean isEnabled = false;
     private Map<String, TiCMaterial> materials = new HashMap<>();
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
-        configHelper = new Config(new Configuration(event.getSuggestedConfigurationFile()));
-        setMaterials(event);
-        configHelper.syncConfig(materials);
-        registerMaterials();
-        registerMaterialStats();
+        this.logger = event.getModLog();
+        Property property = ArmoryExpansion.config
+                .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
+        isEnabled = property == null || property.getBoolean();
+        ArmoryExpansion.config.save();
+        if(isEnabled){
+            configHelper = new Config(new Configuration(new File(event.getModConfigurationDirectory().getPath() + "\\" + ArmoryExpansion.MODID + "\\" + modid + ".cfg")));
+//            configHelper = new Config(new Configuration(event.getSuggestedConfigurationFile()));
+            setMaterials(event);
+            configHelper.syncConfig(materials);
+            registerMaterials();
+            registerMaterialStats();
+        }
     }
 
     @Override
     public void init(FMLInitializationEvent event) {
-        oredictMaterials();
-        updateMaterials();
-        registerMaterialTraits();
+        if(isEnabled){
+            oredictMaterials();
+            updateMaterials();
+            registerMaterialTraits();
+        }
     }
 
     @Override
     public void registerItems(RegistryEvent.Register<Item> event) {
-        // TODO Write better documentation
-        // Should be overrided as needed
+        if(isEnabled){
+            // TODO Write better documentation
+            // Should be overrided as needed
+        }
     }
 
     @Override
     public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-        // TODO Write better documentation
-        // Should be overrided as needed
+        if(isEnabled){
+            // TODO Write better documentation
+            // Should be overrided as needed
+        }
     }
 
     public Configuration getConfiguration() {
@@ -66,9 +83,9 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     protected void setMaterials(FMLPreInitializationEvent event){
-        loadMaterialsFromJson(event.getModConfigurationDirectory(), event.getModMetadata().modId);
+        loadMaterialsFromJson(event.getModConfigurationDirectory(), modid);
         loadMaterialsFromSource();
-        saveMaterialsToJson(event.getModConfigurationDirectory(), event.getModMetadata().modId);
+        saveMaterialsToJson(event.getModConfigurationDirectory(), modid);
     }
 
     protected abstract void loadMaterialsFromSource();
@@ -121,7 +138,9 @@ public abstract class AbstractIntegration implements IIntegration {
     private void registerMaterials() {
         materials.values().forEach(m -> {
             if(isMaterialEnabled(m)){
-                m.registerTinkersMaterial();
+                if(m.registerTinkersMaterial()){
+                    logger.info("Registered tinker's material {" + m.getIdentifier() + "};");
+                }
             }
         });
     }
@@ -129,7 +148,9 @@ public abstract class AbstractIntegration implements IIntegration {
     private void registerMaterialStats() {
         materials.values().forEach(m -> {
             if(isMaterialEnabled(m)){
-                m.registerTinkersMaterialStats(getProperties(m));
+                if(m.registerTinkersMaterialStats(getProperties(m))){
+                    logger.info("Registered stats for tinker's material {" + m.getIdentifier() + "};");
+                }
             }
         });
     }
@@ -137,7 +158,9 @@ public abstract class AbstractIntegration implements IIntegration {
     private void updateMaterials() {
         materials.values().forEach(m -> {
             if(isMaterialEnabled(m)){
-                m.updateTinkersMaterial();
+                if(m.updateTinkersMaterial()){
+                    logger.info("Updated tinker's material {" + m.getIdentifier() + "};");
+                }
             }
         });
     }
@@ -145,7 +168,9 @@ public abstract class AbstractIntegration implements IIntegration {
     private void registerMaterialTraits() {
         materials.values().forEach(m -> {
             if(isMaterialEnabled(m)){
-                m.registerTinkersMaterialTraits();
+                if(m.registerTinkersMaterialTraits()){
+                    logger.info("Registered traits for tinker's material {" + m.getIdentifier() + "};");
+                }
             }
         });
     }

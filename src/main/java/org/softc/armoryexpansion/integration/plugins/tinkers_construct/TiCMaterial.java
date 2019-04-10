@@ -318,9 +318,9 @@ public class TiCMaterial {
             material.setRenderInfo(materialRenderInfo);
     }
 
-    public void registerTinkersMaterial(){
+    public boolean registerTinkersMaterial(){
         if (!TinkerRegistry.getMaterial(this.identifier).identifier.equals("unknown")){
-            return;
+            return false;
         }
         Material material = new Material(this.identifier, this.color);
         material.setCastable(this.isCastable)
@@ -329,44 +329,54 @@ public class TiCMaterial {
 //        this.setMaterialRenderInfo(material);
         TinkerRegistry.addMaterial(material);
         TinkerRegistry.integrate(material);
+        return true;
     }
 
-    public void registerTinkersMaterialStats(Map<String, Property> properties){
+    public boolean registerTinkersMaterialStats(Map<String, Property> properties){
+        boolean retVal = false;
         if (this.isToolMaterial()) {
             TiCStats.registerMaterialToolStats(this, properties);
+            retVal = true;
         }
         if (this.isBowMaterial()) {
             TiCStats.registerMaterialBowStats(this, properties);
+            retVal = true;
         }
         if (this.isFletchingMaterial()) {
             TiCStats.registerMaterialFletchingStats(this, properties);
+            retVal = true;
         }
         if (this.isProjectileMaterial()) {
             TiCStats.registerMaterialProjectileStats(this, properties);
+            retVal = true;
         }
         if (this.isArmorMaterial()) {
             ConArmStats.registerMaterialArmorStats(this, properties);
+            retVal = true;
         }
+        return retVal;
     }
 
-    public void updateTinkersMaterial(){
+    public boolean updateTinkersMaterial(){
         Material material = TinkerRegistry.getMaterial(this.identifier);
         if (material.identifier.equals("unknown")){
-            return;
+            return false;
         }
         material.addItem(this.getItem());
         material.setRepresentativeItem(this.getItemStack());
+        return true;
     }
 
-    public void registerTinkersMaterialTraits() {
+    public boolean registerTinkersMaterialTraits() {
         Material material = TinkerRegistry.getMaterial(this.identifier);
         if (material.identifier.equals("unknown")) {
-            return;
+            return false;
         }
         this.traits.forEach( t -> {
             ITrait trait = TinkerRegistry.getTrait(t.getFirst());
             material.addTrait(trait, t.getSecond());
         });
         TinkerRegistry.integrate(material);
+        return this.traits.size() > 0;
     }
 }
