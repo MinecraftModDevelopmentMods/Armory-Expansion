@@ -1,7 +1,6 @@
 package org.softc.armoryexpansion.integration.plugins.tinkers_construct;
 
 import c4.conarm.lib.materials.ArmorMaterialType;
-import com.mcmoddev.lib.integration.plugins.tinkers.TinkerTraitLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -14,6 +13,7 @@ import org.softc.armoryexpansion.integration.plugins.constructs_armory.ConArmSta
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 import slimeknights.tconstruct.library.materials.Material;
+import slimeknights.tconstruct.library.materials.MaterialTypes;
 import slimeknights.tconstruct.library.traits.ITrait;
 
 import java.util.LinkedList;
@@ -214,13 +214,13 @@ public class TiCMaterial {
     }
 
     public TiCMaterial addPrimaryToolTrait(String trait) {
-        this.addTrait(trait, TinkerTraitLocation.HEAD.name());
+        this.addTrait(trait, MaterialTypes.HEAD);
         return this;
     }
 
     public TiCMaterial addSecondaryToolTrait(String trait) {
-        this.addTrait(trait, TinkerTraitLocation.HANDLE.name());
-        this.addTrait(trait, TinkerTraitLocation.EXTRA.name());
+        this.addTrait(trait, MaterialTypes.HANDLE);
+        this.addTrait(trait, MaterialTypes.EXTRA);
         return this;
     }
 
