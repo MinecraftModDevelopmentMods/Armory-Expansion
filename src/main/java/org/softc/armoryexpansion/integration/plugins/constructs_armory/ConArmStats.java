@@ -13,10 +13,6 @@ import java.util.Map;
 import static c4.conarm.lib.materials.ArmorMaterialType.*;
 
 public class ConArmStats {
-    private ConArmStats(){
-
-    }
-
     private static CoreMaterialStats getCoreMaterialStats(float durability, float defense) {
         return new CoreMaterialStats(durability, defense * 2);
     }
@@ -30,12 +26,21 @@ public class ConArmStats {
     }
 
     private static void registerMaterialArmorStats(Material material, float durability, float defense, float toughness, float magicaffinity, float extra, Map<String, Property> properties){
-        if (!material.hasStats(CORE) && properties.get(CORE).getBoolean())
-            TinkerRegistry.addMaterialStats(material, getCoreMaterialStats(durability, defense));
-        if (!material.hasStats(TRIM) && properties.get(TRIM).getBoolean())
-            TinkerRegistry.addMaterialStats(material, getTrimMaterialStats(extra));
-        if (!material.hasStats(PLATES) && properties.get(PLATES).getBoolean())
-            TinkerRegistry.addMaterialStats(material, getPlatesMaterialStats(magicaffinity, durability, toughness));
+        if (!material.hasStats(CORE) && properties.get(CORE).getBoolean()){
+            if (durability > 0 || defense > 0){
+                TinkerRegistry.addMaterialStats(material, getCoreMaterialStats(durability, defense));
+            }
+        }
+        if (!material.hasStats(TRIM) && properties.get(TRIM).getBoolean()) {
+            if (extra > 0) {
+                TinkerRegistry.addMaterialStats(material, getTrimMaterialStats(extra));
+            }
+        }
+        if (!material.hasStats(PLATES) && properties.get(PLATES).getBoolean()){
+            if (durability > 0 || magicaffinity > 0){
+                TinkerRegistry.addMaterialStats(material, getPlatesMaterialStats(magicaffinity, durability, toughness));
+            }
+        }
     }
 
     private static void registerMaterialArmorStats(String identifier, float durability, float defense, float toughness, float magicaffinity, float extra, Map<String, Property> properties) {
@@ -47,6 +52,6 @@ public class ConArmStats {
     }
 
     public static void registerMaterialArmorStats(TiCMaterial material, Map<String, Property> properties) {
-        registerMaterialArmorStats(material.getIdentifier(), material.getDurability(), material.getDefense(), material.getToughness(), material.getMagicaffinity(), material.getDurability(), properties);
+        registerMaterialArmorStats(material.getIdentifier(), material.getDurability(), material.getDefense(), material.getToughness(), material.getMagicAffinity(), material.getDurability(), properties);
     }
 }

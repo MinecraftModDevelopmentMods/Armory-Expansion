@@ -2,7 +2,7 @@ package org.softc.armoryexpansion.integration.aelib;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.ITiCMaterial;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class Config{
         return properties.get(material);
     }
 
-    private Property addMaterialProperty(final TiCMaterial material) {
+    private Property addMaterialProperty(final ITiCMaterial material) {
         return configuration.get(
                 material.getIdentifier(),
                 "enable_material",
@@ -45,7 +45,7 @@ public class Config{
         );
     }
 
-    private Property addMaterialPartProperty(final TiCMaterial material, final String part, final String category) {
+    private Property addMaterialPartProperty(final ITiCMaterial material, final String part, final String category) {
         return configuration.get(
                 material.getIdentifier() + "." + category,
                 "enable_" + part,
@@ -54,7 +54,7 @@ public class Config{
         );
     }
 
-    private Property addMaterialTraitProperty(final TiCMaterial material){
+    private Property addMaterialTraitProperty(final ITiCMaterial material){
         return configuration.get(
                 material.getIdentifier(),
                 "enable_traits",
@@ -63,16 +63,16 @@ public class Config{
         );
     }
 
-    private void putSubcategoryProperty(Map<String, Property> materialProperties, String subcategory, String part, TiCMaterial material){
+    private void putSubcategoryProperty(Map<String, Property> materialProperties, String subcategory, String part, ITiCMaterial material){
         configuration.getCategory(material.getIdentifier() + "." + subcategory);
         materialProperties.put(part, addMaterialPartProperty(material, part, subcategory));
     }
 
-    void syncConfig(Map<String, TiCMaterial> materials) { // Gets called from preInit
+    void syncConfig(Map<String, ITiCMaterial> materials) { // Gets called from preInit
         try {
             // Load config
             configuration.load();
-            for (TiCMaterial material:materials.values())
+            for (ITiCMaterial material:materials.values())
             {
                 Map<String, Property> materialProperties = new HashMap<>();
                 if(!properties.containsKey(material.getIdentifier())){

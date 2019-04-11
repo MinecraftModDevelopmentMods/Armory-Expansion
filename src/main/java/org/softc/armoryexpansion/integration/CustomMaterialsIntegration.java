@@ -4,6 +4,7 @@ import c4.conarm.ConstructsArmory;
 import com.mcmoddev.lib.integration.plugins.TinkersConstruct;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.aelib.AbstractIntegration;
@@ -35,6 +36,11 @@ public class CustomMaterialsIntegration extends AbstractIntegration {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         super.init(event);
+    }
+
+    @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        // TODO Figure out how to print a list of all trait identifiers
     }
 
     @Override
