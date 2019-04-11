@@ -42,11 +42,11 @@ public abstract class AbstractTiCMaterial implements ITiCMaterial {
     }
 
     protected Item getItem() {
-        return Item.getByNameOrId(itemName);
+        return itemName != null ? Item.getByNameOrId(itemName) : null;
     }
 
     protected ItemStack getItemStack() {
-        return new ItemStack(this.getItem(), 1, this.meta);
+        return this.getItem() != null ? new ItemStack(this.getItem(), 1, this.meta) : null;
     }
 
     public int getColor() {

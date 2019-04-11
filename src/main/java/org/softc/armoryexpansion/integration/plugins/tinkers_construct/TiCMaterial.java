@@ -1,6 +1,7 @@
 package org.softc.armoryexpansion.integration.plugins.tinkers_construct;
 
 import c4.conarm.lib.materials.ArmorMaterialType;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -188,7 +189,10 @@ public class TiCMaterial extends AbstractTiCMaterial{
     }
 
     public TiCMaterial registerOreDict() {
-        OreDictionary.registerOre(this.identifier, this.getItemStack());
+        ItemStack stack = this.getItemStack();
+        if(stack != null){
+            OreDictionary.registerOre(this.identifier, this.getItemStack());
+        }
         return this;
     }
 

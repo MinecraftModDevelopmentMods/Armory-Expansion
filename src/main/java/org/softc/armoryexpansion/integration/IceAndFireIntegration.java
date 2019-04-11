@@ -42,7 +42,7 @@ public class IceAndFireIntegration extends AbstractIntegration {
             loadMaterialsFromJson(
                     getClass()
                             .getClassLoader()
-                            .getResourceAsStream("assets\\" + ArmoryExpansion.MODID + "\\data\\" + IceAndFire.MODID + ".json"));
+                            .getResourceAsStream("assets/" + ArmoryExpansion.MODID + "/data/" + IceAndFire.MODID + ".json"));
         }
     }
 }
