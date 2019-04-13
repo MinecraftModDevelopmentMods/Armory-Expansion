@@ -73,12 +73,12 @@ public abstract class AbstractIntegration{
 
     private void loadMaterials(TiCMaterial[] jsonMaterials){
         for(TiCMaterial m:jsonMaterials){
-            materials.put(m.getIdentifier(), m);
+            materials.putIfAbsent(m.getIdentifier(), m);
         }
     }
 
     protected void loadMaterialsFromJson(InputStream path){
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
 
         TiCMaterial[] jsonMaterials = gson.fromJson(new BufferedReader(new InputStreamReader(path)), TiCMaterial[].class);
@@ -86,7 +86,7 @@ public abstract class AbstractIntegration{
     }
 
     private void loadMaterialsFromJson(String path){
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
 
         TiCMaterial[] jsonMaterials = new TiCMaterial[0];
@@ -108,13 +108,14 @@ public abstract class AbstractIntegration{
     }
 
     private void saveMaterialsToJson(String path){
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
         File output = new File(path);
         //noinspection ResultOfMethodCallIgnored
         output.getParentFile().mkdirs();
         try {
             FileWriter writer = new FileWriter(output);
+            writer.write(returnMaterialExample());
             writer.write(gson.toJson(materials.values()));
             writer.close();
         } catch (IOException e) {
@@ -196,5 +197,63 @@ public abstract class AbstractIntegration{
             return (getProperty(material, CATEGORY_MATERIAL) != null) && Objects.requireNonNull(getProperty(material, CATEGORY_MATERIAL)).getBoolean();
         }
         return true;
+    }
+
+    private String returnMaterialExample(){
+        String example =
+                "//  {\n" +
+                "//    The material's durability is this value multiplied by 8\n" +
+                "//    \"durability\": 36,\n" +
+                "//    The material's mining speed is this value multiplied by 0.65\n" +
+                "//    \"miningSpeed\": 0.0,\n" +
+                "//    The material's attack is this value | The material's bonus damage is this value divided by 3\n" +
+                "//    \"damage\": 0.0,\n" +
+                "//    The material's modifier is this value divided by 6 plus 0.1\n" +
+                "//    \"magicAffinity\": 15.0,\n" +
+                "//    The material's harvest level is this value\n" +
+                "//    \"harvestLevel\": 0,\n" +
+                "//    The material's range is this value\n" +
+                "//    \"range\": 0.0,\n" +
+                "//    The material's accuracy is this value with 1.0 being 100%\n" +
+                "//    \"accuracy\": 0.0,\n" +
+                "//    The material's defense is this value multiplied by 2\n" +
+                "//    \"defense\": 9.0,\n" +
+                "//    The material's toughness is this value multiplied by 1.5\n" +
+                "//    \"toughness\": 2.0,\n" +
+                "//    The material's traits\n" +
+                "//    \"traits\": [\n" +
+                "//      {\n" +
+                "//        The trait's identifier\n" +
+                "//        \"traitName\": \"rough_armor\",\n" +
+                "//        The tool part to have the trait\n" +
+                "//        \"traitPart\": \"core\"\n" +
+                "//      }\n" +
+                "//    ],\n" +
+                "//    The material's oreDict entry and identifier\n" +
+                "//    \"identifier\": \"scalesilverdragon\",\n" +
+                "//    The item to be added to the material's oreDict entry\n" +
+                "//    \"itemName\": \"iceandfire:dragonscales_silver\",\n" +
+                "//    The item's meta value\n" +
+                "//    \"meta\": 0,\n" +
+                "//    The material's color\n" +
+                "//    \"color\": 11184810,\n" +
+                "//    The material render info to be used for the material's aspect (unused at the moment)\n" +
+                "//    \"type\": \"METAL\",\n" +
+                "//    If the material should be castable with a casting table or casting basin (no fluids are added to the materials at the moment)\n" +
+                "//    \"isCastable\": false,\n" +
+                "//    If the material should be craftable in the part crafter\n" +
+                "//    \"isCraftable\": true,\n" +
+                "//    If the material should be useable for tool parts\n" +
+                "//    \"isToolMaterial\": false,\n" +
+                "//    If the material should be useable for bow limbs\n" +
+                "//    \"isBowMaterial\": false,\n" +
+                "//    If the material should be useable for fletchings\n" +
+                "//    \"isFletchingMaterial\": false,\n" +
+                "//    If the material should be useable for projectile parts\n" +
+                "//    \"isProjectileMaterial\": false,\n" +
+                "//    If the material should be useable for armor parts\n" +
+                "//    \"isArmorMaterial\": true\n" +
+                "//  }\n";
+        return example;
     }
 }

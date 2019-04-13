@@ -58,9 +58,9 @@ public class TiCStats {
     private static Float calcDrawSpeed(final int durability) {
         float val;
         if (durability < 25) {
-            val = 1.0f;
+            val = 2.0f;
         } else {
-            val = ((durability - 20) + 1) / 10.0f;
+            val = 30.0f / durability;
             val -= Math.floor(val);
         }
         return val;

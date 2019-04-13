@@ -53,7 +53,7 @@ public class ConArmIntegration extends AbstractIntegration {
 
     private void loadMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){
 
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
         String integrationJsonsLocation = event.getModConfigurationDirectory().getPath() + "\\" + ArmoryExpansion.MODID + "\\";
         File integrationJsonsFolder = new File(integrationJsonsLocation);
