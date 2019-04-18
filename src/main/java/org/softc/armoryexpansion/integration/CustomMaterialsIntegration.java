@@ -64,7 +64,7 @@ public class CustomMaterialsIntegration extends AbstractIntegration {
 
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
-        File output = new File(configDir.getPath() + "\\armoryexpansion\\traits.txt");
+        File output = new File(configDir.getPath() + "/armoryexpansion/traits.txt");
         try {
             FileWriter writer = new FileWriter(output);
             writer.write(gson.toJson(traits));
@@ -78,7 +78,7 @@ public class CustomMaterialsIntegration extends AbstractIntegration {
         // TODO This needs to somehow export both tool and armor part identifiers
 //        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 //        Gson gson = builder.create();
-//        File output = new File(configDir.getPath() + "\\armoryexpansion\\parts.txt");
+//        File output = new File(configDir.getPath() + "/armoryexpansion/parts.txt");
 //        try {
 //            FileWriter writer = new FileWriter(output);
 //            writer.write(gson.toJson(traits));
