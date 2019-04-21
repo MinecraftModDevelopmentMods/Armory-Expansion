@@ -32,7 +32,7 @@ public abstract class AbstractIntegration{
         isEnabled = property == null || property.getBoolean();
         ArmoryExpansion.config.save();
         if(isEnabled){
-            configHelper = new Config(new Configuration(new File(event.getModConfigurationDirectory().getPath() + "\\" + ArmoryExpansion.MODID + "\\" + modid + ".cfg")));
+            configHelper = new Config(new Configuration(new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/" + modid + ".cfg")));
 //            configHelper = new Config(new Configuration(event.getSuggestedConfigurationFile()));
             setMaterials(event);
             configHelper.syncConfig(materials);
@@ -100,7 +100,7 @@ public abstract class AbstractIntegration{
     }
 
     private void loadMaterialsFromJson(File configDir, String root, String modid){
-        loadMaterialsFromJson(configDir.getPath() + "\\" + root + "\\" + modid + ".json");
+        loadMaterialsFromJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
     }
 
     private void loadMaterialsFromJson(File configDir, String modid){
@@ -124,7 +124,7 @@ public abstract class AbstractIntegration{
     }
 
     private void saveMaterialsToJson(File configDir, String root, String modid){
-        saveMaterialsToJson(configDir.getPath() + "\\" + root + "\\" + modid + ".json");
+        saveMaterialsToJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
     }
 
     private void saveMaterialsToJson(File configDir, String modid){

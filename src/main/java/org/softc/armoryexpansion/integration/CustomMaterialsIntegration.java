@@ -64,7 +64,7 @@ public class CustomMaterialsIntegration extends AbstractIntegration {
 
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
-        File output = new File(configDir.getPath() + "\\armoryexpansion\\traits.txt");
+        File output = new File(configDir.getPath() + "/armoryexpansion/traits.txt");
         try {
             FileWriter writer = new FileWriter(output);
             writer.write(gson.toJson(traits));
