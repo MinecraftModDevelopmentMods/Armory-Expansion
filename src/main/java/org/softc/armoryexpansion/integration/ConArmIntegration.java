@@ -55,7 +55,7 @@ public class ConArmIntegration extends AbstractIntegration {
 
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
-        String integrationJsonsLocation = event.getModConfigurationDirectory().getPath() + "\\" + ArmoryExpansion.MODID + "\\";
+        String integrationJsonsLocation = event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/";
         File integrationJsonsFolder = new File(integrationJsonsLocation);
 
         for (File json : Objects.requireNonNull(integrationJsonsFolder.listFiles((dir, name) -> name.contains(".json")))){
