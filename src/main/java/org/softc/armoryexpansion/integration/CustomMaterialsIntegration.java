@@ -1,9 +1,7 @@
 package org.softc.armoryexpansion.integration;
 
-import c4.conarm.ConstructsArmory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mcmoddev.lib.integration.plugins.TinkersConstruct;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -32,8 +30,6 @@ public class CustomMaterialsIntegration extends AbstractIntegration {
     static final String MODID = ArmoryExpansion.MODID + "-" + INTEGRATION_ID;
     static final String NAME = ArmoryExpansion.NAME + " - " + INTEGRATION_NAME;
     static final String DEPENDENCIES =
-            "required-after:" + TinkersConstruct.PLUGIN_MODID + "; " +
-            "required-after:" + ConstructsArmory.MODID + "; " +
             "required-after:" + ArmoryExpansion.MODID + "; ";
 
     static File configDir;

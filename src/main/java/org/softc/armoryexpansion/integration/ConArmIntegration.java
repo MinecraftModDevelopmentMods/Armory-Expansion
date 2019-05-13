@@ -6,7 +6,6 @@ import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mcmoddev.lib.integration.plugins.TinkersConstruct;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -44,8 +43,6 @@ public class ConArmIntegration extends AbstractIntegration {
     static final String MODID = ArmoryExpansion.MODID + "-" + ConstructsArmory.MODID;
     static final String NAME = ArmoryExpansion.NAME + " - " + ConstructsArmory.MODNAME;
     static final String DEPENDENCIES =
-            "required-after:" + TinkersConstruct.PLUGIN_MODID + "; " +
-                    "required-after:" + ConstructsArmory.MODID + "; " +
                     "required-after:" + ArmoryExpansion.MODID + "; " +
                     "after:*";
 
