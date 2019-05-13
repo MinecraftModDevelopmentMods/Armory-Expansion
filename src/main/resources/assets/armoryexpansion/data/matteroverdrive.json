@@ -1,0 +1,74 @@
+[
+  {
+    "durability": 66,
+    "miningSpeed": -3.0,
+    "damage": 2.0,
+    "magicAffinity": 14.0,
+    "harvestLevel": 2,
+    "range": 0.0,
+    "accuracy": 0.0,
+    "defense": 9.0,
+    "toughness": 2.0,
+    "traits": [
+      {
+        "traitName": "rough_armor",
+        "traitPart": "core"
+      },
+      {
+        "traitName": "rough_armor",
+        "traitPart": "trim"
+      },
+      {
+        "traitName": "rough_armor",
+        "traitPart": "plates"
+      },
+      {
+        "traitName": "aquaspeed_armor",
+        "traitPart": "core"
+      },
+      {
+        "traitName": "aquaspeed_armor",
+        "traitPart": "trim"
+      },
+      {
+        "traitName": "aquaspeed_armor",
+        "traitPart": "plates"
+      }
+    ],
+    "identifier": "tritanium",
+    "itemName": "matteroverdrive:tritanium_ingot",
+    "meta": 0,
+    "color": 43520,
+    "type": "METAL",
+    "isCastable": true,
+    "isCraftable": false,
+    "isBowMaterial": false,
+    "isFletchingMaterial": false,
+    "isProjectileMaterial": true,
+    "isArmorMaterial": true
+  },
+  {
+    "durability": 0,
+    "miningSpeed": 0.0,
+    "damage": 0.0,
+    "magicAffinity": 0.0,
+    "harvestLevel": 0,
+    "range": 0.0,
+    "accuracy": 0.0,
+    "defense": 0.0,
+    "toughness": 0.0,
+    "traits": [],
+    "identifier": "dilithium",
+    "itemName": "matteroverdrive:dilithium_crystal",
+    "meta": 0,
+    "color": 11184810,
+    "type": "METAL",
+    "isCastable": false,
+    "isCraftable": true,
+    "isToolMaterial": true,
+    "isBowMaterial": true,
+    "isFletchingMaterial": false,
+    "isProjectileMaterial": true,
+    "isArmorMaterial": true
+  }
+]
