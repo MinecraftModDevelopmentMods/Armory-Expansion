@@ -2,9 +2,12 @@ package org.softc.armoryexpansion.integration.aelib;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraft.block.Block;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 import org.softc.armoryexpansion.ArmoryExpansion;
@@ -12,9 +15,7 @@ import org.softc.armoryexpansion.integration.plugins.tinkers_construct.ITiCMater
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static org.softc.armoryexpansion.integration.aelib.Config.CATEGORY_MATERIAL;
 
@@ -32,29 +33,37 @@ public abstract class AbstractIntegration{
         isEnabled = property == null || property.getBoolean();
         ArmoryExpansion.config.save();
         if(isEnabled){
-            configHelper = new Config(new Configuration(new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/" + modid + ".cfg")));
+            this.configHelper = new Config(new Configuration(new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/" + modid + ".cfg")));
 //            configHelper = new Config(new Configuration(event.getSuggestedConfigurationFile()));
-            setMaterials(event);
-            configHelper.syncConfig(materials);
-            registerMaterials();
-            registerMaterialStats();
+            this.setMaterials(event);
+            this.configHelper.syncConfig(materials);
+            this.registerMaterials();
+            this.registerMaterialStats();
         }
     }
 
     public void init(FMLInitializationEvent event) {
         if(isEnabled){
-            oredictMaterials();
-            updateMaterials();
-            registerMaterialTraits();
+            this.oredictMaterials();
+            this.updateMaterials();
+            this.registerMaterialTraits();
         }
     }
 
+    public void postInit(FMLPostInitializationEvent event){
+
+    }
+
+    public void registerBlocks(RegistryEvent.Register<Block> event){
+        this.materials.values().forEach(m -> event.getRegistry().registerAll(m.getFluidBlock()));
+    }
+
     public Configuration getConfiguration() {
-        return configHelper.getConfiguration();
+        return this.configHelper.getConfiguration();
     }
 
     private Config getConfigHelper() {
-        return configHelper;
+        return this.configHelper;
     }
 
     protected void addMaterial(ITiCMaterial material){
@@ -64,25 +73,25 @@ public abstract class AbstractIntegration{
     }
 
     private void setMaterials(FMLPreInitializationEvent event){
-        loadMaterialsFromJson(event.getModConfigurationDirectory(), modid);
-        loadMaterialsFromSource();
-        saveMaterialsToJson(event.getModConfigurationDirectory(), modid);
+        this.loadMaterialsFromJson(event.getModConfigurationDirectory(), modid);
+        this.loadMaterialsFromSource();
+        this.saveMaterialsToJson(event.getModConfigurationDirectory(), modid);
     }
 
     protected abstract void loadMaterialsFromSource();
 
     private void loadMaterials(TiCMaterial[] jsonMaterials){
         for(TiCMaterial m:jsonMaterials){
-            materials.putIfAbsent(m.getIdentifier(), m);
+            this.materials.putIfAbsent(m.getIdentifier(), m);
         }
     }
 
-    protected void loadMaterialsFromJson(InputStream path){
+    void loadMaterialsFromJson(InputStream path){
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
 
         TiCMaterial[] jsonMaterials = gson.fromJson(new BufferedReader(new InputStreamReader(path)), TiCMaterial[].class);
-        loadMaterials(jsonMaterials);
+        this.loadMaterials(jsonMaterials);
     }
 
     private void loadMaterialsFromJson(String path){
@@ -96,15 +105,15 @@ public abstract class AbstractIntegration{
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        loadMaterials(jsonMaterials);
+        this.loadMaterials(jsonMaterials);
     }
 
     private void loadMaterialsFromJson(File configDir, String root, String modid){
-        loadMaterialsFromJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
+        this.loadMaterialsFromJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
     }
 
     private void loadMaterialsFromJson(File configDir, String modid){
-        loadMaterialsFromJson(configDir, "armoryexpansion", modid);
+        this.loadMaterialsFromJson(configDir, "armoryexpansion", modid);
     }
 
     private void saveMaterialsToJson(String path){
@@ -124,52 +133,62 @@ public abstract class AbstractIntegration{
     }
 
     private void saveMaterialsToJson(File configDir, String root, String modid){
-        saveMaterialsToJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
+        this.saveMaterialsToJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
     }
 
     private void saveMaterialsToJson(File configDir, String modid){
-        saveMaterialsToJson(configDir, "armoryexpansion", modid);
+        this.saveMaterialsToJson(configDir, "armoryexpansion", modid);
     }
 
     private void oredictMaterials() {
-        materials.values().forEach(ITiCMaterial::registerOreDict);
+        this.materials.values().forEach(ITiCMaterial::registerOreDict);
     }
 
     private void registerMaterials() {
-        materials.values().forEach(m -> {
-            if(isMaterialEnabled(m)){
+        this.materials.values().forEach(m -> {
+            if(this.isMaterialEnabled(m)){
                 if(m.registerTinkersMaterial()){
-                    logger.info("Registered tinker's material {" + m.getIdentifier() + "};");
+                    this.logger.info("Registered tinker's material {" + m.getIdentifier() + "};");
+                }
+            }
+        });
+    }
+
+    private void registerMaterialFluids() {
+        this.materials.values().forEach(m -> {
+            if(this.isMaterialEnabled(m)){
+                if(m.registerTinkersFluid()){
+                    this.logger.info("Registered fluid for tinker's material {" + m.getIdentifier() + "};");
                 }
             }
         });
     }
 
     private void registerMaterialStats() {
-        materials.values().forEach(m -> {
-            if(isMaterialEnabled(m)){
+        this.materials.values().forEach(m -> {
+            if(this.isMaterialEnabled(m)){
                 if(m.registerTinkersMaterialStats(getProperties(m))){
-                    logger.info("Registered stats for tinker's material {" + m.getIdentifier() + "};");
+                    this.logger.info("Registered stats for tinker's material {" + m.getIdentifier() + "};");
                 }
             }
         });
     }
 
     private void updateMaterials() {
-        materials.values().forEach(m -> {
-            if(isMaterialEnabled(m)){
+        this.materials.values().forEach(m -> {
+            if(this.isMaterialEnabled(m)){
                 if(m.updateTinkersMaterial()){
-                    logger.info("Updated tinker's material {" + m.getIdentifier() + "};");
+                    this.logger.info("Updated tinker's material {" + m.getIdentifier() + "};");
                 }
             }
         });
     }
 
     private void registerMaterialTraits() {
-        materials.values().forEach(m -> {
-            if(isMaterialEnabled(m)){
+        this.materials.values().forEach(m -> {
+            if(this.isMaterialEnabled(m)){
                 if(m.registerTinkersMaterialTraits()){
-                    logger.info("Registered traits for tinker's material {" + m.getIdentifier() + "};");
+                    this.logger.info("Registered traits for tinker's material {" + m.getIdentifier() + "};");
                 }
             }
         });
@@ -182,26 +201,25 @@ public abstract class AbstractIntegration{
     private Property getProperty(ITiCMaterial material, String property){
         Map<String, Property> properties = getProperties(material);
         if(properties != null && properties.containsKey(property)){
-            return getProperties(material).get(property);
+            return this.getProperties(material).get(property);
         }
         return null;
     }
 
     public boolean isEnabled(ITiCMaterial material, String property){
-        return (getProperty(material, property) != null) && Objects.requireNonNull(getProperty(material, property)).getBoolean();
+        return (this.getProperty(material, property) != null) && Objects.requireNonNull(this.getProperty(material, property)).getBoolean();
     }
 
     private boolean isMaterialEnabled(ITiCMaterial material){
         Property property = getProperty(material, CATEGORY_MATERIAL);
         if (property != null){
-            return (getProperty(material, CATEGORY_MATERIAL) != null) && Objects.requireNonNull(getProperty(material, CATEGORY_MATERIAL)).getBoolean();
+            return (this.getProperty(material, CATEGORY_MATERIAL) != null) && Objects.requireNonNull(this.getProperty(material, CATEGORY_MATERIAL)).getBoolean();
         }
         return true;
     }
 
     private String returnMaterialExample(){
-        String example =
-                "//  {\n" +
+        return  "//  {\n" +
                 "//    The material's durability is this value multiplied by 8\n" +
                 "//    \"durability\": 36,\n" +
                 "//    The material's mining speed is this value multiplied by 0.65\n" +
@@ -254,6 +272,5 @@ public abstract class AbstractIntegration{
                 "//    If the material should be useable for armor parts\n" +
                 "//    \"isArmorMaterial\": true\n" +
                 "//  }\n";
-        return example;
     }
 }

@@ -67,7 +67,7 @@ public class ConArmIntegration extends AbstractIntegration {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         this.modid = ConstructsArmory.MODID;
-        loadMaterialsFromOtherIntegrations(event);
+        this.loadMaterialsFromOtherIntegrations(event);
         super.preInit(event);
     }
 
@@ -118,7 +118,7 @@ public class ConArmIntegration extends AbstractIntegration {
                         .setToughness(toughness);
                 //noinspection SuspiciousMethodCalls
                 if (!jsonMaterials.contains(m)){
-                    addMaterial(m);
+                    this.addMaterial(m);
                 }
             }
         }

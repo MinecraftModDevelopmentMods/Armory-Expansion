@@ -2,10 +2,13 @@ package org.softc.armoryexpansion.integration;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraft.block.Block;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.aelib.AbstractIntegration;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -32,7 +35,7 @@ public class CustomMaterialsIntegration extends AbstractIntegration {
     static final String DEPENDENCIES =
             "required-after:" + ArmoryExpansion.MODID + "; ";
 
-    static File configDir;
+    private static File configDir;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -48,10 +51,16 @@ public class CustomMaterialsIntegration extends AbstractIntegration {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
+        super.postInit(event);
         // TODO Figure out how to print a list of all trait identifiers
-        exportAllTraitsToJson(configDir);
+        this.exportAllTraitsToJson(configDir);
         // TODO Figure out how to print a list of all part identifiers
-        exportAllPartsToJson(configDir);
+        this.exportAllPartsToJson(configDir);
+    }
+
+    @SubscribeEvent
+    public void registerBlocks(RegistryEvent.Register<Block> event){
+        super.registerBlocks(event);
     }
 
     private void exportAllTraitsToJson(File configDir){
