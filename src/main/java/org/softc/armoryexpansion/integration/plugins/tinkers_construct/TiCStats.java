@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
 
-public class TiCStats {
+class TiCStats {
     private static HeadMaterialStats getHeadMaterialStats(int durability, float miningSpeed, float damage, int harvestLevel) {
         return new HeadMaterialStats(durability * 8, miningSpeed * 0.65f, damage, harvestLevel);
     }
@@ -22,20 +22,14 @@ public class TiCStats {
     }
 
     private static void registerMaterialToolStats(Material material, int durability, float miningSpeed, float damage, float magicaffinity, int harvestLevel, Map<String, Property> properties){
-        if (!material.hasStats(HEAD) && properties.get(HEAD).getBoolean()){
-            if (durability > 0 || miningSpeed > 0 || damage > 0){
-                TinkerRegistry.addMaterialStats(material, getHeadMaterialStats(durability, miningSpeed, damage, harvestLevel));
-            }
+        if (!material.hasStats(HEAD) && properties.get(HEAD).getBoolean() && (durability > 0 || miningSpeed > 0 || damage > 0)) {
+            TinkerRegistry.addMaterialStats(material, getHeadMaterialStats(durability, miningSpeed, damage, harvestLevel));
         }
-        if (!material.hasStats(HANDLE) && properties.get(HANDLE).getBoolean()){
-            if (durability > 0 || magicaffinity > 0){
-                TinkerRegistry.addMaterialStats(material, getHandledMaterialStats(durability, magicaffinity));
-            }
+        if (!material.hasStats(HANDLE) && properties.get(HANDLE).getBoolean() && (durability > 0 || magicaffinity > 0)) {
+            TinkerRegistry.addMaterialStats(material, getHandledMaterialStats(durability, magicaffinity));
         }
-        if (!material.hasStats(EXTRA) && properties.get(EXTRA).getBoolean()){
-            if (durability > 0){
-                TinkerRegistry.addMaterialStats(material, getExtraMaterialStats(durability));
-            }
+        if (!material.hasStats(EXTRA) && properties.get(EXTRA).getBoolean() && durability > 0) {
+            TinkerRegistry.addMaterialStats(material, getExtraMaterialStats(durability));
         }
     }
 
@@ -75,15 +69,11 @@ public class TiCStats {
     }
 
     private static void registerMaterialBowStats(Material material, int durability, float range, float damage, float magicaffinity, Map<String, Property> properties){
-        if (!material.hasStats(BOW) && properties.get(BOW).getBoolean()){
-            if (durability > 0 || range > 0 || damage > 0) {
-                TinkerRegistry.addMaterialStats(material, getBowMaterialStats(durability, range, damage));
-            }
+        if (!material.hasStats(BOW) && properties.get(BOW).getBoolean() && (durability > 0 || range > 0 || damage > 0)) {
+            TinkerRegistry.addMaterialStats(material, getBowMaterialStats(durability, range, damage));
         }
-        if (!material.hasStats(SHAFT) && properties.get(SHAFT).getBoolean()){
-            if (magicaffinity > 0){
-                TinkerRegistry.addMaterialStats(material, getArrowShaftMaterialStats(magicaffinity));
-            }
+        if (!material.hasStats(SHAFT) && properties.get(SHAFT).getBoolean() && magicaffinity > 0) {
+            TinkerRegistry.addMaterialStats(material, getArrowShaftMaterialStats(magicaffinity));
         }
     }
 
@@ -104,10 +94,8 @@ public class TiCStats {
     }
 
     private static void registerMaterialFletchingStats(Material material, float accuracy, float magicaffinity,Map<String, Property> properties){
-        if (!material.hasStats(FLETCHING) && properties.get(FLETCHING).getBoolean()){
-            if (accuracy > 0 || magicaffinity > 0){
-                TinkerRegistry.addMaterialStats(material, TiCStats.getFletchlingMaterialStats(accuracy, magicaffinity));
-            }
+        if (!material.hasStats(FLETCHING) && properties.get(FLETCHING).getBoolean() && (accuracy > 0 || magicaffinity > 0)) {
+            TinkerRegistry.addMaterialStats(material, TiCStats.getFletchlingMaterialStats(accuracy, magicaffinity));
         }
     }
 

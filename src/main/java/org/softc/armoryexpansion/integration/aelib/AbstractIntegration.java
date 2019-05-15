@@ -236,20 +236,16 @@ public abstract class AbstractIntegration{
 
     private void registerMaterials() {
         this.materials.values().forEach(m -> {
-            if(this.isMaterialEnabled(m)){
-                if(m.registerTinkersMaterial()){
-                    this.logger.info("Registered tinker's material {" + m.getIdentifier() + "};");
-                }
+            if (this.isMaterialEnabled(m) && m.registerTinkersMaterial()) {
+                this.logger.info("Registered tinker's material {" + m.getIdentifier() + "};");
             }
         });
     }
 
     private void registerMaterialFluids() {
         this.materials.values().forEach(m -> {
-            if(this.isMaterialEnabled(m)){
-                if(m.registerTinkersFluid()){
-                    this.logger.info("Registered fluid for tinker's material {" + m.getIdentifier() + "};");
-                }
+            if (this.isMaterialEnabled(m) && m.registerTinkersFluid()) {
+                this.logger.info("Registered fluid for tinker's material {" + m.getIdentifier() + "};");
             }
         });
     }
@@ -263,30 +259,24 @@ public abstract class AbstractIntegration{
 
     private void registerMaterialStats() {
         this.materials.values().forEach(m -> {
-            if(this.isMaterialEnabled(m)){
-                if(m.registerTinkersMaterialStats(getProperties(m))){
-                    this.logger.info("Registered stats for tinker's material {" + m.getIdentifier() + "};");
-                }
+            if (this.isMaterialEnabled(m) && m.registerTinkersMaterialStats(getProperties(m))) {
+                this.logger.info("Registered stats for tinker's material {" + m.getIdentifier() + "};");
             }
         });
     }
 
     private void updateMaterials() {
         this.materials.values().forEach(m -> {
-            if(this.isMaterialEnabled(m)){
-                if(m.updateTinkersMaterial()){
-                    this.logger.info("Updated tinker's material {" + m.getIdentifier() + "};");
-                }
+            if (this.isMaterialEnabled(m) && m.updateTinkersMaterial()) {
+                this.logger.info("Updated tinker's material {" + m.getIdentifier() + "};");
             }
         });
     }
 
     private void registerMaterialTraits() {
         this.materials.values().forEach(m -> {
-            if(this.isMaterialEnabled(m)){
-                if(m.registerTinkersMaterialTraits()){
-                    this.logger.info("Registered traits for tinker's material {" + m.getIdentifier() + "};");
-                }
+            if (this.isMaterialEnabled(m) && m.registerTinkersMaterialTraits()) {
+                this.logger.info("Registered traits for tinker's material {" + m.getIdentifier() + "};");
             }
         });
     }
