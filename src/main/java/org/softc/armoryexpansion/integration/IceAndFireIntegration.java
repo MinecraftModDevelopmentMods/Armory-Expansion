@@ -25,7 +25,7 @@ public class IceAndFireIntegration extends JsonIntegration {
             "after:" + IceAndFire.MODID + "; ";
 
     public IceAndFireIntegration() {
-        super(IceAndFire.MODID, "assets/" + ArmoryExpansion.MODID + "/data/" + IceAndFire.MODID + ".json");
+        super(IceAndFire.MODID, "assets/" + ArmoryExpansion.MODID + "/data/" + IceAndFire.MODID);
     }
 
     @Mod.EventHandler

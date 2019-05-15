@@ -103,10 +103,10 @@ dependencies {
 
     deobfCompile 'constructs-armory:conarm:1.12.2:1.1.2'
 
-    deobfCompile 'com.mcmoddev:OreSpawn:1.12-3.3.+'
-    deobfCompile 'com.mcmoddev:BaseMetals:1.12-2.5.0-beta+'
-    deobfCompile 'com.mcmoddev:ModernMetals:1.12-2.5.0-beta+'
-    deobfCompile 'com.mcmoddev:MMDLib:1.12-1.0.0-beta+'
+//    deobfCompile 'com.mcmoddev:OreSpawn:1.12-3.3.+'
+//    deobfCompile 'com.mcmoddev:BaseMetals:1.12-2.5.0-beta+'
+//    deobfCompile 'com.mcmoddev:ModernMetals:1.12-2.5.0-beta+'
+//    deobfCompile 'com.mcmoddev:MMDLib:1.12-1.0.0-beta+'
 
     deobfCompile 'mezz.jei:jei_1.12.2:4.12.0+'
     deobfCompile 'mcp.mobius.waila:Hwyla:1.8.23-B38_1.12'

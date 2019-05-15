@@ -11,6 +11,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.aelib.AbstractIntegration;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCAlloy;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCAlloyComponent;
 import slimeknights.tconstruct.library.TinkerRegistry;
 
 import java.io.File;
@@ -40,6 +42,7 @@ public class CustomMaterialsIntegration extends AbstractIntegration {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         this.modid = INTEGRATION_ID;
+        this.enableForceJsonCreation();
         super.preInit(event);
         configDir = event.getModConfigurationDirectory();
     }
@@ -97,5 +100,11 @@ public class CustomMaterialsIntegration extends AbstractIntegration {
     protected void loadMaterialsFromSource() {
         // Left empty on purpose
         // All the materials should be added through the JSON file
+    }
+
+    @Override
+    protected void loadAlloysFromSource() {
+        // Left empty on purpose
+        // All the alloys should be added through the JSON file
     }
 }

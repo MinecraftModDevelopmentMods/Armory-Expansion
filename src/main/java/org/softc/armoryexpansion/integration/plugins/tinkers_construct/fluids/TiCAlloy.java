@@ -6,31 +6,6 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 import slimeknights.tconstruct.TConstruct;
 
 public final class TiCAlloy {
-    class TiCAlloyComponent{
-        private String fluid;
-        private int amount;
-
-        public TiCAlloyComponent(String fluid, int amount) {
-            this.fluid = fluid;
-            this.amount = amount;
-        }
-
-        String getFluid() {
-            return fluid;
-        }
-
-        int getAmount() {
-            return amount;
-        }
-
-        NBTTagCompound getFluidTag(){
-            NBTTagCompound fluid = new NBTTagCompound();
-            fluid.setString("FluidName", this.fluid);
-            fluid.setInteger("Amount", this.amount);
-            return fluid;
-        }
-    }
-
     private TiCAlloyComponent output;
     private TiCAlloyComponent[] inputs;
 
