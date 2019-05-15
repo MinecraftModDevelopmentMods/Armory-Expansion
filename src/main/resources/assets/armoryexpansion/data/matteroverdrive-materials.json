@@ -9,32 +9,7 @@
     "accuracy": 0.0,
     "defense": 9.0,
     "toughness": 2.0,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "plates"
-      }
-    ],
+    "traits": [],
     "identifier": "tritanium",
     "itemName": "matteroverdrive:tritanium_ingot",
     "meta": 0,

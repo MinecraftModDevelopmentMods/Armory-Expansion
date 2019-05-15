@@ -1,17 +1,19 @@
 package org.softc.armoryexpansion.integration;
 
-import com.github.alexthe666.iceandfire.IceAndFire;
+import net.minecraft.block.Block;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.aelib.JsonIntegration;
 
 @Mod(
-        modid = IceAndFireIntegration.MODID,
-        name = IceAndFireIntegration.NAME,
+        modid = MatterOverdriveIntegration.MODID,
+        name = MatterOverdriveIntegration.NAME,
         version = ArmoryExpansion.VERSION,
-        dependencies = IceAndFireIntegration.DEPENDENCIES
+        dependencies = MatterOverdriveIntegration.DEPENDENCIES
 )
 @Mod.EventBusSubscriber
 public class MatterOverdriveIntegration extends JsonIntegration {
@@ -27,12 +29,17 @@ public class MatterOverdriveIntegration extends JsonIntegration {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        this.modid = IceAndFire.MODID;
+        this.modid = "matteroverdrive";
         super.preInit(event);
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         super.init(event);
+    }
+
+    @SubscribeEvent
+    public void registerBlocks(RegistryEvent.Register<Block> event){
+        super.registerBlocks(event);
     }
 }

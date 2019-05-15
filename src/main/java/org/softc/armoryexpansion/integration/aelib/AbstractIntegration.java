@@ -42,7 +42,7 @@ public abstract class AbstractIntegration{
             this.setAlloys(event);
             this.configHelper.syncConfig(materials);
             this.registerMaterials();
-            this.registerMaterialFluids();
+//            this.registerMaterialFluids();
             this.registerAlloys();
             this.registerMaterialStats();
         }
@@ -61,7 +61,12 @@ public abstract class AbstractIntegration{
     }
 
     public void registerBlocks(RegistryEvent.Register<Block> event){
-        this.materials.values().forEach(m -> event.getRegistry().registerAll(m.getFluidBlock()));
+        this.registerMaterialFluids();
+        this.materials.values().forEach(m -> {
+            if(m.isCastable()){
+                event.getRegistry().registerAll(m.getFluidBlock());
+            }
+        });
     }
 
     public Configuration getConfiguration() {

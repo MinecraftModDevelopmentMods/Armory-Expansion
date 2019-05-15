@@ -70,6 +70,10 @@ public interface ITiCMaterial {
 
     boolean isArmorMaterial();
 
+    boolean isCastable();
+
+    boolean isCraftable();
+
     ITiCMaterial registerOreDict();
 
     Fluid getFluid();
