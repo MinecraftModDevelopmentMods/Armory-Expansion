@@ -26,6 +26,16 @@ import java.util.List;
 import java.util.Map;
 
 public class TiCMaterial extends AbstractTiCMaterial{
+    private int durability = 0;
+    private float miningSpeed = 0;
+    private float damage = 0;
+    private float magicAffinity = 0;
+    private int harvestLevel = 0;
+    private float range = 0;
+    private float accuracy = 0;
+    private float defense = 0;
+    private float toughness = 0;
+
     class TraitHolder{
         private String traitName;
         private String traitPart;
@@ -43,16 +53,6 @@ public class TiCMaterial extends AbstractTiCMaterial{
             this.traitPart = traitPart;
         }
     }
-
-    private int durability = 0;
-    private float miningSpeed = 0;
-    private float damage = 0;
-    private float magicAffinity = 0;
-    private int harvestLevel = 0;
-    private float range = 0;
-    private float accuracy = 0;
-    private float defense = 0;
-    private float toughness = 0;
 
     private List<TraitHolder> traits = new LinkedList<>();
 
@@ -214,6 +214,8 @@ public class TiCMaterial extends AbstractTiCMaterial{
                 case METALTEXTURED:
                     materialRenderInfo = new MaterialRenderInfo.MetalTextured(this.texture, this.color, 0.4f, 0.4f, 0.1f);
                     break;
+                default:
+                    break;
             }
             material.setRenderInfo(materialRenderInfo);
     }
@@ -295,7 +297,7 @@ public class TiCMaterial extends AbstractTiCMaterial{
 
     public boolean registerTinkersMaterialTraits() {
         Material material = TinkerRegistry.getMaterial(this.identifier);
-        if (material.identifier.equals("unknown")) {
+        if ("unknown".equals(material.identifier)) {
             return false;
         }
         this.traits.forEach( t -> {
