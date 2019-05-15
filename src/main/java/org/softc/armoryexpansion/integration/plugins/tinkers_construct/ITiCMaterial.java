@@ -3,8 +3,6 @@ package org.softc.armoryexpansion.integration.plugins.tinkers_construct;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fluids.Fluid;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCFluid;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCFluidBlock;
 
 import java.util.Map;
 

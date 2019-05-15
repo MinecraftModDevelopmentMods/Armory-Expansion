@@ -11,8 +11,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.aelib.AbstractIntegration;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCAlloy;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCAlloyComponent;
 import slimeknights.tconstruct.library.TinkerRegistry;
 
 import java.io.File;

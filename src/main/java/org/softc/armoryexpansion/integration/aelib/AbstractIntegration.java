@@ -57,7 +57,7 @@ public abstract class AbstractIntegration{
     }
 
     public void postInit(FMLPostInitializationEvent event){
-
+        // Used as a stub
     }
 
     public void registerBlocks(RegistryEvent.Register<Block> event){
