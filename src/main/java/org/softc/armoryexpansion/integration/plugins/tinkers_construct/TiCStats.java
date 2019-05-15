@@ -35,7 +35,7 @@ class TiCStats {
 
     private static void registerMaterialToolStats(String identifier, int durability, float miningSpeed, float damage, float magicaffinity, int harvestLevel, Map<String, Property> properties){
         Material material = TinkerRegistry.getMaterial(identifier);
-        if (material.identifier.equals("unknown")){
+        if ("unknown".equals(material.identifier)){
             return;
         }
         registerMaterialToolStats(material, durability, miningSpeed, damage, magicaffinity, harvestLevel, properties);
@@ -79,7 +79,7 @@ class TiCStats {
 
     private static void registerMaterialBowStats(String identifier, int durability, float range, float damage, float magicaffinity, Map<String, Property> properties){
         Material material = TinkerRegistry.getMaterial(identifier);
-        if (material.identifier.equals("unknown")){
+        if ("unknown".equals(material.identifier)){
             return;
         }
         registerMaterialBowStats(material, durability, range, damage, magicaffinity, properties);
@@ -101,7 +101,7 @@ class TiCStats {
 
     private static void registerMaterialFletchingStats(String identifier, float accuracy, float magicaffinity,Map<String, Property> properties){
         Material material = TinkerRegistry.getMaterial(identifier);
-        if (material.identifier.equals("unknown")){
+        if ("unknown".equals(material.identifier)){
             return;
         }
         registerMaterialFletchingStats(material, accuracy, magicaffinity, properties);
@@ -123,7 +123,7 @@ class TiCStats {
 
     private static void registerMaterialProjectileStats(String identifier, Map<String, Property> properties) {
         Material material = TinkerRegistry.getMaterial(identifier);
-        if (material.identifier.equals("unknown")){
+        if ("unknown".equals(material.identifier)){
             return;
         }
         registerMaterialProjectileStats(material, properties);

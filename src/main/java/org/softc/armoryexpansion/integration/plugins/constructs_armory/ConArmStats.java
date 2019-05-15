@@ -26,7 +26,7 @@ public class ConArmStats {
     }
 
     private static void registerMaterialArmorStats(Material material, float durability, float defense, float toughness, float magicaffinity, float extra, Map<String, Property> properties){
-        if (!material.hasStats(CORE) && properties.get(CORE).getBoolean() && (durability > 0 || defense > 0)) {
+        if (!material.hasStats(CORE) && properties.get(CORE).getBoolean() && durability > 0 || defense > 0){
             TinkerRegistry.addMaterialStats(material, getCoreMaterialStats(durability, defense));
         }
         if (!material.hasStats(TRIM) && properties.get(TRIM).getBoolean() && extra > 0) {
@@ -39,7 +39,7 @@ public class ConArmStats {
 
     private static void registerMaterialArmorStats(String identifier, float durability, float defense, float toughness, float magicaffinity, float extra, Map<String, Property> properties) {
         Material material = TinkerRegistry.getMaterial(identifier);
-        if (material.identifier.equals("unknown")) {
+        if ("unknown".equals(material.identifier)) {
             return;
         }
         registerMaterialArmorStats(material, durability, defense, toughness, magicaffinity, extra, properties);
