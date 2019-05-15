@@ -46,6 +46,14 @@ public class ConArmIntegration extends AbstractIntegration {
                     "required-after:" + ArmoryExpansion.MODID + "; " +
                     "after:*";
 
+    private static final float STAT_MULT = 1.25f;
+    private static final int DURA_MIN = 1;
+    private static final int DURA_MAX = 120;
+    private static final int DEF_MIN = 0;
+    private static final int DEF_MAX = 50;
+    private static final int TOUGH_MIN = DEF_MIN / 10;
+    private static final int TOUGH_MAX = DEF_MAX / 10;
+
     private List<TiCMaterial> jsonMaterials = new LinkedList<>();
 
     private void loadMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){
@@ -78,13 +86,6 @@ public class ConArmIntegration extends AbstractIntegration {
 
     @Override
     protected void loadMaterialsFromSource() {
-        final float STAT_MULT = 1.25f;
-        final int DURA_MIN = 1;
-        final int DURA_MAX = 120;
-        final int DEF_MIN = 0;
-        final int DEF_MAX = 50;
-        final int TOUGH_MIN = DEF_MIN / 10;
-        final int TOUGH_MAX = DEF_MAX / 10;
 
         final HeadMaterialStats ironHead = TinkerMaterials.iron.getStats(HEAD);
         final CoreMaterialStats ironCore = TinkerMaterials.iron.getStats(CORE);
@@ -101,27 +102,31 @@ public class ConArmIntegration extends AbstractIntegration {
             final boolean mat = core || plates || trim;
 
             if (mat) {
-                final HeadMaterialStats materialHead = material.getStats(HEAD);
-                final HandleMaterialStats materialHandle = material.getStats(HANDLE);
-                final ExtraMaterialStats materialExtra = material.getStats(EXTRA);
-
-                int durability = materialHead != null ? (int)clamp(ironCore.durability * materialHead.durability / ironHead.durability / STAT_MULT, DURA_MIN, DURA_MAX): 0;
-                float defense = materialHead != null ? clamp(1.5f * ironCore.defense * materialHead.attack / ironHead.attack  / STAT_MULT, DEF_MIN,DEF_MAX) : 0;
-                float toughness = materialHandle != null ? clamp(3 * ironPlates.toughness * materialHandle.durability / ironHandle.durability / STAT_MULT, TOUGH_MIN, TOUGH_MAX) : 0;
-                float extra = materialExtra != null ? 2 * ironTrim.extraDurability * materialExtra.extraDurability / ironExtra.extraDurability / STAT_MULT : 0;
-
-                ITiCMaterial m = new TiCMaterial(material.identifier, null, material.materialTextColor)
-                        .setArmorMaterial(true)
-                        .setDurability(durability)
-                        .setMagicAffinity(extra)
-                        .setDefense(defense)
-                        .setToughness(toughness);
+                ITiCMaterial m = newTiCMaterial(material, ironHead, ironCore, ironHandle, ironPlates, ironExtra, ironTrim);
                 //noinspection SuspiciousMethodCalls
                 if (!jsonMaterials.contains(m)){
                     this.addMaterial(m);
                 }
             }
         }
+    }
+
+    private ITiCMaterial newTiCMaterial(Material material, HeadMaterialStats head, CoreMaterialStats core, HandleMaterialStats handle, PlatesMaterialStats plates, ExtraMaterialStats extra, TrimMaterialStats trim){
+        final HeadMaterialStats materialHead = material.getStats(HEAD);
+        final HandleMaterialStats materialHandle = material.getStats(HANDLE);
+        final ExtraMaterialStats materialExtra = material.getStats(EXTRA);
+
+        int durability = materialHead != null ? (int)clamp(core.durability * materialHead.durability / head.durability / STAT_MULT, DURA_MIN, DURA_MAX): 0;
+        float defense = materialHead != null ? clamp(1.5f * core.defense * materialHead.attack / head.attack  / STAT_MULT, DEF_MIN,DEF_MAX) : 0;
+        float toughness = materialHandle != null ? clamp(3 * plates.toughness * materialHandle.durability / handle.durability / STAT_MULT, TOUGH_MIN, TOUGH_MAX) : 0;
+        float extraDurability = materialExtra != null ? 2 * trim.extraDurability * materialExtra.extraDurability / extra.extraDurability / STAT_MULT : 0;
+
+        return new TiCMaterial(material.identifier, null, material.materialTextColor)
+                .setArmorMaterial(true)
+                .setDurability(durability)
+                .setMagicAffinity(extraDurability)
+                .setDefense(defense)
+                .setToughness(toughness);
     }
 
     @Override

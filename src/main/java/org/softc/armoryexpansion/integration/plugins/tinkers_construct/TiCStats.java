@@ -79,7 +79,7 @@ class TiCStats {
 
     private static void registerMaterialBowStats(String identifier, int durability, float range, float damage, float magicaffinity, Map<String, Property> properties){
         Material material = TinkerRegistry.getMaterial(identifier);
-        if (material.identifier.equals("unknown")){
+        if ("unknown".equals(material.identifier)){
             return;
         }
         registerMaterialBowStats(material, durability, range, damage, magicaffinity, properties);
