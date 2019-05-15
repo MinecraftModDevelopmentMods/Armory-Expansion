@@ -1,12 +1,20 @@
 package org.softc.armoryexpansion.integration.plugins.tinkers_construct;
 
 import c4.conarm.lib.materials.ArmorMaterialType;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import org.softc.armoryexpansion.integration.plugins.constructs_armory.ConArmStats;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCFluid;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCFluidBlock;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 import slimeknights.tconstruct.library.materials.Material;
@@ -219,9 +227,35 @@ public class TiCMaterial extends AbstractTiCMaterial{
                 .setCraftable(this.isCraftable)
                 .addItemIngot(this.identifier);
 //        this.setMaterialRenderInfo(material);
+        this.registerTinkersFluid();
         TinkerRegistry.addMaterial(material);
         TinkerRegistry.integrate(material);
         return true;
+    }
+
+    public boolean registerTinkersFluid(){
+        if(!isCastable){
+            return false;
+        }
+        Fluid materialFluid = new TiCFluid(this.identifier, this.color);
+        FluidRegistry.registerFluid(materialFluid);
+        FluidRegistry.addBucketForFluid(materialFluid);
+
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setString("fluid", materialFluid.getName());
+        tag.setString("ore", this.identifier);
+        tag.setBoolean("toolforge", true);
+
+        FMLInterModComms.sendMessage(TConstruct.modID, "integrateSmeltery", tag);
+        return true;
+    }
+
+    public Fluid getFluid(){
+        return new TiCFluid(this.identifier, this.color);
+    }
+
+    public Block getFluidBlock(){
+        return new TiCFluidBlock(getFluid());
     }
 
     public boolean registerTinkersMaterialStats(Map<String, Property> properties){

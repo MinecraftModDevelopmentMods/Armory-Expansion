@@ -55,7 +55,7 @@ public class ConArmIntegration extends AbstractIntegration {
         String integrationJsonsLocation = event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/";
         File integrationJsonsFolder = new File(integrationJsonsLocation);
 
-        for (File json : Objects.requireNonNull(integrationJsonsFolder.listFiles((dir, name) -> name.contains(".json")))){
+        for (File json : Objects.requireNonNull(integrationJsonsFolder.listFiles((dir, name) -> name.contains("-materials.json")))){
             try {
                 Collections.addAll(jsonMaterials, gson.fromJson(new FileReader(json), TiCMaterial[].class));
             } catch (FileNotFoundException e) {
@@ -67,7 +67,7 @@ public class ConArmIntegration extends AbstractIntegration {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         this.modid = ConstructsArmory.MODID;
-        loadMaterialsFromOtherIntegrations(event);
+        this.loadMaterialsFromOtherIntegrations(event);
         super.preInit(event);
     }
 
@@ -118,9 +118,15 @@ public class ConArmIntegration extends AbstractIntegration {
                         .setToughness(toughness);
                 //noinspection SuspiciousMethodCalls
                 if (!jsonMaterials.contains(m)){
-                    addMaterial(m);
+                    this.addMaterial(m);
                 }
             }
         }
+    }
+
+    @Override
+    protected void loadAlloysFromSource() {
+        // Left empty on purpose
+        // All the alloys should be added through the JSON file
     }
 }

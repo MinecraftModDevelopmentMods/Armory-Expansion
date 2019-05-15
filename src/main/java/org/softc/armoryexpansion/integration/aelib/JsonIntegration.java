@@ -3,8 +3,8 @@ package org.softc.armoryexpansion.integration.aelib;
 import net.minecraftforge.fml.common.Loader;
 
 public class JsonIntegration extends AbstractIntegration {
-    String modId;
-    String json;
+    private String modId;
+    private String json;
 
     public JsonIntegration(String modId, String json) {
         this.modId = modId;
@@ -14,10 +14,20 @@ public class JsonIntegration extends AbstractIntegration {
     @Override
     protected void loadMaterialsFromSource() {
         if (Loader.isModLoaded(modId)) {
-            loadMaterialsFromJson(
+            this.loadMaterialsFromJson(
                     getClass()
                             .getClassLoader()
-                            .getResourceAsStream(json));
+                            .getResourceAsStream(json + "-materials.json"));
+        }
+    }
+
+    @Override
+    protected void loadAlloysFromSource() {
+        if (Loader.isModLoaded(modId)) {
+            this.loadAlloysFromJson(
+                    getClass()
+                            .getClassLoader()
+                            .getResourceAsStream(json + "-alloys.json"));
         }
     }
 }

@@ -1,6 +1,8 @@
 package org.softc.armoryexpansion.integration.plugins.tinkers_construct;
 
+import net.minecraft.block.Block;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fluids.Fluid;
 
 import java.util.Map;
 
@@ -70,7 +72,13 @@ public interface ITiCMaterial {
 
     ITiCMaterial registerOreDict();
 
+    Fluid getFluid();
+
+    Block getFluidBlock();
+
     boolean registerTinkersMaterial();
+
+    boolean registerTinkersFluid();
 
     boolean registerTinkersMaterialStats(Map<String, Property> properties);
 
