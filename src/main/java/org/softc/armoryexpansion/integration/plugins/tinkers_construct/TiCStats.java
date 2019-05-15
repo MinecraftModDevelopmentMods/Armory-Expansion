@@ -35,7 +35,7 @@ class TiCStats {
 
     private static void registerMaterialToolStats(String identifier, int durability, float miningSpeed, float damage, float magicaffinity, int harvestLevel, Map<String, Property> properties){
         Material material = TinkerRegistry.getMaterial(identifier);
-        if (material.identifier.equals("unknown")){
+        if ("unknown".equals(material.identifier)){
             return;
         }
         registerMaterialToolStats(material, durability, miningSpeed, damage, magicaffinity, harvestLevel, properties);
