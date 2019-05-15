@@ -36,8 +36,8 @@ public abstract class AbstractIntegration{
         isEnabled = property == null || property.getBoolean();
         ArmoryExpansion.config.save();
         if(isEnabled){
-            this.configHelper = new Config(new Configuration(new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/" + modid + ".cfg")));
-//            configHelper = new Config(new Configuration(event.getSuggestedConfigurationFile()));
+            this.configHelper = new Config(new Configuration(
+                    new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/" + modid + ".cfg")));
             this.setMaterials(event);
             this.setAlloys(event);
             this.configHelper.syncConfig(materials);
