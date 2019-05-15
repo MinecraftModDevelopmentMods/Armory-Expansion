@@ -101,7 +101,7 @@ class TiCStats {
 
     private static void registerMaterialFletchingStats(String identifier, float accuracy, float magicaffinity,Map<String, Property> properties){
         Material material = TinkerRegistry.getMaterial(identifier);
-        if (material.identifier.equals("unknown")){
+        if ("unknown".equals(material.identifier)){
             return;
         }
         registerMaterialFletchingStats(material, accuracy, magicaffinity, properties);
