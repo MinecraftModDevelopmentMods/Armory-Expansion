@@ -123,7 +123,7 @@ class TiCStats {
 
     private static void registerMaterialProjectileStats(String identifier, Map<String, Property> properties) {
         Material material = TinkerRegistry.getMaterial(identifier);
-        if (material.identifier.equals("unknown")){
+        if ("unknown".equals(material.identifier)){
             return;
         }
         registerMaterialProjectileStats(material, properties);
