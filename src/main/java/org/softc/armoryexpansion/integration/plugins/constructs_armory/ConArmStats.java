@@ -39,7 +39,7 @@ public class ConArmStats {
 
     private static void registerMaterialArmorStats(String identifier, float durability, float defense, float toughness, float magicaffinity, float extra, Map<String, Property> properties) {
         Material material = TinkerRegistry.getMaterial(identifier);
-        if (material.identifier.equals("unknown")) {
+        if ("unknown".equals(material.identifier)) {
             return;
         }
         registerMaterialArmorStats(material, durability, defense, toughness, magicaffinity, extra, properties);

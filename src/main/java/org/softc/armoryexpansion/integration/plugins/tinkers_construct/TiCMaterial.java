@@ -36,6 +36,8 @@ public class TiCMaterial extends AbstractTiCMaterial{
     private float defense = 0;
     private float toughness = 0;
 
+    private List<TraitHolder> traits = new LinkedList<>();
+
     class TraitHolder{
         private String traitName;
         private String traitPart;
@@ -53,8 +55,6 @@ public class TiCMaterial extends AbstractTiCMaterial{
             this.traitPart = traitPart;
         }
     }
-
-    private List<TraitHolder> traits = new LinkedList<>();
 
     public TiCMaterial(String identifier, String itemName, int color) {
         super(identifier, itemName, color);
@@ -287,7 +287,7 @@ public class TiCMaterial extends AbstractTiCMaterial{
 
     public boolean updateTinkersMaterial(){
         Material material = TinkerRegistry.getMaterial(this.identifier);
-        if (material.identifier.equals("unknown")){
+        if ("unknown".equals(material.identifier)){
             return false;
         }
         material.addItem(this.getItem());
