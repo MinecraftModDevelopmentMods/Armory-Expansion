@@ -2,6 +2,7 @@ package org.softc.armoryexpansion.integration.aelib;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -14,6 +15,7 @@ import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.ITiCMaterial;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCAlloy;
+import org.softc.armoryexpansion.integration.web.ArmoryExpansionWebClient;
 
 import java.io.*;
 import java.util.*;
@@ -21,13 +23,15 @@ import java.util.*;
 import static org.softc.armoryexpansion.integration.aelib.Config.CATEGORY_MATERIAL;
 
 public abstract class AbstractIntegration{
-    private Logger logger;
+    protected Logger logger;
     protected String modid = "";
     private Config configHelper;
     private boolean isEnabled = false;
     private boolean forceCreateJson = false;
     private Map<String, ITiCMaterial> materials = new HashMap<>();
     private Map<String, TiCAlloy> alloys = new HashMap<>();
+
+    protected ArmoryExpansionWebClient webClient = ArmoryExpansionWebClient.getInstance();
 
     public void preInit(FMLPreInitializationEvent event) {
         this.logger = event.getModLog();
@@ -79,18 +83,24 @@ public abstract class AbstractIntegration{
     }
 
     private void setMaterials(FMLPreInitializationEvent event){
-        this.loadMaterialsFromJson(event.getModConfigurationDirectory(), this.modid);
-        this.loadMaterialsFromSource();
+        this.loadMaterialsFromWeb();
+//        this.loadMaterialsFromJson(event.getModConfigurationDirectory(), this.modid);
+//        this.loadMaterialsFromSource();
         this.saveMaterialsToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
     }
+
+    protected abstract void loadMaterialsFromWeb();
 
     protected abstract void loadMaterialsFromSource();
 
     private void setAlloys(FMLPreInitializationEvent event){
-        this.loadAlloysFromJson(event.getModConfigurationDirectory(), this.modid);
-        this.loadAlloysFromSource();
+        this.loadAlloysFromWeb();
+//        this.loadAlloysFromJson(event.getModConfigurationDirectory(), this.modid);
+//        this.loadAlloysFromSource();
         this.saveAlloysToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
     }
+
+    protected abstract void loadAlloysFromWeb();
 
     protected abstract void loadAlloysFromSource();
 
@@ -104,21 +114,36 @@ public abstract class AbstractIntegration{
     }
 
     void loadMaterialsFromJson(InputStream path){
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
-        Gson gson = builder.create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        TiCMaterial[] jsonMaterials = gson.fromJson(new BufferedReader(new InputStreamReader(path)), TiCMaterial[].class);
+        StringBuilder jsonContent = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(path));
+        try {
+            while(reader.ready()){
+                jsonContent.append(reader.readLine());
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        this.logger.info("JSON: " + jsonContent);
+
+        TiCMaterial[] jsonMaterials = gson.fromJson(jsonContent.toString(), TiCMaterial[].class);
         this.loadMaterials(jsonMaterials);
     }
 
     private void loadMaterialsFromJson(String path){
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
-        Gson gson = builder.create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
         TiCMaterial[] jsonMaterials = new TiCMaterial[0];
         try {
             File input = new File(path);
-            jsonMaterials = gson.fromJson(new FileReader(input), TiCMaterial[].class);
+            try {
+                jsonMaterials = gson.fromJson(new FileReader(input), TiCMaterial[].class);
+            } catch (IllegalStateException | JsonSyntaxException e){
+                e.printStackTrace();
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -137,8 +162,8 @@ public abstract class AbstractIntegration{
         if(materials.values().size() <= 0 && !forceCreate){
             return;
         }
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
-        Gson gson = builder.create();
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
         File output = new File(path);
         //noinspection ResultOfMethodCallIgnored
         output.getParentFile().mkdirs();
@@ -170,16 +195,22 @@ public abstract class AbstractIntegration{
     }
 
     void loadAlloysFromJson(InputStream path){
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
-        Gson gson = builder.create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        TiCAlloy[] jsonAlloys = gson.fromJson(new BufferedReader(new InputStreamReader(path)), TiCAlloy[].class);
+        TiCAlloy[] jsonAlloys = new TiCAlloy[0];
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(path));
+            jsonAlloys = gson.fromJson(reader, TiCAlloy[].class);
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         this.loadAlloys(jsonAlloys);
     }
 
     private TiCAlloy[] loadAlloysFromJson(String path){
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
-        Gson gson = builder.create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
         TiCAlloy[] jsonAlloys = new TiCAlloy[0];
         try {
             File input = new File(path);
@@ -202,8 +233,8 @@ public abstract class AbstractIntegration{
         if(alloys.values().size() <= 0 && !forceCreate){
             return;
         }
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
-        Gson gson = builder.create();
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
         File output = new File(path);
         //noinspection ResultOfMethodCallIgnored
         output.getParentFile().mkdirs();

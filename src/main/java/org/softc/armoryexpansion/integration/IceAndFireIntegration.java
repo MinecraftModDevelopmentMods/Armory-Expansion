@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.integration.aelib.JsonIntegration;
+import org.softc.armoryexpansion.integration.aelib.WebIntegration;
 
 @Mod(
         modid = IceAndFireIntegration.MODID,
@@ -17,7 +17,7 @@ import org.softc.armoryexpansion.integration.aelib.JsonIntegration;
         dependencies = IceAndFireIntegration.DEPENDENCIES
 )
 @Mod.EventBusSubscriber
-public class IceAndFireIntegration extends JsonIntegration {
+public class IceAndFireIntegration extends WebIntegration {
     static final String MODID = ArmoryExpansion.MODID + "-" + IceAndFire.MODID;
     static final String NAME = ArmoryExpansion.NAME + " - " + IceAndFire.NAME;
     static final String DEPENDENCIES =

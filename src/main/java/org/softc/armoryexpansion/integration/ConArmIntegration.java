@@ -7,10 +7,9 @@ import c4.conarm.lib.materials.TrimMaterialStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.integration.aelib.AbstractIntegration;
+import org.softc.armoryexpansion.integration.aelib.WebIntegration;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.ITiCMaterial;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -20,9 +19,7 @@ import slimeknights.tconstruct.library.materials.HeadMaterialStats;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,7 +36,7 @@ import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
         dependencies = ConArmIntegration.DEPENDENCIES
 )
 @Mod.EventBusSubscriber
-public class ConArmIntegration extends AbstractIntegration {
+public class ConArmIntegration extends WebIntegration {
     static final String MODID = ArmoryExpansion.MODID + "-" + ConstructsArmory.MODID;
     static final String NAME = ArmoryExpansion.NAME + " - " + ConstructsArmory.MODNAME;
     static final String DEPENDENCIES =
@@ -56,32 +53,82 @@ public class ConArmIntegration extends AbstractIntegration {
 
     private List<TiCMaterial> jsonMaterials = new LinkedList<>();
 
+    public ConArmIntegration() {
+        super(ConstructsArmory.MODID, "assets/" + ArmoryExpansion.MODID + "/data/" + ConstructsArmory.MODID);
+    }
+
     private void loadMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){
+        loadJsonMaterialsFromOtherIntegrations(event);
+        loadWebMaterialsFromOtherIntegrations();
+    }
 
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
-        Gson gson = builder.create();
-        String integrationJsonsLocation = event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/";
-        File integrationJsonsFolder = new File(integrationJsonsLocation);
-
-        for (File json : Objects.requireNonNull(integrationJsonsFolder.listFiles((dir, name) -> name.contains("-materials.json")))){
+    private void loadWebMaterialsFromOtherIntegrations(){
+        for (String url:ArmoryExpansion.getWebServerList()) {
             try {
-                Collections.addAll(jsonMaterials, gson.fromJson(new FileReader(json), TiCMaterial[].class));
-            } catch (FileNotFoundException e) {
+                for (String file:loadFileListFromServer(url)) {
+                    if(!file.contains("conarm") && file.contains("-materials.json")){
+                        InputStream stream = this.webClient.sendGet(url, file, "armory-expansion");
+                        loadMaterialsFromOtherIntegration(stream);
+                    }
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private String[] loadFileListFromServer(String url) throws Exception {
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(this.webClient.sendGet(url, "getfiles")));
+        String[] fileList = gson.fromJson(reader, String[].class);
+        reader.close();
+
+        this.logger.info("Retrieved file list from: " + url);
+        return fileList;
+    }
+
+    private void loadJsonMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){
+        for (File json : Objects.requireNonNull(
+                new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/")
+                        .listFiles((dir, name) -> name.contains("-materials.json") && !name.contains(ConstructsArmory.MODID)))){
+            loadMaterialsFromOtherIntegration(json);
+        }
+    }
+
+    private void loadMaterialsFromOtherIntegration(InputStream stream){
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+
+        Collections.addAll(jsonMaterials, gson.fromJson(reader, TiCMaterial[].class));
+
+        try {
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadMaterialsFromOtherIntegration(File file){
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+        try {
+            Collections.addAll(jsonMaterials, gson.fromJson(new FileReader(file), TiCMaterial[].class));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         this.modid = ConstructsArmory.MODID;
+        this.logger = event.getModLog();
         this.loadMaterialsFromOtherIntegrations(event);
         super.preInit(event);
     }
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        super.init(event);
+    @Override
+    protected void loadAlloysFromWeb() {
+        // Left empty on purpose
+        // No alloys should ever be generated
     }
 
     @Override
@@ -96,6 +143,12 @@ public class ConArmIntegration extends AbstractIntegration {
                 }
             }
         }
+    }
+
+    @Override
+    protected void loadAlloysFromSource() {
+        // Left empty on purpose
+        // No alloys should ever be generated
     }
 
     private boolean isConversionAvailable(Material material){
@@ -148,11 +201,5 @@ public class ConArmIntegration extends AbstractIntegration {
 
     private float calculateExtraDurability(Material material, Material baseMaterial){
         return calculateExtraDurability(material, baseMaterial.getStats(TRIM), baseMaterial.getStats(EXTRA));
-    }
-
-    @Override
-    protected void loadAlloysFromSource() {
-        // Left empty on purpose
-        // All the alloys should be added through the JSON file
     }
 }
