@@ -123,7 +123,9 @@ public abstract class AbstractIntegration{
         TiCMaterial[] jsonMaterials = new TiCMaterial[0];
         try {
             File input = new File(path);
-            jsonMaterials = gson.fromJson(new FileReader(input), TiCMaterial[].class);
+            if(input.exists()){
+                jsonMaterials = gson.fromJson(new FileReader(input), TiCMaterial[].class);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -188,7 +190,9 @@ public abstract class AbstractIntegration{
         TiCAlloy[] jsonAlloys = new TiCAlloy[0];
         try {
             File input = new File(path);
-            jsonAlloys = gson.fromJson(new FileReader(input), TiCAlloy[].class);
+            if(input.exists()){
+                jsonAlloys = gson.fromJson(new FileReader(input), TiCAlloy[].class);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
