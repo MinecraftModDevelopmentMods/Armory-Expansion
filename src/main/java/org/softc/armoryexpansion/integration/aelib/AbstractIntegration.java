@@ -84,8 +84,8 @@ public abstract class AbstractIntegration{
 
     private void setMaterials(FMLPreInitializationEvent event){
         this.loadMaterialsFromWeb();
-//        this.loadMaterialsFromJson(event.getModConfigurationDirectory(), this.modid);
-//        this.loadMaterialsFromSource();
+        this.loadMaterialsFromJson(event.getModConfigurationDirectory(), this.modid);
+        this.loadMaterialsFromSource();
         this.saveMaterialsToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
     }
 
@@ -95,8 +95,8 @@ public abstract class AbstractIntegration{
 
     private void setAlloys(FMLPreInitializationEvent event){
         this.loadAlloysFromWeb();
-//        this.loadAlloysFromJson(event.getModConfigurationDirectory(), this.modid);
-//        this.loadAlloysFromSource();
+        this.loadAlloysFromJson(event.getModConfigurationDirectory(), this.modid);
+        this.loadAlloysFromSource();
         this.saveAlloysToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
     }
 
