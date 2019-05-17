@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids;
+package org.softc.armoryexpansion.integration.plugins.tinkers_construct.alloys;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

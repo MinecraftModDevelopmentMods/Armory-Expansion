@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.ITiCMaterial;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCAlloy;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.alloys.TiCAlloy;
 
 import java.io.*;
 import java.util.*;
