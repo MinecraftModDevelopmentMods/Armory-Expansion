@@ -151,49 +151,35 @@ public class TiCMaterial extends AbstractTiCMaterial{
     }
 
     public TiCMaterial addPrimaryArmorTrait(String trait) {
-        this.addTrait(trait, ArmorMaterialType.CORE);
-        return this;
+        return this.addTrait(trait, ArmorMaterialType.CORE);
     }
 
     public TiCMaterial addSecondaryArmorTrait(String trait) {
-        this.addTrait(trait, ArmorMaterialType.TRIM);
-        this.addTrait(trait, ArmorMaterialType.PLATES);
-        return this;
+        return this.addTrait(trait, ArmorMaterialType.TRIM).addTrait(trait, ArmorMaterialType.PLATES);
     }
 
     public TiCMaterial addGlobalArmorTrait(String trait) {
-        this.addPrimaryArmorTrait(trait);
-        this.addSecondaryArmorTrait(trait);
-        return this;
+        return this.addPrimaryArmorTrait(trait).addSecondaryArmorTrait(trait);
     }
 
     public TiCMaterial addArmorTrait(String trait1, String trait2) {
-        this.addPrimaryArmorTrait(trait1);
-        this.addSecondaryArmorTrait(trait2);
-        return this;
+        return this.addPrimaryArmorTrait(trait1).addSecondaryArmorTrait(trait2);
     }
 
     public TiCMaterial addPrimaryToolTrait(String trait) {
-        this.addTrait(trait, MaterialTypes.HEAD);
-        return this;
+        return this.addTrait(trait, MaterialTypes.HEAD);
     }
 
     public TiCMaterial addSecondaryToolTrait(String trait) {
-        this.addTrait(trait, MaterialTypes.HANDLE);
-        this.addTrait(trait, MaterialTypes.EXTRA);
-        return this;
+        return this.addTrait(trait, MaterialTypes.HANDLE).addTrait(trait, MaterialTypes.EXTRA);
     }
 
     public TiCMaterial addGlobalToolTrait(String trait) {
-        this.addPrimaryToolTrait(trait);
-        this.addSecondaryToolTrait(trait);
-        return this;
+        return this.addPrimaryToolTrait(trait).addSecondaryToolTrait(trait);
     }
 
     public TiCMaterial addToolTrait(String trait1, String trait2) {
-        this.addPrimaryToolTrait(trait1);
-        this.addSecondaryToolTrait(trait2);
-        return this;
+        return this.addPrimaryToolTrait(trait1).addSecondaryToolTrait(trait2);
     }
 
     public TiCMaterial registerOreDict() {
@@ -220,36 +206,48 @@ public class TiCMaterial extends AbstractTiCMaterial{
             material.setRenderInfo(materialRenderInfo);
     }
 
-    public boolean registerTinkersMaterial(){
-        if (!TinkerRegistry.getMaterial(this.identifier).identifier.equals("unknown")){
+    public boolean registerTinkersMaterial(boolean canRegister){
+        if (!canRegister || !TinkerRegistry.getMaterial(this.identifier).identifier.equals("unknown")) {
             return false;
         }
+
         Material material = new Material(this.identifier, this.color);
         material.setCastable(this.isCastable)
                 .setCraftable(this.isCraftable)
                 .addItemIngot(this.identifier);
 //        this.setMaterialRenderInfo(material);
-        this.registerTinkersFluid();
+        this.registerTinkersFluid(true);
         TinkerRegistry.addMaterial(material);
         TinkerRegistry.integrate(material);
         return true;
     }
 
-    public boolean registerTinkersFluid(){
-        if(!isCastable){
+    public boolean registerTinkersFluid(boolean canRegister){
+        if (!canRegister || !isCastable) {
             return false;
         }
+
         Fluid materialFluid = new TiCFluid(this.identifier, this.color);
         FluidRegistry.registerFluid(materialFluid);
         FluidRegistry.addBucketForFluid(materialFluid);
+        return true;
+    }
+
+    public boolean registerTinkersFluidIMC(boolean canRegister){
+        if (!canRegister || !isCastable) {
+            return false;
+        }
 
         NBTTagCompound tag = new NBTTagCompound();
-        tag.setString("fluid", materialFluid.getName());
+        tag.setString("fluid", this.getFluidName());
         tag.setString("ore", this.identifier);
         tag.setBoolean("toolforge", true);
-
         FMLInterModComms.sendMessage(TConstruct.modID, "integrateSmeltery", tag);
         return true;
+    }
+
+    public String getFluidName(){
+        return "molten_" + this.identifier;
     }
 
     public Fluid getFluid(){
@@ -260,7 +258,10 @@ public class TiCMaterial extends AbstractTiCMaterial{
         return new TiCFluidBlock(getFluid());
     }
 
-    public boolean registerTinkersMaterialStats(Map<String, Property> properties){
+    public boolean registerTinkersMaterialStats(Map<String, Property> properties, boolean canRegister){
+        if(!canRegister){
+            return false;
+        }
         boolean retVal = false;
         if (this.isToolMaterial()) {
             TiCStats.registerMaterialToolStats(this, properties);
@@ -285,9 +286,9 @@ public class TiCMaterial extends AbstractTiCMaterial{
         return retVal;
     }
 
-    public boolean updateTinkersMaterial(){
+    public boolean updateTinkersMaterial(boolean canRegister){
         Material material = TinkerRegistry.getMaterial(this.identifier);
-        if ("unknown".equals(material.identifier)){
+        if ("unknown".equals(material.identifier) || !canRegister) {
             return false;
         }
         material.addItem(this.getItem());
@@ -295,9 +296,9 @@ public class TiCMaterial extends AbstractTiCMaterial{
         return true;
     }
 
-    public boolean registerTinkersMaterialTraits() {
+    public boolean registerTinkersMaterialTraits(boolean canRegister) {
         Material material = TinkerRegistry.getMaterial(this.identifier);
-        if ("unknown".equals(material.identifier)) {
+        if ("unknown".equals(material.identifier) || !canRegister) {
             return false;
         }
         this.traits.forEach( t -> {

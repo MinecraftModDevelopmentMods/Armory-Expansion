@@ -51,6 +51,7 @@ public abstract class AbstractIntegration{
     public void init(FMLInitializationEvent event) {
         if(isEnabled){
             this.oredictMaterials();
+            this.registerMaterialFluidsIMC();
             this.updateMaterials();
             this.registerMaterialTraits();
         }
@@ -62,9 +63,14 @@ public abstract class AbstractIntegration{
 
     public void registerBlocks(RegistryEvent.Register<Block> event){
         this.registerMaterialFluids();
+        this.registerFluidBlocks(event);
+    }
+
+    private void registerFluidBlocks(RegistryEvent.Register<Block> event){
         this.materials.values().forEach(m -> {
             if(m.isCastable()){
                 event.getRegistry().registerAll(m.getFluidBlock());
+                this.logger.info("Registered fluid block for material {" + m.getIdentifier() + "};");
             }
         });
     }
@@ -235,12 +241,15 @@ public abstract class AbstractIntegration{
     }
 
     private void oredictMaterials() {
-        this.materials.values().forEach(ITiCMaterial::registerOreDict);
+        this.materials.values().forEach(m -> {
+            m.registerOreDict();
+            this.logger.info("Oredicted material {" + m.getIdentifier() + "};");
+        });
     }
 
     private void registerMaterials() {
         this.materials.values().forEach(m -> {
-            if (this.isMaterialEnabled(m) && m.registerTinkersMaterial()) {
+            if (m.registerTinkersMaterial(this.isMaterialEnabled(m))) {
                 this.logger.info("Registered tinker's material {" + m.getIdentifier() + "};");
             }
         });
@@ -248,8 +257,16 @@ public abstract class AbstractIntegration{
 
     private void registerMaterialFluids() {
         this.materials.values().forEach(m -> {
-            if (this.isMaterialEnabled(m) && m.registerTinkersFluid()) {
-                this.logger.info("Registered fluid for tinker's material {" + m.getIdentifier() + "};");
+            if (m.registerTinkersFluid(this.isMaterialEnabled(m) && this.isMaterialFluidEnabled(m))) {
+                this.logger.info("Registered fluid for material {" + m.getIdentifier() + "};");
+            }
+        });
+    }
+
+    private void registerMaterialFluidsIMC(){
+        this.materials.values().forEach(m -> {
+            if (m.registerTinkersFluidIMC(this.isMaterialEnabled(m) && this.isMaterialFluidEnabled(m))) {
+                this.logger.info("Sent IMC for tinker's fluid {" + m.getFluidName() + "};");
             }
         });
     }
@@ -263,7 +280,7 @@ public abstract class AbstractIntegration{
 
     private void registerMaterialStats() {
         this.materials.values().forEach(m -> {
-            if (this.isMaterialEnabled(m) && m.registerTinkersMaterialStats(getProperties(m))) {
+            if (m.registerTinkersMaterialStats(getProperties(m), this.isMaterialEnabled(m))) {
                 this.logger.info("Registered stats for tinker's material {" + m.getIdentifier() + "};");
             }
         });
@@ -271,7 +288,7 @@ public abstract class AbstractIntegration{
 
     private void updateMaterials() {
         this.materials.values().forEach(m -> {
-            if (this.isMaterialEnabled(m) && m.updateTinkersMaterial()) {
+            if (m.updateTinkersMaterial(this.isMaterialEnabled(m))) {
                 this.logger.info("Updated tinker's material {" + m.getIdentifier() + "};");
             }
         });
@@ -279,7 +296,7 @@ public abstract class AbstractIntegration{
 
     private void registerMaterialTraits() {
         this.materials.values().forEach(m -> {
-            if (this.isMaterialEnabled(m) && m.registerTinkersMaterialTraits()) {
+            if (m.registerTinkersMaterialTraits(this.isMaterialEnabled(m))) {
                 this.logger.info("Registered traits for tinker's material {" + m.getIdentifier() + "};");
             }
         });
@@ -304,9 +321,17 @@ public abstract class AbstractIntegration{
     private boolean isMaterialEnabled(ITiCMaterial material){
         Property property = getProperty(material, CATEGORY_MATERIAL);
         if (property != null){
-            return (this.getProperty(material, CATEGORY_MATERIAL) != null) && Objects.requireNonNull(this.getProperty(material, CATEGORY_MATERIAL)).getBoolean();
+            return property.getBoolean();
         }
         return true;
+    }
+
+    private boolean isMaterialFluidEnabled(ITiCMaterial material){
+        Property property = getProperty(material, CATEGORY_MATERIAL);
+        if (property != null){
+            return property.getBoolean();
+        }
+        return false;
     }
 
     protected void enableForceJsonCreation(){
