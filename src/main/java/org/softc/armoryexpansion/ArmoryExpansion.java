@@ -34,7 +34,7 @@ public final class ArmoryExpansion {
     }
 
     public static String[] getWebServerList(){
-        return config.get("web server", "server list", new String[]{"localhost:8080"}).getStringList();
+        return config.get("web server", "server list", new String[]{"http://localhost:8080"}).getStringList();
     }
 
     public static boolean useServersForJsons(){
