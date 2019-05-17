@@ -144,20 +144,7 @@ public abstract class AbstractIntegration{
     void loadMaterialsFromJson(InputStream path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        StringBuilder jsonContent = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(path));
-        try {
-            while(reader.ready()){
-                jsonContent.append(reader.readLine());
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        this.logger.info("JSON: " + jsonContent);
-
-        TiCMaterial[] jsonMaterials = gson.fromJson(jsonContent.toString(), TiCMaterial[].class);
+        TiCMaterial[] jsonMaterials = gson.fromJson(new BufferedReader(new InputStreamReader(path)), TiCMaterial[].class);
         this.loadMaterials(jsonMaterials);
     }
 
