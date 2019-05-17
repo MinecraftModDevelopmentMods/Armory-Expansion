@@ -7,5 +7,6 @@ import net.minecraftforge.fluids.Fluid;
 public class TiCFluidBlock extends BlockFluidClassic {
     public TiCFluidBlock(Fluid fluid) {
         super(fluid, Material.LAVA);
+        this.setRegistryName("fluid" + this.getFluid().getName());
     }
 }

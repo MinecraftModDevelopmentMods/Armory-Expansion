@@ -45,7 +45,7 @@ repositories {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-version = '1.2.0'
+version = '1.3.0'
 group = 'org.softc' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'armoryexpansion'
 
@@ -122,6 +122,8 @@ dependencies {
 
     deobfCompile 'llibrary:llibrary:1.7.9:1.12.2'
     deobfCompile 'ice-and-fire-dragons:iceandfire:1.7.0:1.12.2'
+
+//    deobfCompile "matteroverdrive:MatterOverdrive-1.12.2:0.7.1.0:universal"
 
 //    deobfCompile 'the-twilight-forest:twilightforest:1.12.2:3.8.689:universal'
 }
