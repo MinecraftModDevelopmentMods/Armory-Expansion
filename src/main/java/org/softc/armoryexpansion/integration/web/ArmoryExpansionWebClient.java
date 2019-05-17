@@ -23,7 +23,7 @@ public class ArmoryExpansionWebClient {
 
     // HTTP GET request
     public InputStream sendGet(String url, String file) throws Exception {
-        URL urlObject = new URL("http://" + url);
+        URL urlObject = new URL("http://" + url + "/" + file);
         HttpURLConnection urlConnection = (HttpURLConnection) urlObject.openConnection();
 
         // optional default is GET
@@ -31,7 +31,7 @@ public class ArmoryExpansionWebClient {
 
         //add request header
         urlConnection.setRequestProperty("User-Agent", ArmoryExpansion.MODID + "/" + ArmoryExpansion.VERSION);
-        urlConnection.setRequestProperty("Location", file);
+//        urlConnection.setRequestProperty("Location", file);
 
         ArmoryExpansion.logger.info("Attempting to connect to : " + url + " at: " + file);
 

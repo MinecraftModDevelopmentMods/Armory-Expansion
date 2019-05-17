@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.ITiCMaterial;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCAlloy;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.alloys.TiCAlloy;
 import org.softc.armoryexpansion.integration.web.ArmoryExpansionWebClient;
 
 import java.io.*;
@@ -25,28 +25,29 @@ import static org.softc.armoryexpansion.integration.aelib.Config.CATEGORY_MATERI
 public abstract class AbstractIntegration{
     protected Logger logger;
     protected String modid = "";
-    private Config configHelper;
-    private boolean isEnabled = false;
+    Config configHelper;
+    boolean isEnabled = false;
     private boolean forceCreateJson = false;
-    private Map<String, ITiCMaterial> materials = new HashMap<>();
+    protected Map<String, ITiCMaterial> materials = new HashMap<>();
     private Map<String, TiCAlloy> alloys = new HashMap<>();
 
-    protected ArmoryExpansionWebClient webClient = ArmoryExpansionWebClient.getInstance();
+    protected ArmoryExpansionWebClient webClient;
 
     public void preInit(FMLPreInitializationEvent event) {
         this.logger = event.getModLog();
+        this.webClient = ArmoryExpansionWebClient.getInstance();
         Property property = ArmoryExpansion.config
                 .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
         isEnabled = property == null || property.getBoolean();
         ArmoryExpansion.config.save();
         if(isEnabled){
-            this.configHelper = new Config(new Configuration(new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/" + modid + ".cfg")));
-//            configHelper = new Config(new Configuration(event.getSuggestedConfigurationFile()));
+            this.configHelper = new Config(new Configuration(
+                    new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/" + modid + ".cfg")));
             this.setMaterials(event);
             this.setAlloys(event);
             this.configHelper.syncConfig(materials);
             this.registerMaterials();
-            this.registerMaterialFluids();
+//            this.registerMaterialFluids();
             this.registerAlloys();
             this.registerMaterialStats();
         }
@@ -55,6 +56,7 @@ public abstract class AbstractIntegration{
     public void init(FMLInitializationEvent event) {
         if(isEnabled){
             this.oredictMaterials();
+            this.registerMaterialFluidsIMC();
             this.updateMaterials();
             this.registerMaterialTraits();
         }
@@ -65,7 +67,17 @@ public abstract class AbstractIntegration{
     }
 
     public void registerBlocks(RegistryEvent.Register<Block> event){
-        this.materials.values().forEach(m -> event.getRegistry().registerAll(m.getFluidBlock()));
+        this.registerMaterialFluids();
+        this.registerFluidBlocks(event);
+    }
+
+    private void registerFluidBlocks(RegistryEvent.Register<Block> event){
+        this.materials.values().forEach(m -> {
+            if(m.isCastable()){
+                event.getRegistry().registerAll(m.getFluidBlock());
+                this.logger.info("Registered fluid block for material {" + m.getIdentifier() + "};");
+            }
+        });
     }
 
     public Configuration getConfiguration() {
@@ -82,22 +94,38 @@ public abstract class AbstractIntegration{
         }
     }
 
-    private void setMaterials(FMLPreInitializationEvent event){
-        this.loadMaterialsFromWeb();
-        this.loadMaterialsFromJson(event.getModConfigurationDirectory(), this.modid);
-        this.loadMaterialsFromSource();
-        this.saveMaterialsToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
+    protected void setMaterials(FMLPreInitializationEvent event){
+        if(ArmoryExpansion.useServersForJsons()){
+            this.loadMaterialsFromWeb();
+            this.logger.info("Done loading all materials from web servers");
+        }
+        else{
+            this.loadMaterialsFromJson(event.getModConfigurationDirectory(), this.modid);
+            this.logger.info("Done loading all materials from local JSON files");
+            this.loadMaterialsFromSource();
+            this.logger.info("Done loading all materials from source");
+            this.saveMaterialsToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
+            this.logger.info("Done saving all materials to local JSON files");
+        }
     }
 
     protected abstract void loadMaterialsFromWeb();
 
     protected abstract void loadMaterialsFromSource();
 
-    private void setAlloys(FMLPreInitializationEvent event){
-        this.loadAlloysFromWeb();
-        this.loadAlloysFromJson(event.getModConfigurationDirectory(), this.modid);
-        this.loadAlloysFromSource();
-        this.saveAlloysToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
+    void setAlloys(FMLPreInitializationEvent event){
+        if(ArmoryExpansion.useServersForJsons()){
+            this.loadAlloysFromWeb();
+            this.logger.info("Done loading all alloys from web servers");
+        }
+        else {
+            this.loadAlloysFromJson(event.getModConfigurationDirectory(), this.modid);
+            this.logger.info("Done loading all alloys from local JSON files");
+            this.loadAlloysFromSource();
+            this.logger.info("Done loading all alloys from source");
+            this.saveAlloysToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
+            this.logger.info("Done saving all alloys to local JSON files");
+        }
     }
 
     protected abstract void loadAlloysFromWeb();
@@ -139,10 +167,8 @@ public abstract class AbstractIntegration{
         TiCMaterial[] jsonMaterials = new TiCMaterial[0];
         try {
             File input = new File(path);
-            try {
+            if(input.exists()){
                 jsonMaterials = gson.fromJson(new FileReader(input), TiCMaterial[].class);
-            } catch (IllegalStateException | JsonSyntaxException e){
-                e.printStackTrace();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -209,24 +235,26 @@ public abstract class AbstractIntegration{
         this.loadAlloys(jsonAlloys);
     }
 
-    private TiCAlloy[] loadAlloysFromJson(String path){
+    private void loadAlloysFromJson(String path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
         TiCAlloy[] jsonAlloys = new TiCAlloy[0];
         try {
             File input = new File(path);
-            jsonAlloys = gson.fromJson(new FileReader(input), TiCAlloy[].class);
+            if(input.exists()){
+                jsonAlloys = gson.fromJson(new FileReader(input), TiCAlloy[].class);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return jsonAlloys;
+        loadAlloys(jsonAlloys);
     }
 
-    private TiCAlloy[] loadAlloysFromJson(File configDir, String root, String modid){
-        return this.loadAlloysFromJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
+    private void loadAlloysFromJson(File configDir, String root, String modid){
+        this.loadAlloysFromJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
     }
 
-    private TiCAlloy[] loadAlloysFromJson(File configDir, String modid){
-        return this.loadAlloysFromJson(configDir, "armoryexpansion", modid + "-alloys");
+    private void loadAlloysFromJson(File configDir, String modid){
+        this.loadAlloysFromJson(configDir, "armoryexpansion", modid + "-alloys");
     }
 
     private void saveAlloysToJson(String path, boolean forceCreate){
@@ -257,12 +285,15 @@ public abstract class AbstractIntegration{
     }
 
     private void oredictMaterials() {
-        this.materials.values().forEach(ITiCMaterial::registerOreDict);
+        this.materials.values().forEach(m -> {
+            m.registerOreDict();
+            this.logger.info("Oredicted material {" + m.getIdentifier() + "};");
+        });
     }
 
-    private void registerMaterials() {
+    void registerMaterials() {
         this.materials.values().forEach(m -> {
-            if (this.isMaterialEnabled(m) && m.registerTinkersMaterial()) {
+            if (m.registerTinkersMaterial(this.isMaterialEnabled(m))) {
                 this.logger.info("Registered tinker's material {" + m.getIdentifier() + "};");
             }
         });
@@ -270,22 +301,30 @@ public abstract class AbstractIntegration{
 
     private void registerMaterialFluids() {
         this.materials.values().forEach(m -> {
-            if (this.isMaterialEnabled(m) && m.registerTinkersFluid()) {
-                this.logger.info("Registered fluid for tinker's material {" + m.getIdentifier() + "};");
+            if (m.registerTinkersFluid(this.isMaterialEnabled(m) && this.isMaterialFluidEnabled(m))) {
+                this.logger.info("Registered fluid for material {" + m.getIdentifier() + "};");
             }
         });
     }
 
-    private void registerAlloys(){
-        this.alloys.values().forEach(a -> {
-            a.registerTiCAlloy();
-            this.logger.info("Registered tinker's alloy {" + a.getName() + "};");
+    private void registerMaterialFluidsIMC(){
+        this.materials.values().forEach(m -> {
+            if (m.registerTinkersFluidIMC(this.isMaterialEnabled(m) && this.isMaterialFluidEnabled(m))) {
+                this.logger.info("Sent IMC for tinker's fluid {" + m.getFluidName() + "};");
+            }
         });
     }
 
-    private void registerMaterialStats() {
+    void registerAlloys(){
+        this.alloys.values().forEach(a -> {
+            a.registerTiCAlloy();
+            this.logger.info("Sent IMC for tinker's alloy {" + a.getName() + "};");
+        });
+    }
+
+    void registerMaterialStats() {
         this.materials.values().forEach(m -> {
-            if (this.isMaterialEnabled(m) && m.registerTinkersMaterialStats(getProperties(m))) {
+            if (m.registerTinkersMaterialStats(getProperties(m), this.isMaterialEnabled(m))) {
                 this.logger.info("Registered stats for tinker's material {" + m.getIdentifier() + "};");
             }
         });
@@ -293,7 +332,7 @@ public abstract class AbstractIntegration{
 
     private void updateMaterials() {
         this.materials.values().forEach(m -> {
-            if (this.isMaterialEnabled(m) && m.updateTinkersMaterial()) {
+            if (m.updateTinkersMaterial(this.isMaterialEnabled(m))) {
                 this.logger.info("Updated tinker's material {" + m.getIdentifier() + "};");
             }
         });
@@ -301,7 +340,7 @@ public abstract class AbstractIntegration{
 
     private void registerMaterialTraits() {
         this.materials.values().forEach(m -> {
-            if (this.isMaterialEnabled(m) && m.registerTinkersMaterialTraits()) {
+            if (m.registerTinkersMaterialTraits(this.isMaterialEnabled(m))) {
                 this.logger.info("Registered traits for tinker's material {" + m.getIdentifier() + "};");
             }
         });
@@ -326,9 +365,17 @@ public abstract class AbstractIntegration{
     private boolean isMaterialEnabled(ITiCMaterial material){
         Property property = getProperty(material, CATEGORY_MATERIAL);
         if (property != null){
-            return (this.getProperty(material, CATEGORY_MATERIAL) != null) && Objects.requireNonNull(this.getProperty(material, CATEGORY_MATERIAL)).getBoolean();
+            return property.getBoolean();
         }
         return true;
+    }
+
+    private boolean isMaterialFluidEnabled(ITiCMaterial material){
+        Property property = getProperty(material, CATEGORY_MATERIAL);
+        if (property != null){
+            return property.getBoolean();
+        }
+        return false;
     }
 
     protected void enableForceJsonCreation(){
@@ -394,16 +441,16 @@ public abstract class AbstractIntegration{
     private String returnAlloyExample() {
         return "//  {\n" +
                 "//    \"output\": {\n" +
-                "//      \"fluid\": \"Iron\",\n" +
+                "//      \"fluid\": \"iron\",\n" +
                 "//      \"amount\": 144\n" +
                 "//    },\n" +
                 "//    \"inputs\": [\n" +
                 "//      {\n" +
-                "//        \"fluid\": \"Copper\",\n" +
+                "//        \"fluid\": \"copper\",\n" +
                 "//        \"amount\": 108\n" +
                 "//      },\n" +
                 "//      {\n" +
-                "//        \"fluid\": \"Lead\",\n" +
+                "//        \"fluid\": \"lead\",\n" +
                 "//        \"amount\": 36\n" +
                 "//      }\n" +
                 "//    ]\n" +

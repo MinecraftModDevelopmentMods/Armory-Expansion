@@ -6,6 +6,7 @@ import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
@@ -121,8 +122,12 @@ public class ConArmIntegration extends WebIntegration {
     public void preInit(FMLPreInitializationEvent event) {
         this.modid = ConstructsArmory.MODID;
         this.logger = event.getModLog();
-        this.loadMaterialsFromOtherIntegrations(event);
-        super.preInit(event);
+        Property property = ArmoryExpansion.config
+                .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
+        if (property == null || property.getBoolean()){
+            this.loadMaterialsFromOtherIntegrations(event);
+            super.preInit(event);
+        }
     }
 
     @Override

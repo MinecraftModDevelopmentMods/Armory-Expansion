@@ -70,19 +70,27 @@ public interface ITiCMaterial {
 
     boolean isArmorMaterial();
 
+    boolean isCastable();
+
+    boolean isCraftable();
+
     ITiCMaterial registerOreDict();
 
     Fluid getFluid();
 
+    String getFluidName();
+
     Block getFluidBlock();
 
-    boolean registerTinkersMaterial();
+    boolean registerTinkersMaterial(boolean canRegister);
 
-    boolean registerTinkersFluid();
+    boolean registerTinkersFluid(boolean canRegister);
 
-    boolean registerTinkersMaterialStats(Map<String, Property> properties);
+    boolean registerTinkersFluidIMC(boolean canRegister);
 
-    boolean updateTinkersMaterial();
+    boolean registerTinkersMaterialStats(Map<String, Property> properties, boolean canRegister);
 
-    boolean registerTinkersMaterialTraits();
+    boolean updateTinkersMaterial(boolean canRegister);
+
+    boolean registerTinkersMaterialTraits(boolean canRegister);
 }

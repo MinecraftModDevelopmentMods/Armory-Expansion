@@ -54,6 +54,15 @@ public class Config{
         );
     }
 
+    private Property addMaterialFluidProperty(final ITiCMaterial material) {
+        return configuration.get(
+                material.getIdentifier(),
+                "enable_fluid",
+                "true",
+                "Whether the fluid for " + material.getIdentifier() + " should be available"
+        );
+    }
+
     private Property addMaterialTraitProperty(final ITiCMaterial material){
         return configuration.get(
                 material.getIdentifier(),
@@ -79,6 +88,10 @@ public class Config{
                     configuration.getCategory(material.getIdentifier());
                     materialProperties.put(CATEGORY_MATERIAL, addMaterialProperty(material));
                     materialProperties.put(TRAIT, addMaterialTraitProperty(material));
+
+                    if(material.isCastable()){
+                        materialProperties.put(CATEGORY_MATERIAL, addMaterialFluidProperty(material));
+                    }
 
                     if(material.isArmorMaterial()){
                         putSubcategoryProperty(materialProperties, CATEGORY_ARMOR, CORE, material);

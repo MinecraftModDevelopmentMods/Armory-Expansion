@@ -38,15 +38,15 @@ public class CustomMaterialsIntegration extends WebIntegration {
     private static File configDir;
 
     public CustomMaterialsIntegration() {
-        super(INTEGRATION_ID, INTEGRATION_ID);
+        super(INTEGRATION_ID, "assets/" + ArmoryExpansion.MODID + "/data/" + INTEGRATION_ID);
     }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         this.modid = INTEGRATION_ID;
         this.enableForceJsonCreation();
-        super.preInit(event);
         configDir = event.getModConfigurationDirectory();
+        super.preInit(event);
     }
 
     @Mod.EventHandler
