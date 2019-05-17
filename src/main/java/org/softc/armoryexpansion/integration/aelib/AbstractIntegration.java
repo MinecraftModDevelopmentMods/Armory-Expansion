@@ -10,6 +10,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import org.apache.commons.io.input.BoundedInputStream;
 import org.apache.logging.log4j.Logger;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.ITiCMaterial;
@@ -144,7 +145,7 @@ public abstract class AbstractIntegration{
     void loadMaterialsFromJson(InputStream path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        TiCMaterial[] jsonMaterials = gson.fromJson(new BufferedReader(new InputStreamReader(path)), TiCMaterial[].class);
+        TiCMaterial[] jsonMaterials = gson.fromJson(new BufferedReader(new InputStreamReader(new BoundedInputStream(path, 131072))), TiCMaterial[].class);
         this.loadMaterials(jsonMaterials);
     }
 
@@ -212,7 +213,7 @@ public abstract class AbstractIntegration{
 
         TiCAlloy[] jsonAlloys = new TiCAlloy[0];
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(path));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new BoundedInputStream(path, 131072)));
             jsonAlloys = gson.fromJson(reader, TiCAlloy[].class);
             reader.close();
         } catch (IOException e) {
