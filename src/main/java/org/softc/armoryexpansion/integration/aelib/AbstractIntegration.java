@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.ITiCMaterial;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCAlloy;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.alloys.TiCAlloy;
 
 import java.io.*;
 import java.util.*;
@@ -190,7 +190,7 @@ public abstract class AbstractIntegration{
         this.loadAlloys(jsonAlloys);
     }
 
-    private TiCAlloy[] loadAlloysFromJson(String path){
+    private void loadAlloysFromJson(String path){
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
         TiCAlloy[] jsonAlloys = new TiCAlloy[0];
@@ -202,15 +202,15 @@ public abstract class AbstractIntegration{
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return jsonAlloys;
+        loadAlloys(jsonAlloys);
     }
 
-    private TiCAlloy[] loadAlloysFromJson(File configDir, String root, String modid){
-        return this.loadAlloysFromJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
+    private void loadAlloysFromJson(File configDir, String root, String modid){
+        this.loadAlloysFromJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
     }
 
-    private TiCAlloy[] loadAlloysFromJson(File configDir, String modid){
-        return this.loadAlloysFromJson(configDir, "armoryexpansion", modid + "-alloys");
+    private void loadAlloysFromJson(File configDir, String modid){
+        this.loadAlloysFromJson(configDir, "armoryexpansion", modid + "-alloys");
     }
 
     private void saveAlloysToJson(String path, boolean forceCreate){
@@ -274,7 +274,7 @@ public abstract class AbstractIntegration{
     private void registerAlloys(){
         this.alloys.values().forEach(a -> {
             a.registerTiCAlloy();
-            this.logger.info("Registered tinker's alloy {" + a.getName() + "};");
+            this.logger.info("Sent IMC for tinker's alloy {" + a.getName() + "};");
         });
     }
 
@@ -397,16 +397,16 @@ public abstract class AbstractIntegration{
     private String returnAlloyExample() {
         return "//  {\n" +
                 "//    \"output\": {\n" +
-                "//      \"fluid\": \"Iron\",\n" +
+                "//      \"fluid\": \"iron\",\n" +
                 "//      \"amount\": 144\n" +
                 "//    },\n" +
                 "//    \"inputs\": [\n" +
                 "//      {\n" +
-                "//        \"fluid\": \"Copper\",\n" +
+                "//        \"fluid\": \"copper\",\n" +
                 "//        \"amount\": 108\n" +
                 "//      },\n" +
                 "//      {\n" +
-                "//        \"fluid\": \"Lead\",\n" +
+                "//        \"fluid\": \"lead\",\n" +
                 "//        \"amount\": 36\n" +
                 "//      }\n" +
                 "//    ]\n" +

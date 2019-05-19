@@ -229,6 +229,7 @@ public class TiCMaterial extends AbstractTiCMaterial{
 
         Fluid materialFluid = new TiCFluid(this.identifier, this.color);
         FluidRegistry.registerFluid(materialFluid);
+        materialFluid.setBlock(this.getFluidBlock());
         FluidRegistry.addBucketForFluid(materialFluid);
         return true;
     }

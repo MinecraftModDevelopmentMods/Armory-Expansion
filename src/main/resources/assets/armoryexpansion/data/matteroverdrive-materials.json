@@ -39,12 +39,12 @@
     "meta": 0,
     "color": 11184810,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "isToolMaterial": true,
-    "isBowMaterial": true,
+    "isCastable": true,
+    "isCraftable": false,
+    "isToolMaterial": false,
+    "isBowMaterial": false,
     "isFletchingMaterial": false,
-    "isProjectileMaterial": true,
-    "isArmorMaterial": true
+    "isProjectileMaterial": false,
+    "isArmorMaterial": false
   }
 ]

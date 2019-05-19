@@ -1,10 +1,15 @@
 package org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids;
 
+import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 
 public class TiCFluid extends Fluid {
 
+    public TiCFluid(String name, int color, Block block){
+        this(name, color);
+        this.block = block;
+    }
 
     public TiCFluid(String name, int color) {
         this(name);
