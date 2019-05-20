@@ -18,7 +18,7 @@ import slimeknights.tconstruct.TConstruct;
 public final class ArmoryExpansion {
     public static final String MODID = "armoryexpansion";
     public static final String NAME = "Armory Expansion";
-    public static final String VERSION = "1.3.0";
+    public static final String VERSION = "WebClient-beta1";
     static final String DEPENDENCIES =
             "required-after:" + TConstruct.modID + "; " +
             "required-after:" + ConstructsArmory.MODID + "; ";
@@ -34,10 +34,21 @@ public final class ArmoryExpansion {
     }
 
     public static String[] getWebServerList(){
-        return config.get("web server", "server list", new String[]{"http://localhost:8080"}).getStringList();
+        return config.get("web server", "server list",
+                new String[]{
+                        "https://raw.githubusercontent.com/YaibaToKen/Armory-Expansion-WebJSON/master"
+        }).getStringList();
     }
 
     public static boolean useServersForJsons(){
         return config.get("web server", "use servers", false).getBoolean();
+    }
+
+    public static int getConnectTimeout(){
+        return config.get("web server", "connect timeout", 60000).getInt();
+    }
+
+    public static int getBoundedInputStreamMaxSize(){
+        return config.get("web server", "input stream max size", 131072).getInt();
     }
 }

@@ -140,7 +140,7 @@ public abstract class AbstractIntegration implements IIntegration {
     void loadMaterialsFromJson(InputStream path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        TiCMaterial[] jsonMaterials = gson.fromJson(new BufferedReader(new InputStreamReader(new BoundedInputStream(path, 131072))), TiCMaterial[].class);
+        TiCMaterial[] jsonMaterials = gson.fromJson(new BufferedReader(new InputStreamReader(new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), TiCMaterial[].class);
         this.loadMaterials(jsonMaterials);
     }
 
@@ -185,7 +185,7 @@ public abstract class AbstractIntegration implements IIntegration {
 
         TiCAlloy[] jsonAlloys = new TiCAlloy[0];
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new BoundedInputStream(path, 131072)));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize())));
             jsonAlloys = gson.fromJson(reader, TiCAlloy[].class);
             reader.close();
         } catch (IOException e) {
@@ -228,7 +228,7 @@ public abstract class AbstractIntegration implements IIntegration {
     void loadConfigFromJson(InputStream path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        Config jsonConfig = gson.fromJson(new BufferedReader(new InputStreamReader(new BoundedInputStream(path, 131072))), Config.class);
+        Config jsonConfig = gson.fromJson(new BufferedReader(new InputStreamReader(new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), Config.class);
         this.loadConfig(jsonConfig);
     }
 

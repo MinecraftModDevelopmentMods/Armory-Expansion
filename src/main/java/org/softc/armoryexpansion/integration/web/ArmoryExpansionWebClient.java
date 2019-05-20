@@ -30,7 +30,7 @@ public class ArmoryExpansionWebClient {
 
         // optional default is GET
         urlConnection.setRequestMethod("GET");
-        urlConnection.setConnectTimeout(60000);
+        urlConnection.setConnectTimeout(ArmoryExpansion.getConnectTimeout());
 
         //add request header
         urlConnection.setRequestProperty("User-Agent", ArmoryExpansion.MODID + "/" + ArmoryExpansion.VERSION);
