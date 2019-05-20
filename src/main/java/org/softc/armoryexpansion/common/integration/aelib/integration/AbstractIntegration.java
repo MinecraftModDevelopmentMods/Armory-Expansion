@@ -169,8 +169,6 @@ public abstract class AbstractIntegration implements IIntegration {
         this.loadMaterialsFromJson(configDir, "armoryexpansion", modid + "-materials");
     }
 
-    protected abstract void loadMaterialsFromWeb();
-
     protected abstract void loadMaterialsFromSource();
 
     private void loadAlloys(TiCAlloy[] jsonAlloys){
@@ -219,8 +217,6 @@ public abstract class AbstractIntegration implements IIntegration {
         this.loadAlloysFromJson(configDir, "armoryexpansion", modid + "-alloys");
     }
 
-    protected abstract void loadAlloysFromWeb();
-
     protected abstract void loadAlloysFromSource();
 
     private void loadConfig(IntegrationConfig integrationConfig){
@@ -256,8 +252,6 @@ public abstract class AbstractIntegration implements IIntegration {
     private void loadConfigFromJson(File configDir, String modid){
         this.loadConfigFromJson(configDir, "armoryexpansion", modid + "-config");
     }
-
-    protected abstract void loadConfigFromWeb();
 
     protected abstract void loadConfigFromSource();
 

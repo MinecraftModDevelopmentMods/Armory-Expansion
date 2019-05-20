@@ -6,16 +6,12 @@ import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.minecraft.item.Item;
 import net.minecraftforge.common.config.Property;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.common.integration.aelib.integration.WebIntegration;
+import org.softc.armoryexpansion.common.integration.aelib.integration.JsonIntegration;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.ITiCMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.TiCMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -26,7 +22,6 @@ import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
 
 import java.io.*;
-import java.rmi.registry.Registry;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,7 +38,7 @@ import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
         dependencies = ConArmIntegration.DEPENDENCIES
 )
 @Mod.EventBusSubscriber
-public class ConArmIntegration extends WebIntegration {
+public class ConArmIntegration extends JsonIntegration {
     static final String MODID = ArmoryExpansion.MODID + "-" + ConstructsArmory.MODID;
     static final String NAME = ArmoryExpansion.NAME + " - " + ConstructsArmory.MODNAME;
     static final String DEPENDENCIES =
@@ -91,37 +86,7 @@ public class ConArmIntegration extends WebIntegration {
     }
 
     private void loadMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){
-        if(ArmoryExpansion.useServersForJsons()){
-            loadWebMaterialsFromOtherIntegrations();
-        }
-        else{
-            loadJsonMaterialsFromOtherIntegrations(event);
-        }
-    }
-
-    private void loadWebMaterialsFromOtherIntegrations(){
-        for (String url:ArmoryExpansion.getWebServerList()) {
-            try {
-                for (String file:loadFileListFromServer(url)) {
-                    if(!file.contains("conarm") && file.contains("-materials.json")){
-                        InputStream stream = this.webClient.sendGet(url, file, "armory-expansion");
-                        loadMaterialsFromOtherIntegration(stream);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private String[] loadFileListFromServer(String url) throws Exception {
-        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(this.webClient.sendGet(url, "getfiles")));
-        String[] fileList = gson.fromJson(reader, String[].class);
-        reader.close();
-
-        this.logger.info("Retrieved file list from: " + url);
-        return fileList;
+        loadJsonMaterialsFromOtherIntegrations(event);
     }
 
     private void loadJsonMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){
@@ -132,19 +97,6 @@ public class ConArmIntegration extends WebIntegration {
         }
     }
 
-    private void loadMaterialsFromOtherIntegration(InputStream stream){
-        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-
-        Collections.addAll(jsonMaterials, gson.fromJson(reader, TiCMaterial[].class));
-
-        try {
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void loadMaterialsFromOtherIntegration(File file){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
         try {
@@ -152,12 +104,6 @@ public class ConArmIntegration extends WebIntegration {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void loadAlloysFromWeb() {
-        // Left empty on purpose
-        // No alloys should ever be generated
     }
 
     @Override

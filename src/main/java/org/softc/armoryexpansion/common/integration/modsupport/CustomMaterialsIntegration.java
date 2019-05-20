@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.common.integration.aelib.integration.WebIntegration;
+import org.softc.armoryexpansion.common.integration.aelib.integration.JsonIntegration;
 import slimeknights.tconstruct.library.TinkerRegistry;
 
 import java.io.File;
@@ -26,7 +26,7 @@ import java.util.Set;
         dependencies = CustomMaterialsIntegration.DEPENDENCIES
 )
 @Mod.EventBusSubscriber
-public class CustomMaterialsIntegration extends WebIntegration {
+public class CustomMaterialsIntegration extends JsonIntegration {
     private static final String INTEGRATION_ID = "custommaterials";
     private static final String INTEGRATION_NAME = "Custom Materials";
 

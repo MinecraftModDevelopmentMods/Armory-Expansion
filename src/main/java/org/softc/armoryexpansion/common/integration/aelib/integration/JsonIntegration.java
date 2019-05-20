@@ -3,17 +3,12 @@ package org.softc.armoryexpansion.common.integration.aelib.integration;
 import java.io.InputStream;
 
 public class JsonIntegration extends AbstractIntegration {
-    String modId;
+    private String modId;
     private String json;
 
-    JsonIntegration(String modId, String json) {
+    protected JsonIntegration(String modId, String json) {
         this.modId = modId;
         this.json = json;
-    }
-
-    @Override
-    protected void loadMaterialsFromWeb() {
-        // Not used by this class
     }
 
     @Override
@@ -29,11 +24,6 @@ public class JsonIntegration extends AbstractIntegration {
     }
 
     @Override
-    protected void loadAlloysFromWeb() {
-        // Not used by this class
-    }
-
-    @Override
     protected void loadAlloysFromSource() {
         InputStream stream = getClass()
                 .getClassLoader()
@@ -42,11 +32,6 @@ public class JsonIntegration extends AbstractIntegration {
             return;
         }
         this.loadAlloysFromJson(stream);
-    }
-
-    @Override
-    protected void loadConfigFromWeb() {
-        // Not used by this class
     }
 
     @Override

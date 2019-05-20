@@ -18,7 +18,7 @@ import slimeknights.tconstruct.TConstruct;
 public final class ArmoryExpansion {
     public static final String MODID = "armoryexpansion";
     public static final String NAME = "Armory Expansion";
-    public static final String VERSION = "WebClient-beta2";
+    public static final String VERSION = "1.2.5";
     static final String DEPENDENCIES =
             "required-after:" + TConstruct.modID + "; " +
             "required-after:" + ConstructsArmory.MODID + "; ";
@@ -31,24 +31,6 @@ public final class ArmoryExpansion {
         MinecraftForge.EVENT_BUS.register(this);
         logger = event.getModLog();
         config = new Configuration(event.getSuggestedConfigurationFile());
-    }
-
-    public static String[] getWebServerList(){
-        return config.get("web server", "server list",
-                new String[]{
-                        "https://raw.githubusercontent.com/YaibaToKen/Armory-Expansion-WebJSON/master",
-                        "Web Server URL list to check for JSON files"
-        }).getStringList();
-    }
-
-    public static boolean useServersForJsons(){
-        return config.get("web server", "use servers", false,
-                "Whether the integrtions should load their data froma a Web Server").getBoolean();
-    }
-
-    public static int getConnectTimeout(){
-        return config.get("web server", "connect timeout", 60000,
-                "How long should the connection wait before timing out").getInt();
     }
 
     public static int getBoundedInputStreamMaxSize(){
