@@ -6,9 +6,14 @@ import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.common.integration.aelib.integration.WebIntegration;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.ITiCMaterial;
@@ -21,6 +26,7 @@ import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
 
 import java.io.*;
+import java.rmi.registry.Registry;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,6 +62,32 @@ public class ConArmIntegration extends WebIntegration {
 
     public ConArmIntegration() {
         super(ConstructsArmory.MODID, "assets/" + ArmoryExpansion.MODID + "/data/" + ConstructsArmory.MODID);
+    }
+
+    @Mod.EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        this.modid = ConstructsArmory.MODID;
+        this.logger = event.getModLog();
+        Property property = ArmoryExpansion.config
+                .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
+        this.configDir = event.getModConfigurationDirectory().getPath();
+        this.isEnabled = property == null || property.getBoolean();
+        ArmoryExpansion.config.save();
+        if (property == null || property.getBoolean()){
+            this.loadMaterialsFromOtherIntegrations(event);
+        }
+    }
+
+    @Mod.EventHandler
+    public void init(FMLInitializationEvent event){
+        if(this.isEnabled){
+            this.setIntegrationData(this.configDir);
+            this.integrationConfigHelper.syncConfig(this.materials);
+            this.saveIntegrationData(this.configDir);
+            this.registerMaterials();
+            this.registerAlloys();
+            this.registerMaterialStats();
+        }
     }
 
     private void loadMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){
@@ -119,18 +151,6 @@ public class ConArmIntegration extends WebIntegration {
             Collections.addAll(jsonMaterials, gson.fromJson(new FileReader(file), TiCMaterial[].class));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-    }
-
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        this.modid = ConstructsArmory.MODID;
-        this.logger = event.getModLog();
-        Property property = ArmoryExpansion.config
-                .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
-        if (property == null || property.getBoolean()){
-            this.loadMaterialsFromOtherIntegrations(event);
-            super.preInit(event);
         }
     }
 

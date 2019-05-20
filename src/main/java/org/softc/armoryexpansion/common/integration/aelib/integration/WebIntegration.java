@@ -21,35 +21,35 @@ public class WebIntegration extends JsonIntegration {
     }
 
     @Override
-    protected void setMaterials(FMLPreInitializationEvent event){
+    protected void setMaterials(String path){
         if(ArmoryExpansion.useServersForJsons()){
             this.loadMaterialsFromWeb();
             this.logger.info("Done loading all materials from web servers");
         }
         else{
-            super.setMaterials(event);
+            super.setMaterials(this.configDir);
         }
     }
 
     @Override
-    protected void setAlloys(FMLPreInitializationEvent event){
+    protected void setAlloys(String path){
         if(ArmoryExpansion.useServersForJsons()){
             this.loadAlloysFromWeb();
             this.logger.info("Done loading all alloys from web servers");
         }
         else {
-            super.setAlloys(event);
+            super.setAlloys(this.configDir);
         }
     }
 
     @Override
-    protected void setConfig(FMLPreInitializationEvent event){
+    protected void setConfig(String path){
         if(ArmoryExpansion.useServersForJsons()){
             this.loadConfigFromWeb();
             this.logger.info("Done loading all configs from web servers");
         }
         else {
-            super.setConfig(event);
+            super.setConfig(this.configDir);
         }
     }
 
@@ -99,23 +99,23 @@ public class WebIntegration extends JsonIntegration {
     }
 
     @Override
-    protected void saveMaterials(FMLPreInitializationEvent event){
+    protected void saveMaterials(String path){
         if(!ArmoryExpansion.useServersForJsons()){
-            super.saveMaterials(event);
+            super.saveMaterials(path);
         }
     }
 
     @Override
-    protected void saveAlloys(FMLPreInitializationEvent event){
+    protected void saveAlloys(String path){
         if(!ArmoryExpansion.useServersForJsons()){
-            super.saveAlloys(event);
+            super.saveAlloys(path);
         }
     }
 
     @Override
-    protected void saveConfig(FMLPreInitializationEvent event){
+    protected void saveConfig(String path){
         if(!ArmoryExpansion.useServersForJsons()){
-            super.saveConfig(event);
+            super.saveConfig(path);
         }
     }
 }

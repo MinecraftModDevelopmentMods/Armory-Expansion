@@ -18,7 +18,7 @@ import slimeknights.tconstruct.TConstruct;
 public final class ArmoryExpansion {
     public static final String MODID = "armoryexpansion";
     public static final String NAME = "Armory Expansion";
-    public static final String VERSION = "WebClient-beta1";
+    public static final String VERSION = "WebClient-beta2";
     static final String DEPENDENCIES =
             "required-after:" + TConstruct.modID + "; " +
             "required-after:" + ConstructsArmory.MODID + "; ";

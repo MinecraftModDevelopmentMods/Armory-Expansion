@@ -24,22 +24,24 @@ import java.util.Map;
 public abstract class AbstractIntegration implements IIntegration {
     protected Logger logger;
     protected String modid = "";
-    private IntegrationConfig integrationConfigHelper = new IntegrationConfig();
-    private boolean isEnabled = false;
+    protected String configDir;
+    protected IntegrationConfig integrationConfigHelper = new IntegrationConfig();
+    protected boolean isEnabled = false;
     private boolean forceCreateJson = false;
     protected Map<String, ITiCMaterial> materials = new HashMap<>();
     private Map<String, TiCAlloy> alloys = new HashMap<>();
 
     public void preInit(FMLPreInitializationEvent event) {
         this.logger = event.getModLog();
+        this.configDir = event.getModConfigurationDirectory().getPath();
         Property property = ArmoryExpansion.config
                 .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
         this.isEnabled = property == null || property.getBoolean();
         ArmoryExpansion.config.save();
         if(this.isEnabled){
-            this.setIntegrationData(event);
+            this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(materials);
-            this.saveIntegrationData(event);
+            this.saveIntegrationData(this.configDir);
             this.registerMaterials();
 //            this.registerMaterialFluids();
             this.registerAlloys();
@@ -60,16 +62,16 @@ public abstract class AbstractIntegration implements IIntegration {
         // Used as a stub
     }
 
-    private void setIntegrationData(FMLPreInitializationEvent event){
-        this.setConfig(event);
-        this.setMaterials(event);
-        this.setAlloys(event);
+    protected void setIntegrationData(String path){
+        this.setConfig(path);
+        this.setMaterials(path);
+        this.setAlloys(path);
     }
 
-    private void saveIntegrationData(FMLPreInitializationEvent event){
-        this.saveConfig(event);
-        this.saveMaterials(event);
-        this.saveAlloys(event);
+    protected void saveIntegrationData(String path){
+        this.saveConfig(path);
+        this.saveMaterials(path);
+        this.saveAlloys(path);
     }
 
     public void registerBlocks(RegistryEvent.Register<Block> event){
@@ -92,39 +94,39 @@ public abstract class AbstractIntegration implements IIntegration {
         }
     }
 
-    protected void setMaterials(FMLPreInitializationEvent event){
-        this.loadMaterialsFromJson(event.getModConfigurationDirectory(), this.modid);
+    protected void setMaterials(String path){
+        this.loadMaterialsFromJson(new File(path), this.modid);
         this.logger.info("Done loading all materials from local JSON files");
         this.loadMaterialsFromSource();
         this.logger.info("Done loading all materials from source");
     }
 
-    protected void saveMaterials(FMLPreInitializationEvent event){
-        this.saveMaterialsToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
+    protected void saveMaterials(String path){
+        this.saveMaterialsToJson(new File(path), this.modid, this.forceCreateJson);
         this.logger.info("Done saving all materials to local JSON files");
     }
 
-    protected void setAlloys(FMLPreInitializationEvent event){
-        this.loadAlloysFromJson(event.getModConfigurationDirectory(), this.modid);
+    protected void setAlloys(String path){
+        this.loadAlloysFromJson(new File(path), this.modid);
         this.logger.info("Done loading all alloys from local JSON files");
         this.loadAlloysFromSource();
         this.logger.info("Done loading all alloys from source");
     }
 
-    protected void saveAlloys(FMLPreInitializationEvent event){
-        this.saveAlloysToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
+    protected void saveAlloys(String path){
+        this.saveAlloysToJson(new File(path), this.modid, this.forceCreateJson);
         this.logger.info("Done saving all alloys to local JSON files");
     }
 
-    protected void setConfig(FMLPreInitializationEvent event){
-        this.loadConfigFromJson(event.getModConfigurationDirectory(), this.modid);
+    protected void setConfig(String path){
+        this.loadConfigFromJson(new File(path), this.modid);
         this.logger.info("Done loading config from local JSON file");
         this.loadConfigFromSource();
         this.logger.info("Done loading config from source");
     }
 
-    protected void saveConfig(FMLPreInitializationEvent event){
-        this.saveConfigToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
+    protected void saveConfig(String path){
+        this.saveConfigToJson(new File(path), this.modid, this.forceCreateJson);
         this.logger.info("Done saving config to local JSON file");
     }
 
