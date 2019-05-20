@@ -2,6 +2,7 @@ package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_const
 
 import net.minecraft.block.Block;
 import net.minecraftforge.fluids.Fluid;
+import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 
 public interface ITiCMaterial {
@@ -91,4 +92,8 @@ public interface ITiCMaterial {
     boolean updateTinkersMaterial(boolean canRegister);
 
     boolean registerTinkersMaterialTraits(boolean canRegister);
+
+    MaterialRenderType getType();
+
+    AbstractTiCMaterial setType(MaterialRenderType type);
 }

@@ -6,11 +6,15 @@ import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
+import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
 import org.softc.armoryexpansion.common.integration.aelib.integration.JsonIntegration;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.ITiCMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.TiCMaterial;
@@ -21,7 +25,9 @@ import slimeknights.tconstruct.library.materials.HeadMaterialStats;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,18 +69,24 @@ public class ConArmIntegration extends JsonIntegration {
     public void preInit(FMLPreInitializationEvent event) {
         this.modid = ConstructsArmory.MODID;
         this.logger = event.getModLog();
-        Property property = ArmoryExpansion.config
+        Property isEnabledProperty = ArmoryExpansion.config
                 .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
         this.configDir = event.getModConfigurationDirectory().getPath();
-        this.isEnabled = property == null || property.getBoolean();
+        this.isEnabled = isEnabledProperty == null || isEnabledProperty.getBoolean();
         ArmoryExpansion.config.save();
-        if (property == null || property.getBoolean()){
+        if (isEnabledProperty == null || isEnabledProperty.getBoolean()){
             this.loadMaterialsFromOtherIntegrations(event);
+            this.setIntegrationData(this.configDir);
+            this.integrationConfigHelper.syncConfig(this.materials);
+            this.saveIntegrationData(this.configDir);
+            this.registerMaterials();
+            this.registerAlloys();
+            this.registerMaterialStats();
         }
     }
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event){
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void registerItems(RegistryEvent<Item> event){
         if(this.isEnabled){
             this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(this.materials);
@@ -139,7 +151,8 @@ public class ConArmIntegration extends JsonIntegration {
                 .setDurability(calculateDurability(material, baseMaterial))
                 .setMagicAffinity(calculateExtraDurability(material, baseMaterial))
                 .setDefense(calculateDefense(material, baseMaterial))
-                .setToughness(calculateToughness(material, baseMaterial));
+                .setToughness(calculateToughness(material, baseMaterial))
+                .setType(MaterialRenderType.METAL);
     }
 
     private int calculateDurability(Material material, CoreMaterialStats core, HeadMaterialStats head){

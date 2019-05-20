@@ -34,9 +34,9 @@ public abstract class AbstractIntegration implements IIntegration {
     public void preInit(FMLPreInitializationEvent event) {
         this.logger = event.getModLog();
         this.configDir = event.getModConfigurationDirectory().getPath();
-        Property property = ArmoryExpansion.config
+        Property isEnabledProperty = ArmoryExpansion.config
                 .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
-        this.isEnabled = property == null || property.getBoolean();
+        this.isEnabled = isEnabledProperty == null || isEnabledProperty.getBoolean();
         ArmoryExpansion.config.save();
         if(this.isEnabled){
             this.setIntegrationData(this.configDir);
