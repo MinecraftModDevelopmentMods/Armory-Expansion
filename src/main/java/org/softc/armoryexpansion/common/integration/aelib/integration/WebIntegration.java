@@ -3,11 +3,12 @@ package org.softc.armoryexpansion.common.integration.aelib.integration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.common.web.ArmoryExpansionWebClient;
+import org.softc.armoryexpansion.common.web.IWebClient;
 
 import java.io.InputStream;
 
 public class WebIntegration extends JsonIntegration {
-    protected ArmoryExpansionWebClient webClient;
+    protected IWebClient webClient;
 
     public WebIntegration(String modId, String json) {
         super(modId, json);

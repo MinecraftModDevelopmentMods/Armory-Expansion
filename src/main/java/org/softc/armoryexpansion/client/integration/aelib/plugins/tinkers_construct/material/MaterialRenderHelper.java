@@ -9,17 +9,17 @@ import slimeknights.tconstruct.library.materials.Material;
 @SideOnly(Side.CLIENT)
 public class MaterialRenderHelper {
     public static void setMaterialRenderInfo(Material material, AbstractTiCMaterial ticMaterial) {
-//        MaterialRenderInfo materialRenderInfo = new MaterialRenderInfo.Default(ticMaterial.getColor());
-//        switch (ticMaterial.type) {
-//            case METAL:
-//                materialRenderInfo = new MaterialRenderInfo.Metal(ticMaterial.getColor());
-//                break;
-//            case METALTEXTURED:
-//                materialRenderInfo = new MaterialRenderInfo.MetalTextured(ticMaterial.getTexture(), ticMaterial.getColor(), 0.4f, 0.4f, 0.1f);
-//                break;
-//            default:
-//                break;
-//        }
-//        material.setRenderInfo(materialRenderInfo);
+        MaterialRenderInfo materialRenderInfo = new MaterialRenderInfo.Default(ticMaterial.getColor());
+        switch (ticMaterial.type) {
+            case METAL:
+                materialRenderInfo = new MaterialRenderInfo.Metal(ticMaterial.getColor());
+                break;
+            case METALTEXTURED:
+                materialRenderInfo = new MaterialRenderInfo.MetalTextured(ticMaterial.getTexture(), ticMaterial.getColor(), 0.4f, 0.4f, 0.1f);
+                break;
+            default:
+                break;
+        }
+        material.setRenderInfo(materialRenderInfo);
     }
 }

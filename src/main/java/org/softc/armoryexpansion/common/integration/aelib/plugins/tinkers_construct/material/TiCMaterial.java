@@ -6,7 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderHelper;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
@@ -56,10 +58,6 @@ public class TiCMaterial extends AbstractTiCMaterial{
 
     public TiCMaterial(String identifier, String itemName, int color) {
         super(identifier, itemName, color);
-    }
-
-    public TiCMaterial(String identifier, String itemName, int meta, int color) {
-        super(identifier, itemName, meta, color);
     }
 
     public int getDurability() {
@@ -197,7 +195,9 @@ public class TiCMaterial extends AbstractTiCMaterial{
         material.setCastable(this.isCastable)
                 .setCraftable(this.isCraftable)
                 .addItemIngot(this.identifier);
-        MaterialRenderHelper.setMaterialRenderInfo(material, this);
+        if(FMLCommonHandler.instance().getSide().equals(Side.CLIENT)){
+            MaterialRenderHelper.setMaterialRenderInfo(material, this);
+        }
         this.registerTinkersFluid(true);
         TinkerRegistry.addMaterial(material);
         TinkerRegistry.integrate(material);
