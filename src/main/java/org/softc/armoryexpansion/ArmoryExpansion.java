@@ -36,19 +36,23 @@ public final class ArmoryExpansion {
     public static String[] getWebServerList(){
         return config.get("web server", "server list",
                 new String[]{
-                        "https://raw.githubusercontent.com/YaibaToKen/Armory-Expansion-WebJSON/master"
+                        "https://raw.githubusercontent.com/YaibaToKen/Armory-Expansion-WebJSON/master",
+                        "Web Server URL list to check for JSON files"
         }).getStringList();
     }
 
     public static boolean useServersForJsons(){
-        return config.get("web server", "use servers", false).getBoolean();
+        return config.get("web server", "use servers", false,
+                "Whether the integrtions should load their data froma a Web Server").getBoolean();
     }
 
     public static int getConnectTimeout(){
-        return config.get("web server", "connect timeout", 60000).getInt();
+        return config.get("web server", "connect timeout", 60000,
+                "How long should the connection wait before timing out").getInt();
     }
 
     public static int getBoundedInputStreamMaxSize(){
-        return config.get("web server", "input stream max size", 131072).getInt();
+        return config.get("web server", "input stream max size", 131072,
+                "The maximum size of the data received from the Web Server").getInt();
     }
 }
