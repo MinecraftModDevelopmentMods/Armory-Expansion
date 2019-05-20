@@ -10,8 +10,8 @@ import java.io.InputStream;
 public class WebIntegration extends JsonIntegration {
     protected IWebClient webClient;
 
-    public WebIntegration(String modId, String json) {
-        super(modId, json);
+    public WebIntegration(String modid, String json) {
+        super(modid, json);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class WebIntegration extends JsonIntegration {
     protected void loadMaterialsFromWeb() {
         for (String url: ArmoryExpansion.getWebServerList()) {
             try {
-                InputStream stream = this.webClient.sendGet(url, modId + "-materials.json","armory-expansion");
+                InputStream stream = this.webClient.sendGet(url, this.modid + "-materials.json","armory-expansion");
                 if(stream == null){
                     return;
                 }
@@ -72,7 +72,7 @@ public class WebIntegration extends JsonIntegration {
     protected void loadAlloysFromWeb() {
         for (String url: ArmoryExpansion.getWebServerList()) {
             try {
-                InputStream stream = this.webClient.sendGet(url, modId + "-alloys.json","armory-expansion");
+                InputStream stream = this.webClient.sendGet(url, this.modid + "-alloys.json","armory-expansion");
                 if(stream == null){
                     return;
                 }
@@ -87,7 +87,7 @@ public class WebIntegration extends JsonIntegration {
     protected void loadConfigFromWeb() {
         for (String url: ArmoryExpansion.getWebServerList()) {
             try {
-                InputStream stream = this.webClient.sendGet(url, modId + "-config.json","armory-expansion");
+                InputStream stream = this.webClient.sendGet(url, this.modid + "-config.json","armory-expansion");
                 if(stream == null){
                     return;
                 }
