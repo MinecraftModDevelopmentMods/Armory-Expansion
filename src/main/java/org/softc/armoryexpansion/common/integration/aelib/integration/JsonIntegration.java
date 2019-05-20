@@ -3,11 +3,10 @@ package org.softc.armoryexpansion.common.integration.aelib.integration;
 import java.io.InputStream;
 
 public class JsonIntegration extends AbstractIntegration {
-    private String modId;
     private String json;
 
     protected JsonIntegration(String modId, String json) {
-        this.modId = modId;
+        this.modid = modId;
         this.json = json;
     }
 
