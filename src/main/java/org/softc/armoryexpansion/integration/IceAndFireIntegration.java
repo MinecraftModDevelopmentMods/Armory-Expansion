@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.integration.aelib.WebIntegration;
+import org.softc.armoryexpansion.integration.aelib.integration.WebIntegration;
 
 @Mod(
         modid = IceAndFireIntegration.MODID,

@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.integration.plugins.tinkers_construct;
+package org.softc.armoryexpansion.integration.plugins.tinkers_construct.material;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -8,7 +8,7 @@ public abstract class AbstractTiCMaterial implements ITiCMaterial {
     // TODO Add a localization key
     protected String identifier;
     protected String itemName;
-    protected int meta = 0;
+    protected int meta;
     protected int color;
     protected MaterialRenderType type = MaterialRenderType.DEFAULT;
     protected ResourceLocation texture;
@@ -37,20 +37,12 @@ public abstract class AbstractTiCMaterial implements ITiCMaterial {
         return identifier;
     }
 
-    public String getItemName() {
-        return itemName;
-    }
-
     protected Item getItem() {
         return itemName != null ? Item.getByNameOrId(itemName) : null;
     }
 
     protected ItemStack getItemStack() {
         return this.getItem() != null ? new ItemStack(this.getItem(), 1, this.meta) : null;
-    }
-
-    public int getColor() {
-        return color;
     }
 
     public MaterialRenderType getType() {
@@ -76,60 +68,37 @@ public abstract class AbstractTiCMaterial implements ITiCMaterial {
         return this;
     }
 
+    @Override
     public boolean isCastable() {
         return isCastable;
     }
 
-    public AbstractTiCMaterial setCastable(boolean castable) {
-        isCastable = castable;
-        return this;
-    }
-
+    @Override
     public boolean isCraftable() {
         return isCraftable;
     }
 
-    public AbstractTiCMaterial setCraftable(boolean craftable) {
-        isCraftable = craftable;
-        return this;
-    }
-
+    @Override
     public boolean isToolMaterial() {
         return isToolMaterial;
     }
 
-    public AbstractTiCMaterial setToolMaterial(boolean toolMaterial) {
-        isToolMaterial = toolMaterial;
-        return this;
-    }
-
+    @Override
     public boolean isBowMaterial() {
         return isBowMaterial;
     }
 
-    public AbstractTiCMaterial setBowMaterial(boolean bowMaterial) {
-        isBowMaterial = bowMaterial;
-        return this;
-    }
-
+    @Override
     public boolean isFletchingMaterial() {
         return isFletchingMaterial;
     }
 
-    public AbstractTiCMaterial setFletchingMaterial(boolean fletchingMaterial) {
-        isFletchingMaterial = fletchingMaterial;
-        return this;
-    }
-
+    @Override
     public boolean isProjectileMaterial() {
         return isProjectileMaterial;
     }
 
-    public AbstractTiCMaterial setProjectileMaterial(boolean projectileMaterial) {
-        isProjectileMaterial = projectileMaterial;
-        return this;
-    }
-
+    @Override
     public boolean isArmorMaterial() {
         return isArmorMaterial;
     }

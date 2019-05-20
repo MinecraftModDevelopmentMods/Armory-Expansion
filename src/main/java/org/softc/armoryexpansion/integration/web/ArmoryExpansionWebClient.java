@@ -1,6 +1,5 @@
 package org.softc.armoryexpansion.integration.web;
 
-import net.minecraft.client.Minecraft;
 import org.softc.armoryexpansion.ArmoryExpansion;
 
 import java.io.InputStream;
@@ -25,7 +24,9 @@ public class ArmoryExpansionWebClient {
     // HTTP GET request
     public InputStream sendGet(String url, String file) throws Exception {
         URL urlObject = new URL(url + "/" + file);
-        HttpURLConnection urlConnection = (HttpURLConnection) urlObject.openConnection(Minecraft.getMinecraft().getProxy());
+        // TODO Use ServerProxy when opening connections
+//        HttpURLConnection urlConnection = (HttpURLConnection) urlObject.openConnection(Minecraft.getMinecraft().getProxy());
+        HttpURLConnection urlConnection = (HttpURLConnection) urlObject.openConnection();
 
         // optional default is GET
         urlConnection.setRequestMethod("GET");

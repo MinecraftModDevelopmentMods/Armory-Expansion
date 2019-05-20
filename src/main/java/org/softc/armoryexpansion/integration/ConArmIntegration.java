@@ -10,9 +10,9 @@ import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.integration.aelib.WebIntegration;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.ITiCMaterial;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
+import org.softc.armoryexpansion.integration.aelib.integration.WebIntegration;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.material.ITiCMaterial;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.material.TiCMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
@@ -59,8 +59,12 @@ public class ConArmIntegration extends WebIntegration {
     }
 
     private void loadMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){
-        loadJsonMaterialsFromOtherIntegrations(event);
-        loadWebMaterialsFromOtherIntegrations();
+        if(ArmoryExpansion.useServersForJsons()){
+            loadWebMaterialsFromOtherIntegrations();
+        }
+        else{
+            loadJsonMaterialsFromOtherIntegrations(event);
+        }
     }
 
     private void loadWebMaterialsFromOtherIntegrations(){

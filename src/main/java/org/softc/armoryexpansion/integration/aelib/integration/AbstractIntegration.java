@@ -1,10 +1,8 @@
-package org.softc.armoryexpansion.integration.aelib;
+package org.softc.armoryexpansion.integration.aelib.integration;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 import net.minecraft.block.Block;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -13,40 +11,35 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.commons.io.input.BoundedInputStream;
 import org.apache.logging.log4j.Logger;
 import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.ITiCMaterial;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
+import org.softc.armoryexpansion.integration.aelib.config.Config;
+import org.softc.armoryexpansion.integration.aelib.config.MaterialConfigOptions;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.material.ITiCMaterial;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.material.TiCMaterial;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.alloys.TiCAlloy;
-import org.softc.armoryexpansion.integration.web.ArmoryExpansionWebClient;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.softc.armoryexpansion.integration.aelib.Config.CATEGORY_MATERIAL;
-
-public abstract class AbstractIntegration{
+public abstract class AbstractIntegration implements IIntegration {
     protected Logger logger;
     protected String modid = "";
-    Config configHelper;
-    boolean isEnabled = false;
+    private Config configHelper = new Config();
+    private boolean isEnabled = false;
     private boolean forceCreateJson = false;
     protected Map<String, ITiCMaterial> materials = new HashMap<>();
     private Map<String, TiCAlloy> alloys = new HashMap<>();
 
-    protected ArmoryExpansionWebClient webClient;
-
     public void preInit(FMLPreInitializationEvent event) {
         this.logger = event.getModLog();
-        this.webClient = ArmoryExpansionWebClient.getInstance();
         Property property = ArmoryExpansion.config
                 .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
-        isEnabled = property == null || property.getBoolean();
+        this.isEnabled = property == null || property.getBoolean();
         ArmoryExpansion.config.save();
-        if(isEnabled){
-            this.configHelper = new Config(new Configuration(
-                    new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/" + modid + ".cfg")));
-            this.setMaterials(event);
-            this.setAlloys(event);
+        if(this.isEnabled){
+            this.setIntegrationData(event);
             this.configHelper.syncConfig(materials);
+            this.saveIntegrationData(event);
             this.registerMaterials();
 //            this.registerMaterialFluids();
             this.registerAlloys();
@@ -55,7 +48,7 @@ public abstract class AbstractIntegration{
     }
 
     public void init(FMLInitializationEvent event) {
-        if(isEnabled){
+        if(this.isEnabled){
             this.oredictMaterials();
             this.registerMaterialFluidsIMC();
             this.updateMaterials();
@@ -67,26 +60,30 @@ public abstract class AbstractIntegration{
         // Used as a stub
     }
 
+    private void setIntegrationData(FMLPreInitializationEvent event){
+        this.setConfig(event);
+        this.setMaterials(event);
+        this.setAlloys(event);
+    }
+
+    private void saveIntegrationData(FMLPreInitializationEvent event){
+        this.saveConfig(event);
+        this.saveMaterials(event);
+        this.saveAlloys(event);
+    }
+
     public void registerBlocks(RegistryEvent.Register<Block> event){
         this.registerMaterialFluids();
         this.registerFluidBlocks(event);
     }
 
-    private void registerFluidBlocks(RegistryEvent.Register<Block> event){
+    public void registerFluidBlocks(RegistryEvent.Register<Block> event){
         this.materials.values().forEach(m -> {
             if(m.isCastable()){
                 event.getRegistry().registerAll(m.getFluidBlock());
                 this.logger.info("Registered fluid block for material {" + m.getIdentifier() + "};");
             }
         });
-    }
-
-    public Configuration getConfiguration() {
-        return this.configHelper.getConfiguration();
-    }
-
-    private Config getConfigHelper() {
-        return this.configHelper;
     }
 
     protected void addMaterial(ITiCMaterial material){
@@ -96,42 +93,40 @@ public abstract class AbstractIntegration{
     }
 
     protected void setMaterials(FMLPreInitializationEvent event){
-        if(ArmoryExpansion.useServersForJsons()){
-            this.loadMaterialsFromWeb();
-            this.logger.info("Done loading all materials from web servers");
-        }
-        else{
-            this.loadMaterialsFromJson(event.getModConfigurationDirectory(), this.modid);
-            this.logger.info("Done loading all materials from local JSON files");
-            this.loadMaterialsFromSource();
-            this.logger.info("Done loading all materials from source");
-            this.saveMaterialsToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
-            this.logger.info("Done saving all materials to local JSON files");
-        }
+        this.loadMaterialsFromJson(event.getModConfigurationDirectory(), this.modid);
+        this.logger.info("Done loading all materials from local JSON files");
+        this.loadMaterialsFromSource();
+        this.logger.info("Done loading all materials from source");
     }
 
-    protected abstract void loadMaterialsFromWeb();
-
-    protected abstract void loadMaterialsFromSource();
-
-    void setAlloys(FMLPreInitializationEvent event){
-        if(ArmoryExpansion.useServersForJsons()){
-            this.loadAlloysFromWeb();
-            this.logger.info("Done loading all alloys from web servers");
-        }
-        else {
-            this.loadAlloysFromJson(event.getModConfigurationDirectory(), this.modid);
-            this.logger.info("Done loading all alloys from local JSON files");
-            this.loadAlloysFromSource();
-            this.logger.info("Done loading all alloys from source");
-            this.saveAlloysToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
-            this.logger.info("Done saving all alloys to local JSON files");
-        }
+    protected void saveMaterials(FMLPreInitializationEvent event){
+        this.saveMaterialsToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
+        this.logger.info("Done saving all materials to local JSON files");
     }
 
-    protected abstract void loadAlloysFromWeb();
+    protected void setAlloys(FMLPreInitializationEvent event){
+        this.loadAlloysFromJson(event.getModConfigurationDirectory(), this.modid);
+        this.logger.info("Done loading all alloys from local JSON files");
+        this.loadAlloysFromSource();
+        this.logger.info("Done loading all alloys from source");
+    }
 
-    protected abstract void loadAlloysFromSource();
+    protected void saveAlloys(FMLPreInitializationEvent event){
+        this.saveAlloysToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
+        this.logger.info("Done saving all alloys to local JSON files");
+    }
+
+    protected void setConfig(FMLPreInitializationEvent event){
+        this.loadConfigFromJson(event.getModConfigurationDirectory(), this.modid);
+        this.logger.info("Done loading config from local JSON file");
+        this.loadConfigFromSource();
+        this.logger.info("Done loading config from source");
+    }
+
+    protected void saveConfig(FMLPreInitializationEvent event){
+        this.saveConfigToJson(event.getModConfigurationDirectory(), this.modid, this.forceCreateJson);
+        this.logger.info("Done saving config to local JSON file");
+    }
 
     private void loadMaterials(TiCMaterial[] jsonMaterials){
         if(jsonMaterials == null){
@@ -164,7 +159,7 @@ public abstract class AbstractIntegration{
         this.loadMaterials(jsonMaterials);
     }
 
-    private void loadMaterialsFromJson(File configDir, String root, String modid){
+    protected void loadMaterialsFromJson(File configDir, String root, String modid){
         this.loadMaterialsFromJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
     }
 
@@ -172,32 +167,9 @@ public abstract class AbstractIntegration{
         this.loadMaterialsFromJson(configDir, "armoryexpansion", modid + "-materials");
     }
 
-    private void saveMaterialsToJson(String path, boolean forceCreate){
-        if(materials.values().size() <= 0 && !forceCreate){
-            return;
-        }
+    protected abstract void loadMaterialsFromWeb();
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
-        File output = new File(path);
-        //noinspection ResultOfMethodCallIgnored
-        output.getParentFile().mkdirs();
-        try {
-            FileWriter writer = new FileWriter(output);
-            writer.write(returnMaterialExample());
-            writer.write(gson.toJson(materials.values()));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveMaterialsToJson(File configDir, String root, String modid, boolean forceCreate){
-        this.saveMaterialsToJson(configDir.getPath() + "/" + root + "/" + modid + ".json", forceCreate);
-    }
-
-    private void saveMaterialsToJson(File configDir, String modid, boolean forceCreate){
-        this.saveMaterialsToJson(configDir, "armoryexpansion", modid + "-materials", forceCreate);
-    }
+    protected abstract void loadMaterialsFromSource();
 
     private void loadAlloys(TiCAlloy[] jsonAlloys){
         if(jsonAlloys == null){
@@ -237,12 +209,81 @@ public abstract class AbstractIntegration{
         loadAlloys(jsonAlloys);
     }
 
-    private void loadAlloysFromJson(File configDir, String root, String modid){
+    protected void loadAlloysFromJson(File configDir, String root, String modid){
         this.loadAlloysFromJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
     }
 
     private void loadAlloysFromJson(File configDir, String modid){
         this.loadAlloysFromJson(configDir, "armoryexpansion", modid + "-alloys");
+    }
+
+    protected abstract void loadAlloysFromWeb();
+
+    protected abstract void loadAlloysFromSource();
+
+    private void loadConfig(Config config){
+        this.configHelper = config;
+    }
+
+    void loadConfigFromJson(InputStream path){
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+
+        Config jsonConfig = gson.fromJson(new BufferedReader(new InputStreamReader(new BoundedInputStream(path, 131072))), Config.class);
+        this.loadConfig(jsonConfig);
+    }
+
+    private void loadConfigFromJson(String path){
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+
+        Config jsonConfig = new Config();
+        try {
+            File input = new File(path);
+            if(input.exists()){
+                jsonConfig = gson.fromJson(new FileReader(input), Config.class);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        this.loadConfig(jsonConfig);
+    }
+
+    protected void loadConfigFromJson(File configDir, String root, String modid){
+        this.loadConfigFromJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
+    }
+
+    private void loadConfigFromJson(File configDir, String modid){
+        this.loadConfigFromJson(configDir, "armoryexpansion", modid + "-config");
+    }
+
+    protected abstract void loadConfigFromWeb();
+
+    protected abstract void loadConfigFromSource();
+
+    private void saveMaterialsToJson(String path, boolean forceCreate){
+        if(materials.values().size() <= 0 && !forceCreate){
+            return;
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+        File output = new File(path);
+        //noinspection ResultOfMethodCallIgnored
+        output.getParentFile().mkdirs();
+        try {
+            FileWriter writer = new FileWriter(output);
+            writer.write(returnMaterialExample());
+            writer.write(gson.toJson(this.materials.values()));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void saveMaterialsToJson(File configDir, String root, String modid, boolean forceCreate){
+        this.saveMaterialsToJson(configDir.getPath() + "/" + root + "/" + modid + ".json", forceCreate);
+    }
+
+    private void saveMaterialsToJson(File configDir, String modid, boolean forceCreate){
+        this.saveMaterialsToJson(configDir, "armoryexpansion", modid + "-materials", forceCreate);
     }
 
     private void saveAlloysToJson(String path, boolean forceCreate){
@@ -257,14 +298,14 @@ public abstract class AbstractIntegration{
         try {
             FileWriter writer = new FileWriter(output);
             writer.write(returnAlloyExample());
-            writer.write(gson.toJson(alloys.values()));
+            writer.write(gson.toJson(this.alloys.values()));
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void saveAlloysToJson(File configDir, String root, String modid, boolean forceCreate){
+    protected void saveAlloysToJson(File configDir, String root, String modid, boolean forceCreate){
         this.saveAlloysToJson(configDir.getPath() + "/" + root + "/" + modid + ".json", forceCreate);
     }
 
@@ -272,14 +313,36 @@ public abstract class AbstractIntegration{
         this.saveAlloysToJson(configDir, "armoryexpansion", modid + "-alloys", forceCreate);
     }
 
-    private void oredictMaterials() {
+    private void saveConfigToJson(String path, boolean forceCreate){
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+        File output = new File(path);
+        //noinspection ResultOfMethodCallIgnored
+        output.getParentFile().mkdirs();
+        try {
+            FileWriter writer = new FileWriter(output);
+            writer.write(gson.toJson(this.configHelper));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void saveConfigToJson(File configDir, String root, String modid, boolean forceCreate){
+        this.saveConfigToJson(configDir.getPath() + "/" + root + "/" + modid + ".json", forceCreate);
+    }
+
+    private void saveConfigToJson(File configDir, String modid, boolean forceCreate){
+        this.saveConfigToJson(configDir, "armoryexpansion", modid + "-config", forceCreate);
+    }
+
+    public void oredictMaterials() {
         this.materials.values().forEach(m -> {
             m.registerOreDict();
             this.logger.info("Oredicted material {" + m.getIdentifier() + "};");
         });
     }
 
-    void registerMaterials() {
+    public void registerMaterials() {
         this.materials.values().forEach(m -> {
             if (m.registerTinkersMaterial(this.isMaterialEnabled(m))) {
                 this.logger.info("Registered tinker's material {" + m.getIdentifier() + "};");
@@ -287,7 +350,7 @@ public abstract class AbstractIntegration{
         });
     }
 
-    private void registerMaterialFluids() {
+    public void registerMaterialFluids() {
         this.materials.values().forEach(m -> {
             if (m.registerTinkersFluid(this.isMaterialEnabled(m) && this.isMaterialFluidEnabled(m))) {
                 this.logger.info("Registered fluid for material {" + m.getIdentifier() + "};");
@@ -295,7 +358,7 @@ public abstract class AbstractIntegration{
         });
     }
 
-    private void registerMaterialFluidsIMC(){
+    public void registerMaterialFluidsIMC(){
         this.materials.values().forEach(m -> {
             if (m.registerTinkersFluidIMC(this.isMaterialEnabled(m) && this.isMaterialFluidEnabled(m))) {
                 this.logger.info("Sent IMC for tinker's fluid {" + m.getFluidName() + "};");
@@ -303,22 +366,26 @@ public abstract class AbstractIntegration{
         });
     }
 
-    void registerAlloys(){
+    public void registerAlloys(){
         this.alloys.values().forEach(a -> {
             a.registerTiCAlloy();
             this.logger.info("Sent IMC for tinker's alloy {" + a.getName() + "};");
         });
     }
 
-    void registerMaterialStats() {
+    public void registerMaterialStats() {
         this.materials.values().forEach(m -> {
-            if (m.registerTinkersMaterialStats(getProperties(m), this.isMaterialEnabled(m))) {
+            if (m.registerTinkersMaterialStats(this.getProperties(m), this.isMaterialEnabled(m))) {
                 this.logger.info("Registered stats for tinker's material {" + m.getIdentifier() + "};");
             }
         });
     }
 
-    private void updateMaterials() {
+    private MaterialConfigOptions getProperties(ITiCMaterial m) {
+        return this.configHelper.getSafeMaterialConfigOptions(m.getIdentifier());
+    }
+
+    public void updateMaterials() {
         this.materials.values().forEach(m -> {
             if (m.updateTinkersMaterial(this.isMaterialEnabled(m))) {
                 this.logger.info("Updated tinker's material {" + m.getIdentifier() + "};");
@@ -326,7 +393,7 @@ public abstract class AbstractIntegration{
         });
     }
 
-    private void registerMaterialTraits() {
+    public void registerMaterialTraits() {
         this.materials.values().forEach(m -> {
             if (m.registerTinkersMaterialTraits(this.isMaterialEnabled(m))) {
                 this.logger.info("Registered traits for tinker's material {" + m.getIdentifier() + "};");
@@ -334,43 +401,19 @@ public abstract class AbstractIntegration{
         });
     }
 
-    private Map<String, Property> getProperties(ITiCMaterial material){
-        return this.getConfigHelper().getProperties(material.getIdentifier());
+    public boolean isMaterialEnabled(ITiCMaterial material){
+        return this.configHelper.isMaterialEnabled(material.getIdentifier());
     }
 
-    private Property getProperty(ITiCMaterial material, String property){
-        Map<String, Property> properties = getProperties(material);
-        if(properties != null && properties.containsKey(property)){
-            return this.getProperties(material).get(property);
-        }
-        return null;
+    public boolean isMaterialFluidEnabled(ITiCMaterial material){
+        return this.configHelper.isFluidEnabled(material.getIdentifier());
     }
 
-    public boolean isEnabled(ITiCMaterial material, String property){
-        return (this.getProperty(material, property) != null) && Objects.requireNonNull(this.getProperty(material, property)).getBoolean();
-    }
-
-    private boolean isMaterialEnabled(ITiCMaterial material){
-        Property property = getProperty(material, CATEGORY_MATERIAL);
-        if (property != null){
-            return property.getBoolean();
-        }
-        return true;
-    }
-
-    private boolean isMaterialFluidEnabled(ITiCMaterial material){
-        Property property = getProperty(material, CATEGORY_MATERIAL);
-        if (property != null){
-            return property.getBoolean();
-        }
-        return false;
-    }
-
-    protected void enableForceJsonCreation(){
+    public void enableForceJsonCreation(){
         this.forceCreateJson = true;
     }
 
-    private String returnMaterialExample(){
+    public String returnMaterialExample(){
         return  "//  {\n" +
                 "//    The material's durability is this value multiplied by 8\n" +
                 "//    \"durability\": 36,\n" +
@@ -426,7 +469,7 @@ public abstract class AbstractIntegration{
                 "//  }\n";
     }
 
-    private String returnAlloyExample() {
+    public String returnAlloyExample() {
         return "//  {\n" +
                 "//    \"output\": {\n" +
                 "//      \"fluid\": \"iron\",\n" +

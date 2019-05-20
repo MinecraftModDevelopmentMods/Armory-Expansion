@@ -1,17 +1,18 @@
-package org.softc.armoryexpansion.integration.plugins.tinkers_construct;
+package org.softc.armoryexpansion.integration.plugins.tinkers_construct.material;
 
 import c4.conarm.lib.materials.ArmorMaterialType;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-import org.softc.armoryexpansion.integration.plugins.constructs_armory.ConArmStats;
+import org.softc.armoryexpansion.integration.aelib.config.MaterialConfigOptions;
+import org.softc.armoryexpansion.integration.plugins.constructs_armory.stats.ConArmStats;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.stats.TiCStats;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCFluid;
 import org.softc.armoryexpansion.integration.plugins.tinkers_construct.fluids.TiCFluidBlock;
 import slimeknights.tconstruct.TConstruct;
@@ -23,7 +24,6 @@ import slimeknights.tconstruct.library.traits.ITrait;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class TiCMaterial extends AbstractTiCMaterial{
     private int durability = 0;
@@ -258,7 +258,7 @@ public class TiCMaterial extends AbstractTiCMaterial{
         return new TiCFluidBlock(getFluid());
     }
 
-    public boolean registerTinkersMaterialStats(Map<String, Property> properties, boolean canRegister){
+    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister){
         if(!canRegister){
             return false;
         }

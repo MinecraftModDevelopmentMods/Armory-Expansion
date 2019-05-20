@@ -1,14 +1,12 @@
-package org.softc.armoryexpansion.integration.plugins.constructs_armory;
+package org.softc.armoryexpansion.integration.plugins.constructs_armory.stats;
 
 import c4.conarm.lib.materials.CoreMaterialStats;
 import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
-import net.minecraftforge.common.config.Property;
-import org.softc.armoryexpansion.integration.plugins.tinkers_construct.TiCMaterial;
+import org.softc.armoryexpansion.integration.aelib.config.MaterialConfigOptions;
+import org.softc.armoryexpansion.integration.plugins.tinkers_construct.material.TiCMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.Material;
-
-import java.util.Map;
 
 import static c4.conarm.lib.materials.ArmorMaterialType.*;
 
@@ -25,19 +23,19 @@ public class ConArmStats {
         return new TrimMaterialStats(extra / 8f);
     }
 
-    private static void registerMaterialArmorStats(Material material, float durability, float defense, float toughness, float magicaffinity, float extra, Map<String, Property> properties){
-        if (!material.hasStats(CORE) && properties.get(CORE).getBoolean() && durability > 0 || defense > 0){
+    private static void registerMaterialArmorStats(Material material, float durability, float defense, float toughness, float magicaffinity, float extra, MaterialConfigOptions properties){
+        if (!material.hasStats(CORE) && properties.isCoreEnabled() && durability > 0 || defense > 0){
             TinkerRegistry.addMaterialStats(material, getCoreMaterialStats(durability, defense));
         }
-        if (!material.hasStats(TRIM) && properties.get(TRIM).getBoolean() && extra > 0) {
+        if (!material.hasStats(TRIM) && properties.isTrimEnabled() && extra > 0) {
             TinkerRegistry.addMaterialStats(material, getTrimMaterialStats(extra));
         }
-        if (!material.hasStats(PLATES) && properties.get(PLATES).getBoolean() && (durability > 0 || magicaffinity > 0)) {
+        if (!material.hasStats(PLATES) && properties.isPlatesEnabled() && (durability > 0 || magicaffinity > 0)) {
             TinkerRegistry.addMaterialStats(material, getPlatesMaterialStats(magicaffinity, durability, toughness));
         }
     }
 
-    private static void registerMaterialArmorStats(String identifier, float durability, float defense, float toughness, float magicaffinity, float extra, Map<String, Property> properties) {
+    private static void registerMaterialArmorStats(String identifier, float durability, float defense, float toughness, float magicaffinity, float extra, MaterialConfigOptions properties) {
         Material material = TinkerRegistry.getMaterial(identifier);
         if ("unknown".equals(material.identifier)) {
             return;
@@ -45,7 +43,7 @@ public class ConArmStats {
         registerMaterialArmorStats(material, durability, defense, toughness, magicaffinity, extra, properties);
     }
 
-    public static void registerMaterialArmorStats(TiCMaterial material, Map<String, Property> properties) {
+    public static void registerMaterialArmorStats(TiCMaterial material, MaterialConfigOptions properties) {
         registerMaterialArmorStats(material.getIdentifier(), material.getDurability(), material.getDefense(), material.getToughness(), material.getMagicAffinity(), material.getDurability(), properties);
     }
 }
