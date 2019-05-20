@@ -2,7 +2,7 @@ package org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_const
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.AbstractTiCMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old.AbstractTiCMaterial;
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 import slimeknights.tconstruct.library.materials.Material;
 

@@ -13,8 +13,8 @@ import org.apache.logging.log4j.Logger;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.common.integration.aelib.config.IntegrationConfig;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.ITiCMaterial;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.TiCMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old.ITiCMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old.TiCMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.alloys.TiCAlloy;
 
 import java.io.*;

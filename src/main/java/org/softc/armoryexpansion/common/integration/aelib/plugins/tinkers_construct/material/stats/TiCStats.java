@@ -1,7 +1,7 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.stats;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.stats;
 
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.TiCMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old.TiCMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.*;
 

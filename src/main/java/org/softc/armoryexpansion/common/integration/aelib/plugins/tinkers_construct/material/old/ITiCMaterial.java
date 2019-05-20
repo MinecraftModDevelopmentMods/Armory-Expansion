@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.fluids.Fluid;
@@ -6,7 +6,6 @@ import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_constr
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 
 public interface ITiCMaterial {
-
     String getIdentifier();
 
     ITiCMaterial setDurability(int durability);

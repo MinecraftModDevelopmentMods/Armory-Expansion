@@ -1,10 +1,10 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.stats;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.stats;
 
 import c4.conarm.lib.materials.CoreMaterialStats;
 import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.TiCMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old.TiCMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.Material;
 

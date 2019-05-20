@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old;
 
 import c4.conarm.lib.materials.ArmorMaterialType;
 import net.minecraft.block.Block;
@@ -12,10 +12,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderHelper;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.stats.ConArmStats;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.stats.ConArmStats;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.fluids.TiCFluid;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.fluids.TiCFluidBlock;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.stats.TiCStats;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.stats.TiCStats;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.Material;

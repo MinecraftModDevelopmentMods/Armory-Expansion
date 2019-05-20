@@ -1,6 +1,6 @@
 package org.softc.armoryexpansion.common.integration.aelib.config;
 
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.ITiCMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old.ITiCMaterial;
 
 import java.util.HashMap;
 import java.util.Map;

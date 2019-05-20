@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
