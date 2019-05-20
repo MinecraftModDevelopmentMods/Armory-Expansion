@@ -13,11 +13,11 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderHelper;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.stats.ConArmStats;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.fluids.TiCFluid;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.fluids.TiCFluidBlock;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.stats.TiCStats;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.TinkerRegistry;
+import slimeknights.tconstruct.library.fluid.FluidMolten;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.library.materials.MaterialTypes;
 import slimeknights.tconstruct.library.traits.ITrait;
@@ -209,7 +209,7 @@ public class TiCMaterial extends AbstractTiCMaterial{
             return false;
         }
 
-        Fluid materialFluid = new TiCFluid(this.identifier, this.color);
+        Fluid materialFluid = new FluidMolten(this.identifier, this.color);
         FluidRegistry.registerFluid(materialFluid);
         materialFluid.setBlock(this.getFluidBlock());
         FluidRegistry.addBucketForFluid(materialFluid);
@@ -234,7 +234,7 @@ public class TiCMaterial extends AbstractTiCMaterial{
     }
 
     public Fluid getFluid(){
-        return new TiCFluid(this.identifier, this.color);
+        return new FluidMolten(this.identifier, this.color);
     }
 
     public Block getFluidBlock(){
