@@ -1,18 +1,23 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material;
 
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.Material;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.IRangedMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.*;
 
 import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
+import static slimeknights.tconstruct.library.materials.MaterialTypes.PROJECTILE;
 
-public class RangedMaterial extends Material implements IRangedMaterial {
+public class ArmorToolRangedMaterial extends ArmorToolMaterial implements IRangedMaterial {
     private BowMaterialStats bowMaterialStats;
     private BowStringMaterialStats bowStringMaterialStats;
     private ArrowShaftMaterialStats arrowShaftMaterialStats;
     private FletchingMaterialStats fletchingMaterialStats;
     private ProjectileMaterialStats projectileMaterialStats;
+
+    public ArmorToolRangedMaterial(String identifier, int color) {
+        super(identifier, color);
+    }
 
     @Override
     public BowMaterialStats getBowMaterialStats() {
@@ -64,16 +69,6 @@ public class RangedMaterial extends Material implements IRangedMaterial {
     }
 
     @Override
-    public boolean isToolMaterial() {
-        return false;
-    }
-
-    @Override
-    public boolean isArmorMaterial() {
-        return false;
-    }
-
-    @Override
     public boolean isRangedMaterial() {
         return this.getArrowShaftMaterialStats() != null
                 || this.getBowMaterialStats() != null
@@ -89,6 +84,8 @@ public class RangedMaterial extends Material implements IRangedMaterial {
             if ("unknown".equals(material.getIdentifier())){
                 return false;
             }
+            this.registerArmorStats(material);
+            this.registerToolStats(material);
             this.registerRangedStats(material);
             return true;
         }
@@ -96,7 +93,7 @@ public class RangedMaterial extends Material implements IRangedMaterial {
     }
 
     void registerRangedStats(slimeknights.tconstruct.library.materials.Material material){
-        if(this.isToolMaterial()){
+        if(this.isRangedMaterial()){
             if(material.getStats(BOW) == null){
                 TinkerRegistry.addMaterialStats(material, this.getBowMaterialStats());
             }

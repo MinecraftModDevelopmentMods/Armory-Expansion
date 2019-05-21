@@ -13,6 +13,7 @@ import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.common.integration.aelib.config.IntegrationConfig;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorToolMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorToolRangedMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.alloys.TiCAlloy;
 
@@ -146,18 +147,21 @@ public abstract class AbstractIntegration implements IIntegration {
     void loadMaterialsFromJson(InputStream path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        ArmorToolMaterial[] jsonMaterials = gson.fromJson(new BufferedReader(new InputStreamReader(new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), ArmorToolMaterial[].class);
+        ArmorToolRangedMaterial[] jsonMaterials = gson.fromJson(
+                new BufferedReader(
+                        new InputStreamReader(
+                                new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), ArmorToolRangedMaterial[].class);
         this.loadMaterials(jsonMaterials);
     }
 
     private void loadMaterialsFromJson(String path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        ArmorToolMaterial[] jsonMaterials = new ArmorToolMaterial[0];
+        ArmorToolRangedMaterial[] jsonMaterials = new ArmorToolRangedMaterial[0];
         try {
             File input = new File(path);
             if(input.exists()){
-                jsonMaterials = gson.fromJson(new FileReader(input), ArmorToolMaterial[].class);
+                jsonMaterials = gson.fromJson(new FileReader(input), ArmorToolRangedMaterial[].class);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -189,7 +193,9 @@ public abstract class AbstractIntegration implements IIntegration {
 
         TiCAlloy[] jsonAlloys = new TiCAlloy[0];
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize())));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize())));
             jsonAlloys = gson.fromJson(reader, TiCAlloy[].class);
             reader.close();
         } catch (IOException e) {
@@ -230,7 +236,10 @@ public abstract class AbstractIntegration implements IIntegration {
     void loadConfigFromJson(InputStream path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        IntegrationConfig jsonIntegrationConfig = gson.fromJson(new BufferedReader(new InputStreamReader(new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), IntegrationConfig.class);
+        IntegrationConfig jsonIntegrationConfig = gson.fromJson(
+                new BufferedReader(
+                        new InputStreamReader(
+                                new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), IntegrationConfig.class);
         this.loadConfig(jsonIntegrationConfig);
     }
 
