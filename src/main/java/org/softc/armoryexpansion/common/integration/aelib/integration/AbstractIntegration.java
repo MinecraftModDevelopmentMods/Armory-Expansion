@@ -14,7 +14,7 @@ import org.softc.armoryexpansion.common.integration.aelib.config.IntegrationConf
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorToolMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorToolRangedMaterial;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.alloys.TiCAlloy;
 
 import java.io.*;
@@ -27,7 +27,7 @@ public abstract class AbstractIntegration implements IIntegration {
     protected String configDir;
     protected IntegrationConfig integrationConfigHelper = new IntegrationConfig();
     private boolean forceCreateJson = false;
-    protected Map<String, IMaterial> materials = new HashMap<>();
+    protected Map<String, IBasicMaterial> materials = new HashMap<>();
     private Map<String, TiCAlloy> alloys = new HashMap<>();
 
 //    public AbstractIntegration() {
@@ -94,7 +94,7 @@ public abstract class AbstractIntegration implements IIntegration {
         });
     }
 
-    protected void addMaterial(IMaterial material){
+    protected void addMaterial(IBasicMaterial material){
         if(isMaterialEnabled(material)){
             this.materials.putIfAbsent(material.getIdentifier(), material);
         }
@@ -402,7 +402,7 @@ public abstract class AbstractIntegration implements IIntegration {
         });
     }
 
-    private MaterialConfigOptions getProperties(IMaterial m) {
+    private MaterialConfigOptions getProperties(IBasicMaterial m) {
         return this.integrationConfigHelper.getSafeMaterialConfigOptions(m.getIdentifier());
     }
 
@@ -425,12 +425,12 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     @Override
-    public boolean isMaterialEnabled(IMaterial material){
+    public boolean isMaterialEnabled(IBasicMaterial material){
         return this.integrationConfigHelper.isMaterialEnabled(material);
     }
 
     @Override
-    public boolean isMaterialFluidEnabled(IMaterial material){
+    public boolean isMaterialFluidEnabled(IBasicMaterial material){
         return this.integrationConfigHelper.isFluidEnabled(material);
     }
 

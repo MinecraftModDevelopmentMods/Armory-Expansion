@@ -5,12 +5,12 @@ import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.Material;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.BasicMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 
 import static c4.conarm.lib.materials.ArmorMaterialType.*;
 
-public class ArmorMaterial extends Material implements IArmorMaterial{
+public class ArmorMaterial extends BasicMaterial implements IArmorMaterial{
     private CoreMaterialStats coreMaterialStats;
     private PlatesMaterialStats platesMaterialStats;
     private TrimMaterialStats trimMaterialStats;

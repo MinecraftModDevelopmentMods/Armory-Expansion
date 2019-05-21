@@ -75,7 +75,7 @@ public class ToolRangedMaterial extends ToolMaterial implements IRangedMaterial 
     @Override
     public boolean registerTinkersMaterialStats(MaterialConfigOptions properties) {
         if (properties.isMaterialEnabled()) {
-            slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
+            Material material = TinkerRegistry.getMaterial(this.getIdentifier());
             if ("unknown".equals(material.getIdentifier())){
                 return false;
             }

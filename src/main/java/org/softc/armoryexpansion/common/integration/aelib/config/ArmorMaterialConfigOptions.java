@@ -1,6 +1,6 @@
 package org.softc.armoryexpansion.common.integration.aelib.config;
 
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
 
 public class ArmorMaterialConfigOptions {
     protected String name;
@@ -17,13 +17,13 @@ public class ArmorMaterialConfigOptions {
         this.armorOptions = new ArmorConfigOptions(false);
     }
 
-    ArmorMaterialConfigOptions(IMaterial iMaterial) {
-        this.name = iMaterial.getIdentifier();
+    ArmorMaterialConfigOptions(IBasicMaterial iBasicMaterial) {
+        this.name = iBasicMaterial.getIdentifier();
         this.material = true;
-        this.fluid = iMaterial.isCastable();
+        this.fluid = iBasicMaterial.isCastable();
         this.traits = true;
 
-        this.armorOptions = new ArmorConfigOptions(iMaterial.isArmorMaterial());
+        this.armorOptions = new ArmorConfigOptions(iBasicMaterial.isArmorMaterial());
     }
 
     String getName() {

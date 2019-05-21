@@ -8,7 +8,7 @@ import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_constr
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 import slimeknights.tconstruct.library.fluid.FluidMolten;
 
-public interface IMaterial {
+public interface IBasicMaterial {
     String getIdentifier();
 
     int getColor();
@@ -37,7 +37,7 @@ public interface IMaterial {
 
     boolean isRangedMaterial();
 
-    IMaterial registerOreDict();
+    IBasicMaterial registerOreDict();
 
     boolean registerTinkersMaterial(boolean canRegister);
 
@@ -51,5 +51,5 @@ public interface IMaterial {
 
     boolean registerTinkersMaterialTraits(boolean canRegister);
 
-    IMaterial addTrait(String trait, String location);
+    IBasicMaterial addTrait(String trait, String location);
 }

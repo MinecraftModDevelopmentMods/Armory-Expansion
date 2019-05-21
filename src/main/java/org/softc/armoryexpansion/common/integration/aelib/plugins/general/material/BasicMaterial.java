@@ -24,16 +24,16 @@ import slimeknights.tconstruct.library.traits.ITrait;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Material implements IMaterial {
+public abstract class BasicMaterial implements IBasicMaterial {
     protected String identifier;
-    protected String itemName;
-    protected int meta;
+    private String itemName;
+    private int meta;
     protected int color;
     protected MaterialRenderType type = MaterialRenderType.DEFAULT;
-    protected ResourceLocation texture;
+    private ResourceLocation texture;
 
-    protected boolean isCastable = false;
-    protected boolean isCraftable = false;
+    private boolean isCastable = false;
+    private boolean isCraftable = false;
 
     protected List<TraitHolder> traits = new LinkedList<>();
 
@@ -84,7 +84,7 @@ public abstract class Material implements IMaterial {
     }
 
     @Override
-    public IMaterial registerOreDict() {
+    public IBasicMaterial registerOreDict() {
         ItemStack stack = this.getItemStack();
         if(stack != null){
             OreDictionary.registerOre(this.getIdentifier(), this.getItemStack());
@@ -183,13 +183,13 @@ public abstract class Material implements IMaterial {
     }
 
     @Override
-    public IMaterial addTrait(String trait, String location) {
+    public IBasicMaterial addTrait(String trait, String location) {
         this.traits.add(new TraitHolder(trait, location));
         return this;
     }
 
     @Override
     public boolean equals(Object material) {
-        return material instanceof Material && this.getIdentifier().equals(((Material) material).getIdentifier());
+        return material instanceof BasicMaterial && this.getIdentifier().equals(((BasicMaterial) material).getIdentifier());
     }
 }

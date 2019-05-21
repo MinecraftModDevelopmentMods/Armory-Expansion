@@ -1,6 +1,6 @@
 package org.softc.armoryexpansion.common.integration.aelib.config;
 
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
 
 public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
     private ToolConfigOptions toolOptions;
@@ -15,11 +15,11 @@ public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
         this.rangedOptions = new RangedConfigOptions(false);
     }
 
-    MaterialConfigOptions(IMaterial iMaterial) {
-        super(iMaterial);
+    MaterialConfigOptions(IBasicMaterial iBasicMaterial) {
+        super(iBasicMaterial);
 
-        this.toolOptions = new ToolConfigOptions(iMaterial.isToolMaterial());
-        this.rangedOptions = new RangedConfigOptions(iMaterial.isRangedMaterial());
+        this.toolOptions = new ToolConfigOptions(iBasicMaterial.isToolMaterial());
+        this.rangedOptions = new RangedConfigOptions(iBasicMaterial.isRangedMaterial());
     }
 
     public boolean isToolEnabled(){
