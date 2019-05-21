@@ -103,13 +103,13 @@ public class ArmorMaterial extends Material implements IArmorMaterial{
 
     void registerArmorStats(slimeknights.tconstruct.library.materials.Material material){
         if (this.isArmorMaterial()) {
-            if(material.getStats(CORE) == null){
+            if(material.getStats(CORE) == null && this.getCoreMaterialStats() != null){
                 TinkerRegistry.addMaterialStats(material, this.getCoreMaterialStats());
             }
-            if(material.getStats(PLATES) == null){
+            if(material.getStats(PLATES) == null && this.getPlatesMaterialStats() != null){
                 TinkerRegistry.addMaterialStats(material, this.getPlatesMaterialStats());
             }
-            if(material.getStats(TRIM) == null){
+            if(material.getStats(TRIM) == null && this.getTrimMaterialStats() != null){
                 TinkerRegistry.addMaterialStats(material, this.getTrimMaterialStats());
             }
         }

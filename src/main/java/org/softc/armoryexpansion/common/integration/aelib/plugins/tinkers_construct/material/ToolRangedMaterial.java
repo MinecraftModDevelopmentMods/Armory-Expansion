@@ -87,17 +87,17 @@ public class ToolRangedMaterial extends ToolMaterial implements IRangedMaterial 
     }
 
     void registerRangedStats(slimeknights.tconstruct.library.materials.Material material){
-        if(this.isToolMaterial()){
-            if(material.getStats(BOW) == null){
+        if(this.isRangedMaterial()){
+            if(material.getStats(BOW) == null && this.getBowMaterialStats() != null){
                 TinkerRegistry.addMaterialStats(material, this.getBowMaterialStats());
             }
-            if(material.getStats(BOWSTRING) == null){
+            if(material.getStats(BOWSTRING) == null && this.getBowStringMaterialStats() != null){
                 TinkerRegistry.addMaterialStats(material, this.getBowStringMaterialStats());
             }
-            if(material.getStats(FLETCHING) == null){
+            if(material.getStats(FLETCHING) == null && this.getFletchingMaterialStats() != null){
                 TinkerRegistry.addMaterialStats(material, this.getFletchingMaterialStats());
             }
-            if(material.getStats(PROJECTILE) == null){
+            if(material.getStats(PROJECTILE) == null && this.getProjectileMaterialStats() != null){
                 TinkerRegistry.addMaterialStats(material, this.getProjectileMaterialStats());
             }
         }

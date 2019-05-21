@@ -77,6 +77,10 @@ public class IntegrationConfig {
         return this.getSafeMaterialConfigOptions(identifier).isBowEnabled();
     }
 
+    public boolean isBowStringEnabled(String identifier){
+        return this.getSafeMaterialConfigOptions(identifier).isBowStringEnabled();
+    }
+
     public boolean isShaftEnabled(String identifier){
         return this.getSafeMaterialConfigOptions(identifier).isShaftEnabled();
     }

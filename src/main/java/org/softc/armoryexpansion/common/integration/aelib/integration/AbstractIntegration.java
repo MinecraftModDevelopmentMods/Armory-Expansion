@@ -58,6 +58,7 @@ public abstract class AbstractIntegration implements IIntegration {
             this.updateMaterials();
             this.registerMaterialTraits();
         }
+        ArmoryExpansion.config.save();
     }
 
     @Override

@@ -88,6 +88,10 @@ public class MaterialConfigOptions {
         return this.rangedOptions.enableBow;
     }
 
+    boolean isBowStringEnabled() {
+        return this.rangedOptions.enableBowString;
+    }
+
     boolean isShaftEnabled(){
         return this.rangedOptions.enableShaft;
     }
@@ -140,17 +144,19 @@ public class MaterialConfigOptions {
     private class RangedConfigOptions {
         private boolean enableRanged;
         private boolean enableBow;
+        private boolean enableBowString;
         private boolean enableShaft;
         private boolean enableFletching;
         private boolean enableProjectile;
 
         RangedConfigOptions(boolean defVal) {
-            this(defVal, defVal, defVal, defVal, defVal);
+            this(defVal, defVal, defVal, defVal, defVal, defVal);
         }
 
-        RangedConfigOptions(boolean enableRanged, boolean enableBow, boolean enableShaft, boolean enableFletching, boolean enableProjectile) {
+        RangedConfigOptions(boolean enableRanged, boolean enableBow, boolean enableBowString, boolean enableShaft, boolean enableFletching, boolean enableProjectile) {
             this.enableRanged = enableRanged;
             this.enableBow = enableBow;
+            this.enableBowString = enableBowString;
             this.enableShaft = enableShaft;
             this.enableFletching = enableFletching;
             this.enableProjectile = enableProjectile;

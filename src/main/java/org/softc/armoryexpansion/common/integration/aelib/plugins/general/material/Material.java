@@ -14,9 +14,8 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderHelper;
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.fluids.TiCFluid;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.fluids.TiCFluidBlock;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits.TraitHolder;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.fluids.TiCFluidBlock;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.fluid.FluidMolten;
@@ -118,7 +117,7 @@ public abstract class Material implements IMaterial {
             return false;
         }
 
-        Fluid materialFluid = new TiCFluid(this.getIdentifier(), this.getColor());
+        Fluid materialFluid = new FluidMolten(this.getIdentifier(), this.getColor());
         FluidRegistry.registerFluid(materialFluid);
         FluidRegistry.addBucketForFluid(materialFluid);
         return true;
