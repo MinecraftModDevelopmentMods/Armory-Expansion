@@ -2,13 +2,7 @@ package org.softc.armoryexpansion.common.integration.aelib.config;
 
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
 
-public class MaterialConfigOptions {
-    private String name;
-    private boolean material;
-    private boolean fluid;
-    private boolean traits;
-
-    private ArmorConfigOptions armorOptions;
+public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
     private ToolConfigOptions toolOptions;
     private RangedConfigOptions rangedOptions;
 
@@ -22,46 +16,10 @@ public class MaterialConfigOptions {
     }
 
     MaterialConfigOptions(IMaterial iMaterial) {
-        this.name = iMaterial.getIdentifier();
-        this.material = true;
-        this.fluid = iMaterial.isCastable();
-        this.traits = true;
+        super(iMaterial);
 
-        this.armorOptions = new ArmorConfigOptions(iMaterial.isArmorMaterial());
         this.toolOptions = new ToolConfigOptions(iMaterial.isToolMaterial());
         this.rangedOptions = new RangedConfigOptions(iMaterial.isRangedMaterial());
-    }
-
-    String getName() {
-        return name;
-    }
-
-    public boolean isMaterialEnabled(){
-        return this.material;
-    }
-
-    public boolean isFluidEnabled(){
-        return this.fluid;
-    }
-
-    public boolean isTraitsEnabled(){
-        return this.traits;
-    }
-
-    public boolean isArmorEnabled(){
-        return this.armorOptions.enableArmor;
-    }
-
-    public boolean isCoreEnabled(){
-        return this.armorOptions.enableCore;
-    }
-
-    public boolean isPlatesEnabled(){
-        return this.armorOptions.enablePlates;
-    }
-
-    public boolean isTrimEnabled(){
-        return this.armorOptions.enableTrim;
     }
 
     public boolean isToolEnabled(){
@@ -80,7 +38,7 @@ public class MaterialConfigOptions {
         return this.toolOptions.enableExtra;
     }
 
-    public boolean isRangedEnabled(){
+    boolean isRangedEnabled(){
         return this.rangedOptions.enableRanged;
     }
 
@@ -92,7 +50,7 @@ public class MaterialConfigOptions {
         return this.rangedOptions.enableBowString;
     }
 
-    public boolean isShaftEnabled(){
+    boolean isShaftEnabled(){
         return this.rangedOptions.enableShaft;
     }
 
@@ -102,25 +60,6 @@ public class MaterialConfigOptions {
 
     public boolean isProjectileEnabled(){
         return this.rangedOptions.enableProjectile;
-    }
-
-    private class ArmorConfigOptions {
-        private boolean enableArmor;
-        private boolean enableCore;
-        private boolean enablePlates;
-        private boolean enableTrim;
-
-
-        ArmorConfigOptions(boolean defVal) {
-            this(defVal, defVal, defVal, defVal);
-        }
-
-        ArmorConfigOptions(boolean enableArmor, boolean enableCore, boolean enablePlates, boolean enableTrim) {
-            this.enableArmor = enableArmor;
-            this.enableCore = enableCore;
-            this.enablePlates = enablePlates;
-            this.enableTrim = enableTrim;
-        }
     }
 
     private class ToolConfigOptions {
