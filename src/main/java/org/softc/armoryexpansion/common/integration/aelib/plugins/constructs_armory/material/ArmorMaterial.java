@@ -102,15 +102,27 @@ public class ArmorMaterial extends Material implements IArmorMaterial{
 
     void registerArmorStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
         if (this.isArmorMaterial()) {
-            if(material.getStats(CORE) == null && this.getCoreMaterialStats() != null && properties.isCoreEnabled()){
-                TinkerRegistry.addMaterialStats(material, this.getCoreMaterialStats());
-            }
-            if(material.getStats(PLATES) == null && this.getPlatesMaterialStats() != null && properties.isPlatesEnabled()){
-                TinkerRegistry.addMaterialStats(material, this.getPlatesMaterialStats());
-            }
-            if(material.getStats(TRIM) == null && this.getTrimMaterialStats() != null && properties.isTrimEnabled()){
-                TinkerRegistry.addMaterialStats(material, this.getTrimMaterialStats());
-            }
+            this.registerCoreStats(material, properties);
+            this.registerPlatesStats(material, properties);
+            this.registerTrimStats(material, properties);
+        }
+    }
+
+    private void registerCoreStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(CORE) == null && this.getCoreMaterialStats() != null && properties.isCoreEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getCoreMaterialStats());
+        }
+    }
+
+    private void registerPlatesStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(PLATES) == null && this.getPlatesMaterialStats() != null && properties.isPlatesEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getPlatesMaterialStats());
+        }
+    }
+
+    private void registerTrimStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(TRIM) == null && this.getTrimMaterialStats() != null && properties.isTrimEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getTrimMaterialStats());
         }
     }
 }

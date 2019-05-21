@@ -95,20 +95,36 @@ public class RangedMaterial extends Material implements IRangedMaterial {
         return false;
     }
 
-    void registerRangedStats(slimeknights.tconstruct.library.materials.Material material,MaterialConfigOptions properties){
+    private void registerRangedStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
         if(this.isRangedMaterial()){
-            if(material.getStats(BOW) == null && this.getBowMaterialStats() != null && properties.isBowEnabled()){
-                TinkerRegistry.addMaterialStats(material, this.getBowMaterialStats());
-            }
-            if(material.getStats(BOWSTRING) == null && this.getBowStringMaterialStats() != null && properties.isBowStringEnabled()){
-                TinkerRegistry.addMaterialStats(material, this.getBowStringMaterialStats());
-            }
-            if(material.getStats(FLETCHING) == null && this.getFletchingMaterialStats() != null && properties.isFletchingEnabled()){
-                TinkerRegistry.addMaterialStats(material, this.getFletchingMaterialStats());
-            }
-            if(material.getStats(PROJECTILE) == null && this.getProjectileMaterialStats() != null && properties.isProjectileEnabled()){
-                TinkerRegistry.addMaterialStats(material, this.getProjectileMaterialStats());
-            }
+            this.registerBowStats(material, properties);
+            this.registerBowStringStats(material, properties);
+            this.registerFletchingStats(material, properties);
+            this.registerProjectileStats(material, properties);
+        }
+    }
+
+    private void registerBowStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(BOW) == null && this.getBowMaterialStats() != null && properties.isBowEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getBowMaterialStats());
+        }
+    }
+
+    private void registerBowStringStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(BOWSTRING) == null && this.getBowStringMaterialStats() != null && properties.isBowStringEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getBowStringMaterialStats());
+        }
+    }
+
+    private void registerFletchingStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(FLETCHING) == null && this.getFletchingMaterialStats() != null && properties.isFletchingEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getFletchingMaterialStats());
+        }
+    }
+
+    private void registerProjectileStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(PROJECTILE) == null && this.getProjectileMaterialStats() != null && properties.isProjectileEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getProjectileMaterialStats());
         }
     }
 }

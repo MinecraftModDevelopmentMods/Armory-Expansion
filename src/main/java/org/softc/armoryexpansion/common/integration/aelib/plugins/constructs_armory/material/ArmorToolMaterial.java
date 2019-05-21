@@ -76,15 +76,27 @@ public class ArmorToolMaterial extends ArmorMaterial implements IToolMaterial {
 
     void registerToolStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
         if(this.isToolMaterial()){
-            if(material.getStats(HEAD) == null && this.getHeadMaterialStats() != null && properties.isHeadEnabled()){
-                TinkerRegistry.addMaterialStats(material, this.getHeadMaterialStats());
-            }
-            if(material.getStats(HANDLE) == null && this.getHandleMaterialStats() != null && properties.isHandleEnabled()){
-                TinkerRegistry.addMaterialStats(material, this.getHandleMaterialStats());
-            }
-            if(material.getStats(EXTRA) == null && this.getExtraMaterialStats() != null && properties.isExtraEnabled()){
-                TinkerRegistry.addMaterialStats(material, this.getExtraMaterialStats());
-            }
+            this.registerHeadStats(material, properties);
+            this.registerHandleStats(material, properties);
+            this.registerExtraStats(material, properties);
+        }
+    }
+
+    private void registerHeadStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(HEAD) == null && this.getHeadMaterialStats() != null && properties.isHeadEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getHeadMaterialStats());
+        }
+    }
+
+    private void registerHandleStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(HANDLE) == null && this.getHandleMaterialStats() != null && properties.isHandleEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getHandleMaterialStats());
+        }
+    }
+
+    private void registerExtraStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(EXTRA) == null && this.getExtraMaterialStats() != null && properties.isExtraEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getExtraMaterialStats());
         }
     }
 }
