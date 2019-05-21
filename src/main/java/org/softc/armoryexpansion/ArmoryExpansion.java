@@ -18,7 +18,7 @@ import slimeknights.tconstruct.TConstruct;
 public final class ArmoryExpansion {
     public static final String MODID = "armoryexpansion";
     public static final String NAME = "Armory Expansion";
-    public static final String VERSION = "1.2.5";
+    public static final String VERSION = "1.3.0";
     static final String DEPENDENCIES =
             "required-after:" + TConstruct.modID + "; " +
             "required-after:" + ConstructsArmory.MODID + "; ";
@@ -31,6 +31,11 @@ public final class ArmoryExpansion {
         MinecraftForge.EVENT_BUS.register(this);
         logger = event.getModLog();
         config = new Configuration(event.getSuggestedConfigurationFile());
+    }
+
+    public static boolean isIntegrationEnabled(String modid){
+        return config
+                .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled").getBoolean();
     }
 
     public static int getBoundedInputStreamMaxSize(){

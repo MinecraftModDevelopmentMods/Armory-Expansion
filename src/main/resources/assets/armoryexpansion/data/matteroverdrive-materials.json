@@ -1,39 +1,50 @@
 [
   {
-    "durability": 66,
-    "miningSpeed": -3.0,
-    "damage": 2.0,
-    "magicAffinity": 14.0,
-    "harvestLevel": 2,
-    "range": 1.0,
-    "accuracy": 0.0,
-    "defense": 9.0,
-    "toughness": 2.0,
-    "traits": [],
-    "identifier": "tritanium",
-    "itemName": "matteroverdrive:tritanium_ingot",
-    "meta": 0,
-    "color": 11184810,
-    "type": "METAL",
-    "isCastable": true,
-    "isCraftable": false,
-    "isToolMaterial": true,
-    "isBowMaterial": true,
-    "isFletchingMaterial": false,
-    "isProjectileMaterial": true,
-    "isArmorMaterial": true
-  },
-  {
-    "durability": 0,
-    "miningSpeed": 0.0,
-    "damage": 0.0,
-    "magicAffinity": 0.0,
-    "harvestLevel": 0,
-    "range": 0.0,
-    "accuracy": 0.0,
-    "defense": 0.0,
-    "toughness": 0.0,
-    "traits": [],
+    "headMaterialStats": {
+      "durability": 160,
+      "harvestLevel": 3,
+      "attack": -1.0,
+      "miningspeed": 3.8999999,
+      "materialType": "head"
+    },
+    "handleMaterialStats": {
+      "modifier": 2.6,
+      "durability": 28,
+      "materialType": "handle"
+    },
+    "extraMaterialStats": {
+      "extraDurability": 100,
+      "materialType": "extra"
+    },
+    "coreMaterialStats": {
+      "durability": 20.0,
+      "defense": 14.0,
+      "materialType": "core"
+    },
+    "platesMaterialStats": {
+      "durability": 20.0,
+      "modifier": 1.875,
+      "toughness": 0.0,
+      "materialType": "plates"
+    },
+    "trimMaterialStats": {
+      "extraDurability": 2.5,
+      "materialType": "trim"
+    },
+    "bowMaterialStats": {
+      "drawspeed": 1.0,
+      "range": 1.0,
+      "bonusDamage": 0.0,
+      "materialType": "bow"
+    },
+    "arrowShaftMaterialStats": {
+      "modifier": 1.0,
+      "bonusAmmo": 0,
+      "materialType": "arrowshaft"
+    },
+    "projectileMaterialStats": {
+      "materialType": "projectile"
+    },
     "identifier": "dilithium",
     "itemName": "matteroverdrive:dilithium_crystal",
     "meta": 0,
@@ -41,10 +52,61 @@
     "type": "METAL",
     "isCastable": true,
     "isCraftable": false,
-    "isToolMaterial": false,
-    "isBowMaterial": false,
-    "isFletchingMaterial": false,
-    "isProjectileMaterial": false,
-    "isArmorMaterial": false
+    "traits": []
+  },
+  {
+    "headMaterialStats": {
+      "durability": 160,
+      "harvestLevel": 3,
+      "attack": -1.0,
+      "miningspeed": 3.8999999,
+      "materialType": "head"
+    },
+    "handleMaterialStats": {
+      "modifier": 2.6,
+      "durability": 28,
+      "materialType": "handle"
+    },
+    "extraMaterialStats": {
+      "extraDurability": 100,
+      "materialType": "extra"
+    },
+    "coreMaterialStats": {
+      "durability": 20.0,
+      "defense": 14.0,
+      "materialType": "core"
+    },
+    "platesMaterialStats": {
+      "durability": 20.0,
+      "modifier": 1.875,
+      "toughness": 0.0,
+      "materialType": "plates"
+    },
+    "trimMaterialStats": {
+      "extraDurability": 2.5,
+      "materialType": "trim"
+    },
+    "bowMaterialStats": {
+      "drawspeed": 1.0,
+      "range": 1.0,
+      "bonusDamage": 0.0,
+      "materialType": "bow"
+    },
+    "arrowShaftMaterialStats": {
+      "modifier": 1.0,
+      "bonusAmmo": 0,
+      "materialType": "arrowshaft"
+    },
+    "projectileMaterialStats": {
+      "materialType": "projectile"
+    },
+    "identifier": "tritanium",
+    "itemName": "matteroverdrive:tritanium_ingot",
+    "meta": 0,
+    "color": 11184810,
+    "type": "METAL",
+    "isCastable": true,
+    "isCraftable": false,
+    "traits": []
   }
 ]

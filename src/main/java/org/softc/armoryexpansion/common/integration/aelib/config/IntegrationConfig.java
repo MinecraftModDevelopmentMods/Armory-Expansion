@@ -1,27 +1,28 @@
 package org.softc.armoryexpansion.common.integration.aelib.config;
 
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.ITiCMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class IntegrationConfig {
+    private static final MaterialConfigOptions DEFAULT = new MaterialConfigOptions();
     private Map<String, MaterialConfigOptions> integrationMaterials = new HashMap<>();
-
-    public IntegrationConfig() {
-        this.integrationMaterials.put("DEFAULT", new MaterialConfigOptions());
-    }
 
     private void insertMaterialConfigOptions(MaterialConfigOptions materialConfigOptions){
         this.integrationMaterials.putIfAbsent(materialConfigOptions.getName(), materialConfigOptions);
     }
 
     public MaterialConfigOptions getSafeMaterialConfigOptions(String identifier){
-        return this.integrationMaterials.getOrDefault(identifier, this.integrationMaterials.get("DEFAULT"));
+        return this.integrationMaterials.getOrDefault(identifier, DEFAULT);
     }
 
-    public void syncConfig(Map<String, ITiCMaterial> materials) {
-        materials.values().forEach(m -> this.insertMaterialConfigOptions(new MaterialConfigOptions(m.getIdentifier())));
+    public Map<String, MaterialConfigOptions> getIntegrationMaterials() {
+        return integrationMaterials;
+    }
+
+    public void syncConfig(Map<String, IMaterial> materials) {
+        materials.values().forEach(m -> this.insertMaterialConfigOptions(new MaterialConfigOptions(m)));
     }
 
     public boolean isMaterialEnabled(String identifier){
@@ -74,6 +75,10 @@ public class IntegrationConfig {
 
     public boolean isBowEnabled(String identifier){
         return this.getSafeMaterialConfigOptions(identifier).isBowEnabled();
+    }
+
+    public boolean isBowStringEnabled(String identifier){
+        return this.getSafeMaterialConfigOptions(identifier).isBowStringEnabled();
     }
 
     public boolean isShaftEnabled(String identifier){

@@ -21,7 +21,7 @@ public class MatterOverdriveIntegration extends JsonIntegration {
     static final String NAME = ArmoryExpansion.NAME + " - MatterOverdrive";
     static final String DEPENDENCIES =
             "required-after:" + ArmoryExpansion.MODID + "; " +
-                    "after:matteroverdrive; ";
+            "after:matteroverdrive; ";
 
     public MatterOverdriveIntegration() {
         super("matteroverdrive", "assets/" + ArmoryExpansion.MODID + "/data/matteroverdrive");
