@@ -79,7 +79,9 @@ public class ArmorMaterial extends Material implements IArmorMaterial{
 
     @Override
     public boolean isArmorMaterial() {
-        return this.getCoreMaterialStats() != null || this.getPlatesMaterialStats() != null || this.getTrimMaterialStats() != null;
+        return this.getCoreMaterialStats() != null
+                || this.getPlatesMaterialStats() != null
+                || this.getTrimMaterialStats() != null;
     }
 
     @Override

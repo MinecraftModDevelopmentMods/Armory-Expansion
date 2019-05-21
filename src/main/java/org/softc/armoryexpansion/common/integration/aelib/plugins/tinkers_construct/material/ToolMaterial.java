@@ -6,7 +6,6 @@ import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
 import slimeknights.tconstruct.library.materials.HeadMaterialStats;
-import slimeknights.tconstruct.library.materials.MaterialTypes;
 
 import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
 
@@ -37,7 +36,7 @@ public class ToolMaterial extends Material implements IToolMaterial {
 
     @Override
     public IToolMaterial addSecondaryToolTrait(String trait) {
-        return (IToolMaterial) this.addTrait(trait, MaterialTypes.HANDLE).addTrait(trait, MaterialTypes.EXTRA);
+        return (IToolMaterial) this.addTrait(trait, HANDLE).addTrait(trait, EXTRA);
     }
 
     @Override
@@ -52,7 +51,9 @@ public class ToolMaterial extends Material implements IToolMaterial {
 
     @Override
     public boolean isToolMaterial() {
-        return this.getHeadMaterialStats() != null || this.getHandleMaterialStats() != null || this.getExtraMaterialStats() != null;
+        return this.getHeadMaterialStats() != null
+                || this.getHandleMaterialStats() != null
+                || this.getExtraMaterialStats() != null;
     }
 
     @Override

@@ -52,7 +52,9 @@ public class ArmorToolMaterial extends ArmorMaterial implements IToolMaterial {
 
     @Override
     public boolean isToolMaterial() {
-        return true;
+        return this.getHeadMaterialStats() != null
+                || this.getHandleMaterialStats() != null
+                || this.getExtraMaterialStats() != null;
     }
 
     @Override
