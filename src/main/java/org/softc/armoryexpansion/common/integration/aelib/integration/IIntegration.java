@@ -5,7 +5,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old.ITiCMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
 
 public interface IIntegration {
 
@@ -35,13 +35,9 @@ public interface IIntegration {
 
     void registerMaterialTraits();
 
-    boolean isMaterialEnabled(ITiCMaterial material);
+    boolean isMaterialEnabled(IMaterial material);
 
-    boolean isMaterialFluidEnabled(ITiCMaterial material);
+    boolean isMaterialFluidEnabled(IMaterial material);
 
     void enableForceJsonCreation();
-
-    String returnMaterialExample();
-
-    String returnAlloyExample();
 }

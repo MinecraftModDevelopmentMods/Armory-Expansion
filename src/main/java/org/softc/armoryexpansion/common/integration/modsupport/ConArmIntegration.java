@@ -16,8 +16,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
 import org.softc.armoryexpansion.common.integration.aelib.integration.JsonIntegration;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old.ITiCMaterial;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.old.TiCMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.IArmorMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
@@ -59,7 +60,7 @@ public class ConArmIntegration extends JsonIntegration {
     private static final int TOUGH_MIN = DEF_MIN / 10;
     private static final int TOUGH_MAX = DEF_MAX / 10;
 
-    private List<TiCMaterial> jsonMaterials = new LinkedList<>();
+    private List<ArmorMaterial> jsonMaterials = new LinkedList<>();
 
     public ConArmIntegration() {
         super(ConstructsArmory.MODID, "assets/" + ArmoryExpansion.MODID + "/data/" + ConstructsArmory.MODID);
@@ -112,7 +113,7 @@ public class ConArmIntegration extends JsonIntegration {
     private void loadMaterialsFromOtherIntegration(File file){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
         try {
-            Collections.addAll(jsonMaterials, gson.fromJson(new FileReader(file), TiCMaterial[].class));
+            Collections.addAll(jsonMaterials, gson.fromJson(new FileReader(file), ArmorMaterial[].class));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -123,10 +124,10 @@ public class ConArmIntegration extends JsonIntegration {
         for (Material material:TinkerRegistry.getAllMaterials())
         {
             if (this.isConversionAvailable(material)) {
-                ITiCMaterial m = newTiCMaterial(material, TinkerMaterials.iron);
+                IArmorMaterial m = newTiCMaterial(material, TinkerMaterials.iron);
                 //noinspection SuspiciousMethodCalls
                 if (!jsonMaterials.contains(m)){
-                    this.addMaterial(m);
+                    this.addMaterial((IMaterial) m);
                 }
             }
         }
@@ -145,14 +146,37 @@ public class ConArmIntegration extends JsonIntegration {
         return core || plates || trim;
     }
 
-    private ITiCMaterial newTiCMaterial(Material material, Material baseMaterial){
-        return new TiCMaterial(material.identifier, null, material.materialTextColor)
-                .setArmorMaterial(true)
-                .setDurability(calculateDurability(material, baseMaterial))
-                .setMagicAffinity(calculateExtraDurability(material, baseMaterial))
-                .setDefense(calculateDefense(material, baseMaterial))
-                .setToughness(calculateToughness(material, baseMaterial))
-                .setType(MaterialRenderType.METAL);
+    private IArmorMaterial newTiCMaterial(Material material, Material baseMaterial){
+        ArmorMaterial armorMaterial = new ArmorMaterial(material.identifier, material.materialTextColor, MaterialRenderType.METAL,
+                getCoreMaterialStats(material, baseMaterial),
+                getPlatesMaterialStats(material, baseMaterial),
+                getTrimMaterialStats(material, baseMaterial)
+        );
+        armorMaterial.setCastable(material.isCastable());
+        armorMaterial.setCraftable(material.isCraftable());
+
+        return armorMaterial;
+    }
+
+    private CoreMaterialStats getCoreMaterialStats(Material material, Material baseMaterial){
+        return new CoreMaterialStats(
+                calculateDurability(material, baseMaterial),
+                calculateDefense(material, baseMaterial)
+        );
+    }
+
+    private PlatesMaterialStats getPlatesMaterialStats(Material material, Material baseMaterial){
+        return new PlatesMaterialStats(
+                calculateDefense(material, baseMaterial),
+                calculateExtraDurability(material, baseMaterial),
+                calculateToughness(material, baseMaterial)
+        );
+    }
+
+    private TrimMaterialStats getTrimMaterialStats(Material material, Material baseMaterial){
+        return new TrimMaterialStats(
+                calculateExtraDurability(material, baseMaterial)
+        );
     }
 
     private int calculateDurability(Material material, CoreMaterialStats core, HeadMaterialStats head){

@@ -1,52 +1,80 @@
 package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material;
 
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.stats.ToolMaterialStats;
+import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.Material;
+import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
 import slimeknights.tconstruct.library.materials.HeadMaterialStats;
+import slimeknights.tconstruct.library.materials.MaterialTypes;
 
-public class ToolMaterial implements IToolMaterial {
-    private IMaterial material;
-    private ToolMaterialStats toolMaterialStats;
+import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
 
-    public ToolMaterialStats getToolMaterialStats() {
-        return this.toolMaterialStats;
-    }
+public class ToolMaterial extends Material implements IToolMaterial {
+    private HeadMaterialStats headMaterialStats;
+    private HandleMaterialStats handleMaterialStats;
+    private ExtraMaterialStats extraMaterialStats;
 
+    @Override
     public HeadMaterialStats getHeadMaterialStats() {
-        return this.getToolMaterialStats().getHeadMaterialStats();
+        return headMaterialStats;
     }
 
+    @Override
     public HandleMaterialStats getHandleMaterialStats() {
-        return this.getToolMaterialStats().getHandleMaterialStats();
+        return handleMaterialStats;
     }
 
+    @Override
     public ExtraMaterialStats getExtraMaterialStats() {
-        return this.getToolMaterialStats().getExtraMaterialStats();
+        return extraMaterialStats;
     }
 
     @Override
     public IToolMaterial addPrimaryToolTrait(String trait) {
-        return null;
+        return (IToolMaterial) this.addTrait(trait, HEAD);
     }
 
     @Override
     public IToolMaterial addSecondaryToolTrait(String trait) {
-        return null;
+        return (IToolMaterial) this.addTrait(trait, MaterialTypes.HANDLE).addTrait(trait, MaterialTypes.EXTRA);
     }
 
     @Override
     public IToolMaterial addGlobalToolTrait(String trait) {
-        return null;
+        return this.addPrimaryToolTrait(trait).addSecondaryToolTrait(trait);
     }
 
     @Override
     public IToolMaterial addToolTrait(String trait1, String trait2) {
-        return null;
+        return this.addPrimaryToolTrait(trait1).addSecondaryToolTrait(trait2);
     }
 
     @Override
     public boolean isToolMaterial() {
-        return true;
+        return this.getHeadMaterialStats() != null || this.getHandleMaterialStats() != null || this.getExtraMaterialStats() != null;
+    }
+
+    @Override
+    public boolean isArmorMaterial() {
+        return false;
+    }
+
+    @Override
+    public boolean isRangedMaterial() {
+        return false;
+    }
+
+    @Override
+    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister){
+        if (canRegister && this.isToolMaterial()) {
+            slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
+            if ("unknown".equals(material.getIdentifier())){
+                return false;
+            }
+            TinkerRegistry.addMaterialStats(material, this.getHeadMaterialStats(), this.getHandleMaterialStats(), this.getExtraMaterialStats());
+            return true;
+        }
+        return false;
     }
 }
