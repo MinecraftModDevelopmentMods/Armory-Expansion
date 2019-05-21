@@ -33,6 +33,11 @@ public final class ArmoryExpansion {
         config = new Configuration(event.getSuggestedConfigurationFile());
     }
 
+    public static boolean isIntegrationEnabled(String modid){
+        return config
+                .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled").getBoolean();
+    }
+
     public static int getBoundedInputStreamMaxSize(){
         return config.get("web server", "input stream max size", 131072,
                 "The maximum size of the data received from the Web Server").getInt();

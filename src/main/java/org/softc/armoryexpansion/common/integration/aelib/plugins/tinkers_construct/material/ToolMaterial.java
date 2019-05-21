@@ -68,14 +68,28 @@ public class ToolMaterial extends Material implements IToolMaterial {
 
     @Override
     public boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister){
-        if (canRegister && this.isToolMaterial()) {
+        if (canRegister) {
             slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
             if ("unknown".equals(material.getIdentifier())){
                 return false;
             }
-            TinkerRegistry.addMaterialStats(material, this.getHeadMaterialStats(), this.getHandleMaterialStats(), this.getExtraMaterialStats());
+            this.registerToolStats(material);
             return true;
         }
         return false;
+    }
+
+    void registerToolStats(slimeknights.tconstruct.library.materials.Material material){
+        if(this.isToolMaterial()){
+            if(material.getStats(HEAD) == null){
+                TinkerRegistry.addMaterialStats(material, this.getHeadMaterialStats());
+            }
+            if(material.getStats(HANDLE) == null){
+                TinkerRegistry.addMaterialStats(material, this.getHandleMaterialStats());
+            }
+            if(material.getStats(EXTRA) == null){
+                TinkerRegistry.addMaterialStats(material, this.getExtraMaterialStats());
+            }
+        }
     }
 }

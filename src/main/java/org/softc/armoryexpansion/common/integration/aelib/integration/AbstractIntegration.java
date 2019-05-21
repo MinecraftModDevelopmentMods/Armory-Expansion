@@ -3,7 +3,6 @@ package org.softc.armoryexpansion.common.integration.aelib.integration;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.block.Block;
-import net.minecraftforge.common.config.Property;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -14,8 +13,8 @@ import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.common.integration.aelib.config.IntegrationConfig;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorToolMaterial;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.alloys.TiCAlloy;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.alloys.TiCAlloy;
 
 import java.io.*;
 import java.util.HashMap;
@@ -26,20 +25,20 @@ public abstract class AbstractIntegration implements IIntegration {
     protected String modid = "";
     protected String configDir;
     protected IntegrationConfig integrationConfigHelper = new IntegrationConfig();
-    protected boolean isEnabled = false;
     private boolean forceCreateJson = false;
     protected Map<String, IMaterial> materials = new HashMap<>();
     private Map<String, TiCAlloy> alloys = new HashMap<>();
+
+//    public AbstractIntegration() {
+//        MinecraftForge.EVENT_BUS.register(this);
+//    }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         this.logger = event.getModLog();
         this.configDir = event.getModConfigurationDirectory().getPath();
-        Property isEnabledProperty = ArmoryExpansion.config
-                .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
-        this.isEnabled = isEnabledProperty == null || isEnabledProperty.getBoolean();
         ArmoryExpansion.config.save();
-        if(this.isEnabled){
+        if(ArmoryExpansion.isIntegrationEnabled(modid)){
             this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(materials);
             this.saveIntegrationData(this.configDir);
@@ -52,7 +51,7 @@ public abstract class AbstractIntegration implements IIntegration {
 
     @Override
     public void init(FMLInitializationEvent event) {
-        if(this.isEnabled){
+        if(ArmoryExpansion.isIntegrationEnabled(modid)){
             this.oredictMaterials();
             this.registerMaterialFluidsIMC();
             this.updateMaterials();

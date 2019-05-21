@@ -14,6 +14,8 @@ public class MaterialConfigOptions {
 
     MaterialConfigOptions() {
         this.name = "DEFAULT";
+        this.material = true;
+        this.traits = true;
         this.armorOptions = new ArmorConfigOptions(false);
         this.toolOptions = new ToolConfigOptions(false);
         this.rangedOptions = new RangedConfigOptions(false);
@@ -21,9 +23,9 @@ public class MaterialConfigOptions {
 
     MaterialConfigOptions(IMaterial iMaterial) {
         this.name = iMaterial.getIdentifier();
-        material = true;
-        fluid = iMaterial.isCastable();
-        traits = true;
+        this.material = true;
+        this.fluid = iMaterial.isCastable();
+        this.traits = true;
 
         this.armorOptions = new ArmorConfigOptions(iMaterial.isArmorMaterial());
         this.toolOptions = new ToolConfigOptions(iMaterial.isToolMaterial());

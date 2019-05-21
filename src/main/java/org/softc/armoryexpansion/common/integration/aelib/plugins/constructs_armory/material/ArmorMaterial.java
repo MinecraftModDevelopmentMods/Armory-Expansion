@@ -9,8 +9,7 @@ import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigO
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.Material;
 import slimeknights.tconstruct.library.TinkerRegistry;
 
-import static c4.conarm.lib.materials.ArmorMaterialType.CORE;
-import static c4.conarm.lib.materials.ArmorMaterialType.TRIM;
+import static c4.conarm.lib.materials.ArmorMaterialType.*;
 
 public class ArmorMaterial extends Material implements IArmorMaterial{
     private CoreMaterialStats coreMaterialStats;
@@ -91,14 +90,28 @@ public class ArmorMaterial extends Material implements IArmorMaterial{
 
     @Override
     public boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister){
-        if (canRegister && this.isArmorMaterial()) {
+        if (canRegister) {
             slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
             if ("unknown".equals(material.getIdentifier())){
                 return false;
             }
-            TinkerRegistry.addMaterialStats(material, this.getCoreMaterialStats(), this.getPlatesMaterialStats(), this.getTrimMaterialStats());
+            this.registerArmorStats(material);
             return true;
         }
         return false;
+    }
+
+    void registerArmorStats(slimeknights.tconstruct.library.materials.Material material){
+        if (this.isArmorMaterial()) {
+            if(material.getStats(CORE) == null){
+                TinkerRegistry.addMaterialStats(material, this.getCoreMaterialStats());
+            }
+            if(material.getStats(PLATES) == null){
+                TinkerRegistry.addMaterialStats(material, this.getPlatesMaterialStats());
+            }
+            if(material.getStats(TRIM) == null){
+                TinkerRegistry.addMaterialStats(material, this.getTrimMaterialStats());
+            }
+        }
     }
 }

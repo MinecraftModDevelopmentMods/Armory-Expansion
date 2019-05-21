@@ -7,7 +7,6 @@ import c4.conarm.lib.materials.TrimMaterialStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.item.Item;
-import net.minecraftforge.common.config.Property;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -70,12 +69,9 @@ public class ConArmIntegration extends JsonIntegration {
     public void preInit(FMLPreInitializationEvent event) {
         this.modid = ConstructsArmory.MODID;
         this.logger = event.getModLog();
-        Property isEnabledProperty = ArmoryExpansion.config
-                .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
         this.configDir = event.getModConfigurationDirectory().getPath();
-        this.isEnabled = isEnabledProperty == null || isEnabledProperty.getBoolean();
         ArmoryExpansion.config.save();
-        if (isEnabledProperty == null || isEnabledProperty.getBoolean()){
+        if (ArmoryExpansion.isIntegrationEnabled(modid)){
             this.loadMaterialsFromOtherIntegrations(event);
             this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(this.materials);
@@ -88,7 +84,7 @@ public class ConArmIntegration extends JsonIntegration {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void registerItems(RegistryEvent<Item> event){
-        if(this.isEnabled){
+        if(ArmoryExpansion.isIntegrationEnabled(modid)){
             this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(this.materials);
             this.saveIntegrationData(this.configDir);
@@ -136,7 +132,6 @@ public class ConArmIntegration extends JsonIntegration {
     @Override
     protected void loadAlloysFromSource() {
         // Left empty on purpose
-        // No alloys should ever be generated
     }
 
     private boolean isConversionAvailable(Material material){

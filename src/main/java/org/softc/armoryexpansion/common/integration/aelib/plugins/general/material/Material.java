@@ -188,4 +188,9 @@ public abstract class Material implements IMaterial {
         this.traits.add(new TraitHolder(trait, location));
         return this;
     }
+
+    @Override
+    public boolean equals(Object material) {
+        return material instanceof Material && this.getIdentifier().equals(((Material) material).getIdentifier());
+    }
 }
