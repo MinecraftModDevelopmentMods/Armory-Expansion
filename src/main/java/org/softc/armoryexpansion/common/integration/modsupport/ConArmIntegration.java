@@ -70,7 +70,6 @@ public class ConArmIntegration extends JsonIntegration {
         this.modid = ConstructsArmory.MODID;
         this.logger = event.getModLog();
         this.configDir = event.getModConfigurationDirectory().getPath();
-        ArmoryExpansion.config.save();
         if (ArmoryExpansion.isIntegrationEnabled(modid)){
             this.loadMaterialsFromOtherIntegrations(event);
             this.setIntegrationData(this.configDir);
@@ -80,6 +79,7 @@ public class ConArmIntegration extends JsonIntegration {
             this.registerAlloys();
             this.registerMaterialStats();
         }
+        ArmoryExpansion.config.save();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -92,6 +92,7 @@ public class ConArmIntegration extends JsonIntegration {
             this.registerAlloys();
             this.registerMaterialStats();
         }
+        ArmoryExpansion.config.save();
     }
 
     private void loadMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){

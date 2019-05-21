@@ -38,7 +38,6 @@ public abstract class AbstractIntegration implements IIntegration {
     public void preInit(FMLPreInitializationEvent event) {
         this.logger = event.getModLog();
         this.configDir = event.getModConfigurationDirectory().getPath();
-        ArmoryExpansion.config.save();
         if(ArmoryExpansion.isIntegrationEnabled(modid)){
             this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(materials);
@@ -48,6 +47,7 @@ public abstract class AbstractIntegration implements IIntegration {
             this.registerAlloys();
             this.registerMaterialStats();
         }
+        ArmoryExpansion.config.save();
     }
 
     @Override
@@ -58,6 +58,7 @@ public abstract class AbstractIntegration implements IIntegration {
             this.updateMaterials();
             this.registerMaterialTraits();
         }
+        ArmoryExpansion.config.save();
     }
 
     @Override

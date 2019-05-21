@@ -15,7 +15,7 @@ public class ArmorToolMaterial extends ArmorMaterial implements IToolMaterial {
     private HandleMaterialStats handleMaterialStats;
     private ExtraMaterialStats extraMaterialStats;
 
-    public ArmorToolMaterial(String identifier, int color) {
+    ArmorToolMaterial(String identifier, int color) {
         super(identifier, color);
     }
 
@@ -77,13 +77,13 @@ public class ArmorToolMaterial extends ArmorMaterial implements IToolMaterial {
 
     void registerToolStats(Material material){
         if(this.isToolMaterial()){
-            if(material.getStats(HEAD) == null){
+            if(material.getStats(HEAD) == null && this.getHeadMaterialStats() != null){
                 TinkerRegistry.addMaterialStats(material, this.getHeadMaterialStats());
             }
-            if(material.getStats(HANDLE) == null){
+            if(material.getStats(HANDLE) == null && this.getHandleMaterialStats() != null){
                 TinkerRegistry.addMaterialStats(material, this.getHandleMaterialStats());
             }
-            if(material.getStats(EXTRA) == null){
+            if(material.getStats(EXTRA) == null && this.getExtraMaterialStats() != null){
                 TinkerRegistry.addMaterialStats(material, this.getExtraMaterialStats());
             }
         }
