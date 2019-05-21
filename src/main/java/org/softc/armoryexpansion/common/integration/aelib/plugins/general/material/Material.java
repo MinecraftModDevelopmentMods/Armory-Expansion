@@ -153,7 +153,7 @@ public abstract class Material implements IMaterial {
     }
 
     @Override
-    public abstract boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister);
+    public abstract boolean registerTinkersMaterialStats(MaterialConfigOptions properties);
 
     @Override
     public boolean updateTinkersMaterial(boolean canRegister){

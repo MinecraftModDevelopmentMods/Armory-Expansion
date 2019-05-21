@@ -25,71 +25,71 @@ public class IntegrationConfig {
         materials.values().forEach(m -> this.insertMaterialConfigOptions(new MaterialConfigOptions(m)));
     }
 
-    public boolean isMaterialEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isMaterialEnabled();
+    public boolean isMaterialEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isMaterialEnabled();
     }
 
-    public boolean isFluidEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isFluidEnabled();
+    public boolean isFluidEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isFluidEnabled();
     }
 
-    public boolean isTraitsEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isTraitsEnabled();
+    public boolean isTraitsEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isTraitsEnabled();
     }
 
-    public boolean isArmorEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isArmorEnabled();
+    public boolean isArmorEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isArmorEnabled();
     }
 
-    public boolean isCoreEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isCoreEnabled();
+    public boolean isCoreEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isCoreEnabled();
     }
 
-    public boolean isPlatesEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isPlatesEnabled();
+    public boolean isPlatesEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isPlatesEnabled();
     }
 
-    public boolean isTrimEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isTrimEnabled();
+    public boolean isTrimEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isTrimEnabled();
     }
 
-    public boolean isToolEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isToolEnabled();
+    public boolean isToolEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isToolEnabled();
     }
 
-    public boolean isHeadEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isHeadEnabled();
+    public boolean isHeadEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isHeadEnabled();
     }
 
-    public boolean isHandleEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isHandleEnabled();
+    public boolean isHandleEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isHandleEnabled();
     }
 
-    public boolean isExtraEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isExtraEnabled();
+    public boolean isExtraEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isExtraEnabled();
     }
 
-    public boolean isRangedEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isRangedEnabled();
+    public boolean isRangedEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isRangedEnabled();
     }
 
-    public boolean isBowEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isBowEnabled();
+    public boolean isBowEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isBowEnabled();
     }
 
-    public boolean isBowStringEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isBowStringEnabled();
+    public boolean isBowStringEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isBowStringEnabled();
     }
 
-    public boolean isShaftEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isShaftEnabled();
+    public boolean isShaftEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isShaftEnabled();
     }
 
-    public boolean isFletchingEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isFletchingEnabled();
+    public boolean isFletchingEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isFletchingEnabled();
     }
 
-    public boolean isProjectileEnabled(String identifier){
-        return this.getSafeMaterialConfigOptions(identifier).isProjectileEnabled();
+    public boolean isProjectileEnabled(IMaterial material){
+        return this.getSafeMaterialConfigOptions(material.getIdentifier()).isProjectileEnabled();
     }
 }

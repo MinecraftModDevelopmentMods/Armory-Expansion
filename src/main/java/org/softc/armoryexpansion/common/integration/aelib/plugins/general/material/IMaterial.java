@@ -45,7 +45,7 @@ public interface IMaterial {
 
     boolean registerTinkersFluidIMC(boolean canRegister);
 
-    boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister);
+    boolean registerTinkersMaterialStats(MaterialConfigOptions properties);
 
     boolean updateTinkersMaterial(boolean canRegister);
 

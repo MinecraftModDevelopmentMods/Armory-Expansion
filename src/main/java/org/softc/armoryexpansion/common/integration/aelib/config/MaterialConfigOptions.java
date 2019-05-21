@@ -36,71 +36,71 @@ public class MaterialConfigOptions {
         return name;
     }
 
-    boolean isMaterialEnabled(){
+    public boolean isMaterialEnabled(){
         return this.material;
     }
 
-    boolean isFluidEnabled(){
+    public boolean isFluidEnabled(){
         return this.fluid;
     }
 
-    boolean isTraitsEnabled(){
+    public boolean isTraitsEnabled(){
         return this.traits;
     }
 
-    boolean isArmorEnabled(){
+    public boolean isArmorEnabled(){
         return this.armorOptions.enableArmor;
     }
 
-    boolean isCoreEnabled(){
+    public boolean isCoreEnabled(){
         return this.armorOptions.enableCore;
     }
 
-    boolean isPlatesEnabled(){
+    public boolean isPlatesEnabled(){
         return this.armorOptions.enablePlates;
     }
 
-    boolean isTrimEnabled(){
+    public boolean isTrimEnabled(){
         return this.armorOptions.enableTrim;
     }
 
-    boolean isToolEnabled(){
+    public boolean isToolEnabled(){
         return this.toolOptions.enableTool;
     }
 
-    boolean isHeadEnabled(){
+    public boolean isHeadEnabled(){
         return this.toolOptions.enableHead;
     }
 
-    boolean isHandleEnabled(){
+    public boolean isHandleEnabled(){
         return this.toolOptions.enableHandle;
     }
 
-    boolean isExtraEnabled(){
+    public boolean isExtraEnabled(){
         return this.toolOptions.enableExtra;
     }
 
-    boolean isRangedEnabled(){
+    public boolean isRangedEnabled(){
         return this.rangedOptions.enableRanged;
     }
 
-    boolean isBowEnabled(){
+    public boolean isBowEnabled(){
         return this.rangedOptions.enableBow;
     }
 
-    boolean isBowStringEnabled() {
+    public boolean isBowStringEnabled() {
         return this.rangedOptions.enableBowString;
     }
 
-    boolean isShaftEnabled(){
+    public boolean isShaftEnabled(){
         return this.rangedOptions.enableShaft;
     }
 
-    boolean isFletchingEnabled(){
+    public boolean isFletchingEnabled(){
         return this.rangedOptions.enableFletching;
     }
 
-    boolean isProjectileEnabled(){
+    public boolean isProjectileEnabled(){
         return this.rangedOptions.enableProjectile;
     }
 

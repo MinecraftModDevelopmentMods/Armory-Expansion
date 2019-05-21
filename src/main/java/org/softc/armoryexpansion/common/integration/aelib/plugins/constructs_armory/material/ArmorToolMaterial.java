@@ -6,7 +6,6 @@ import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
 import slimeknights.tconstruct.library.materials.HeadMaterialStats;
-import slimeknights.tconstruct.library.materials.Material;
 
 import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
 
@@ -36,22 +35,22 @@ public class ArmorToolMaterial extends ArmorMaterial implements IToolMaterial {
 
     @Override
     public IToolMaterial addPrimaryToolTrait(String trait) {
-        return null;
+        return (IToolMaterial) this.addTrait(trait, HEAD);
     }
 
     @Override
     public IToolMaterial addSecondaryToolTrait(String trait) {
-        return null;
+        return (IToolMaterial) this.addTrait(trait, HANDLE).addTrait(trait, EXTRA);
     }
 
     @Override
     public IToolMaterial addGlobalToolTrait(String trait) {
-        return null;
+        return this.addPrimaryToolTrait(trait).addSecondaryToolTrait(trait);
     }
 
     @Override
     public IToolMaterial addToolTrait(String trait1, String trait2) {
-        return null;
+        return this.addPrimaryToolTrait(trait1).addSecondaryToolTrait(trait2);
     }
 
     @Override
@@ -62,28 +61,28 @@ public class ArmorToolMaterial extends ArmorMaterial implements IToolMaterial {
     }
 
     @Override
-    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister){
+    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties){
         slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
         if ("unknown".equals(material.getIdentifier())){
             return false;
         }
-        if (canRegister) {
-            this.registerArmorStats(material);
-            this.registerToolStats(material);
+        if (properties.isMaterialEnabled()) {
+            this.registerArmorStats(material, properties);
+            this.registerToolStats(material, properties);
             return true;
         }
         return false;
     }
 
-    void registerToolStats(Material material){
+    void registerToolStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
         if(this.isToolMaterial()){
-            if(material.getStats(HEAD) == null && this.getHeadMaterialStats() != null){
+            if(material.getStats(HEAD) == null && this.getHeadMaterialStats() != null && properties.isHeadEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getHeadMaterialStats());
             }
-            if(material.getStats(HANDLE) == null && this.getHandleMaterialStats() != null){
+            if(material.getStats(HANDLE) == null && this.getHandleMaterialStats() != null && properties.isHandleEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getHandleMaterialStats());
             }
-            if(material.getStats(EXTRA) == null && this.getExtraMaterialStats() != null){
+            if(material.getStats(EXTRA) == null && this.getExtraMaterialStats() != null && properties.isExtraEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getExtraMaterialStats());
             }
         }

@@ -83,30 +83,30 @@ public class RangedMaterial extends Material implements IRangedMaterial {
     }
 
     @Override
-    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister) {
-        if (canRegister) {
+    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties) {
+        if (properties.isMaterialEnabled()) {
             slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
             if ("unknown".equals(material.getIdentifier())){
                 return false;
             }
-            this.registerRangedStats(material);
+            this.registerRangedStats(material, properties);
             return true;
         }
         return false;
     }
 
-    void registerRangedStats(slimeknights.tconstruct.library.materials.Material material){
+    void registerRangedStats(slimeknights.tconstruct.library.materials.Material material,MaterialConfigOptions properties){
         if(this.isRangedMaterial()){
-            if(material.getStats(BOW) == null && this.getBowMaterialStats() != null){
+            if(material.getStats(BOW) == null && this.getBowMaterialStats() != null && properties.isBowEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getBowMaterialStats());
             }
-            if(material.getStats(BOWSTRING) == null && this.getBowStringMaterialStats() != null){
+            if(material.getStats(BOWSTRING) == null && this.getBowStringMaterialStats() != null && properties.isBowStringEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getBowStringMaterialStats());
             }
-            if(material.getStats(FLETCHING) == null && this.getFletchingMaterialStats() != null){
+            if(material.getStats(FLETCHING) == null && this.getFletchingMaterialStats() != null && properties.isFletchingEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getFletchingMaterialStats());
             }
-            if(material.getStats(PROJECTILE) == null && this.getProjectileMaterialStats() != null){
+            if(material.getStats(PROJECTILE) == null && this.getProjectileMaterialStats() != null && properties.isProjectileEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getProjectileMaterialStats());
             }
         }

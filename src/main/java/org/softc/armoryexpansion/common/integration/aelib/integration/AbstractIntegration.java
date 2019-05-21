@@ -351,8 +351,10 @@ public abstract class AbstractIntegration implements IIntegration {
     @Override
     public void oredictMaterials() {
         this.materials.values().forEach(m -> {
-            m.registerOreDict();
-            this.logger.info("Oredicted material {" + m.getIdentifier() + "};");
+            if (this.isMaterialEnabled(m)){
+                m.registerOreDict();
+                this.logger.info("Oredicted material {" + m.getIdentifier() + "};");
+            }
         });
     }
 
@@ -394,7 +396,7 @@ public abstract class AbstractIntegration implements IIntegration {
     @Override
     public void registerMaterialStats() {
         this.materials.values().forEach(m -> {
-            if (m.registerTinkersMaterialStats(this.getProperties(m), this.isMaterialEnabled(m))) {
+            if (m.registerTinkersMaterialStats(this.getProperties(m))) {
                 this.logger.info("Registered stats for tinker's material {" + m.getIdentifier() + "};");
             }
         });
@@ -416,7 +418,7 @@ public abstract class AbstractIntegration implements IIntegration {
     @Override
     public void registerMaterialTraits() {
         this.materials.values().forEach(m -> {
-            if (m.registerTinkersMaterialTraits(this.isMaterialEnabled(m))) {
+            if (m.registerTinkersMaterialTraits(this.isMaterialEnabled(m) && this.integrationConfigHelper.isTraitsEnabled(m))) {
                 this.logger.info("Registered traits for tinker's material {" + m.getIdentifier() + "};");
             }
         });
@@ -424,12 +426,12 @@ public abstract class AbstractIntegration implements IIntegration {
 
     @Override
     public boolean isMaterialEnabled(IMaterial material){
-        return this.integrationConfigHelper.isMaterialEnabled(material.getIdentifier());
+        return this.integrationConfigHelper.isMaterialEnabled(material);
     }
 
     @Override
     public boolean isMaterialFluidEnabled(IMaterial material){
-        return this.integrationConfigHelper.isFluidEnabled(material.getIdentifier());
+        return this.integrationConfigHelper.isFluidEnabled(material);
     }
 
     @Override

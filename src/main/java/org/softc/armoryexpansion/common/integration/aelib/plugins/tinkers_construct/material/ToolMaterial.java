@@ -67,27 +67,27 @@ public class ToolMaterial extends Material implements IToolMaterial {
     }
 
     @Override
-    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister){
-        if (canRegister) {
+    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties){
+        if (properties.isMaterialEnabled() && properties.isToolEnabled()) {
             slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
             if ("unknown".equals(material.getIdentifier())){
                 return false;
             }
-            this.registerToolStats(material);
+            this.registerToolStats(material, properties);
             return true;
         }
         return false;
     }
 
-    void registerToolStats(slimeknights.tconstruct.library.materials.Material material){
+    void registerToolStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
         if(this.isToolMaterial()){
-            if(material.getStats(HEAD) == null && this.getHeadMaterialStats() != null){
+            if(material.getStats(HEAD) == null && this.getHeadMaterialStats() != null && properties.isHeadEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getHeadMaterialStats());
             }
-            if(material.getStats(HANDLE) == null && this.getHandleMaterialStats() != null){
+            if(material.getStats(HANDLE) == null && this.getHandleMaterialStats() != null && properties.isHandleEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getHandleMaterialStats());
             }
-            if(material.getStats(EXTRA) == null && this.getExtraMaterialStats() != null){
+            if(material.getStats(EXTRA) == null && this.getExtraMaterialStats() != null && properties.isExtraEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getExtraMaterialStats());
             }
         }

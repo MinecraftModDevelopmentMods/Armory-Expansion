@@ -1,6 +1,5 @@
 package org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material;
 
-import c4.conarm.lib.materials.ArmorMaterialType;
 import c4.conarm.lib.materials.CoreMaterialStats;
 import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
@@ -58,7 +57,7 @@ public class ArmorMaterial extends Material implements IArmorMaterial{
 
     @Override
     public IArmorMaterial addSecondaryArmorTrait(String trait) {
-        return (IArmorMaterial) this.addTrait(trait, TRIM).addTrait(trait, ArmorMaterialType.PLATES);
+        return (IArmorMaterial) this.addTrait(trait, TRIM).addTrait(trait, PLATES);
     }
 
     @Override
@@ -89,27 +88,27 @@ public class ArmorMaterial extends Material implements IArmorMaterial{
     }
 
     @Override
-    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister){
-        if (canRegister) {
+    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties){
+        if (properties.isMaterialEnabled() && properties.isArmorEnabled()) {
             slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
             if ("unknown".equals(material.getIdentifier())){
                 return false;
             }
-            this.registerArmorStats(material);
+            this.registerArmorStats(material, properties);
             return true;
         }
         return false;
     }
 
-    void registerArmorStats(slimeknights.tconstruct.library.materials.Material material){
+    void registerArmorStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
         if (this.isArmorMaterial()) {
-            if(material.getStats(CORE) == null && this.getCoreMaterialStats() != null){
+            if(material.getStats(CORE) == null && this.getCoreMaterialStats() != null && properties.isCoreEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getCoreMaterialStats());
             }
-            if(material.getStats(PLATES) == null && this.getPlatesMaterialStats() != null){
+            if(material.getStats(PLATES) == null && this.getPlatesMaterialStats() != null && properties.isPlatesEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getPlatesMaterialStats());
             }
-            if(material.getStats(TRIM) == null && this.getTrimMaterialStats() != null){
+            if(material.getStats(TRIM) == null && this.getTrimMaterialStats() != null && properties.isTrimEnabled()){
                 TinkerRegistry.addMaterialStats(material, this.getTrimMaterialStats());
             }
         }
