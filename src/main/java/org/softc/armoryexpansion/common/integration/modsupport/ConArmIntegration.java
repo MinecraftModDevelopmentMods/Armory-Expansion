@@ -6,14 +6,18 @@ import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.minecraftforge.common.config.Property;
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
+import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
 import org.softc.armoryexpansion.common.integration.aelib.integration.WebIntegration;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.ITiCMaterial;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material.TiCMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.IArmorMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
@@ -53,7 +57,7 @@ public class ConArmIntegration extends WebIntegration {
     private static final int TOUGH_MIN = DEF_MIN / 10;
     private static final int TOUGH_MAX = DEF_MAX / 10;
 
-    private List<TiCMaterial> jsonMaterials = new LinkedList<>();
+    private List<ArmorMaterial> jsonMaterials = new LinkedList<>();
 
     public ConArmIntegration() {
         super(ConstructsArmory.MODID, "assets/" + ArmoryExpansion.MODID + "/data/" + ConstructsArmory.MODID);
@@ -63,19 +67,9 @@ public class ConArmIntegration extends WebIntegration {
     public void preInit(FMLPreInitializationEvent event) {
         this.modid = ConstructsArmory.MODID;
         this.logger = event.getModLog();
-        Property property = ArmoryExpansion.config
-                .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled");
         this.configDir = event.getModConfigurationDirectory().getPath();
-        this.isEnabled = property == null || property.getBoolean();
-        ArmoryExpansion.config.save();
-        if (property == null || property.getBoolean()){
+        if (ArmoryExpansion.isIntegrationEnabled(modid)){
             this.loadMaterialsFromOtherIntegrations(event);
-        }
-    }
-
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event){
-        if(this.isEnabled){
             this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(this.materials);
             this.saveIntegrationData(this.configDir);
@@ -83,6 +77,25 @@ public class ConArmIntegration extends WebIntegration {
             this.registerAlloys();
             this.registerMaterialStats();
         }
+        ArmoryExpansion.config.save();
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void registerItems(RegistryEvent<Item> event){
+        if(ArmoryExpansion.isIntegrationEnabled(modid)){
+            this.setIntegrationData(this.configDir);
+            this.integrationConfigHelper.syncConfig(this.materials);
+            this.saveIntegrationData(this.configDir);
+            this.registerMaterials();
+            this.registerAlloys();
+            this.registerMaterialStats();
+        }
+        ArmoryExpansion.config.save();
+    }
+    @Override
+    protected void loadMaterialsFromWeb() {
+        super.loadMaterialsFromWeb();
+        loadMaterialsFromSource();
     }
 
     private void loadMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){
@@ -131,7 +144,7 @@ public class ConArmIntegration extends WebIntegration {
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
-        Collections.addAll(jsonMaterials, gson.fromJson(reader, TiCMaterial[].class));
+        Collections.addAll(jsonMaterials, gson.fromJson(reader, ArmorMaterial[].class));
 
         try {
             reader.close();
@@ -143,7 +156,7 @@ public class ConArmIntegration extends WebIntegration {
     private void loadMaterialsFromOtherIntegration(File file){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
         try {
-            Collections.addAll(jsonMaterials, gson.fromJson(new FileReader(file), TiCMaterial[].class));
+            Collections.addAll(jsonMaterials, gson.fromJson(new FileReader(file), ArmorMaterial[].class));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -160,10 +173,10 @@ public class ConArmIntegration extends WebIntegration {
         for (Material material:TinkerRegistry.getAllMaterials())
         {
             if (this.isConversionAvailable(material)) {
-                ITiCMaterial m = newTiCMaterial(material, TinkerMaterials.iron);
+                IArmorMaterial m = newTiCMaterial(material, TinkerMaterials.iron);
                 //noinspection SuspiciousMethodCalls
                 if (!jsonMaterials.contains(m)){
-                    this.addMaterial(m);
+                    this.addMaterial((IMaterial) m);
                 }
             }
         }
@@ -172,7 +185,6 @@ public class ConArmIntegration extends WebIntegration {
     @Override
     protected void loadAlloysFromSource() {
         // Left empty on purpose
-        // No alloys should ever be generated
     }
 
     private boolean isConversionAvailable(Material material){
@@ -182,13 +194,37 @@ public class ConArmIntegration extends WebIntegration {
         return core || plates || trim;
     }
 
-    private ITiCMaterial newTiCMaterial(Material material, Material baseMaterial){
-        return new TiCMaterial(material.identifier, null, material.materialTextColor)
-                .setArmorMaterial(true)
-                .setDurability(calculateDurability(material, baseMaterial))
-                .setMagicAffinity(calculateExtraDurability(material, baseMaterial))
-                .setDefense(calculateDefense(material, baseMaterial))
-                .setToughness(calculateToughness(material, baseMaterial));
+    private IArmorMaterial newTiCMaterial(Material material, Material baseMaterial){
+        ArmorMaterial armorMaterial = new ArmorMaterial(material.identifier, material.materialTextColor, MaterialRenderType.METAL,
+                getCoreMaterialStats(material, baseMaterial),
+                getPlatesMaterialStats(material, baseMaterial),
+                getTrimMaterialStats(material, baseMaterial)
+        );
+        armorMaterial.setCastable(material.isCastable());
+        armorMaterial.setCraftable(material.isCraftable());
+
+        return armorMaterial;
+    }
+
+    private CoreMaterialStats getCoreMaterialStats(Material material, Material baseMaterial){
+        return new CoreMaterialStats(
+                calculateDurability(material, baseMaterial),
+                calculateDefense(material, baseMaterial)
+        );
+    }
+
+    private PlatesMaterialStats getPlatesMaterialStats(Material material, Material baseMaterial){
+        return new PlatesMaterialStats(
+                calculateDefense(material, baseMaterial),
+                calculateExtraDurability(material, baseMaterial),
+                calculateToughness(material, baseMaterial)
+        );
+    }
+
+    private TrimMaterialStats getTrimMaterialStats(Material material, Material baseMaterial){
+        return new TrimMaterialStats(
+                calculateExtraDurability(material, baseMaterial)
+        );
     }
 
     private int calculateDurability(Material material, CoreMaterialStats core, HeadMaterialStats head){

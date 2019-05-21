@@ -18,7 +18,7 @@ import slimeknights.tconstruct.TConstruct;
 public final class ArmoryExpansion {
     public static final String MODID = "armoryexpansion";
     public static final String NAME = "Armory Expansion";
-    public static final String VERSION = "WebClient-beta2";
+    public static final String VERSION = "WebClient-beta3";
     static final String DEPENDENCIES =
             "required-after:" + TConstruct.modID + "; " +
             "required-after:" + ConstructsArmory.MODID + "; ";
@@ -43,12 +43,17 @@ public final class ArmoryExpansion {
 
     public static boolean useServersForJsons(){
         return config.get("web server", "use servers", false,
-                "Whether the integrtions should load their data froma a Web Server").getBoolean();
+                "Whether the integrations should load their data froma a Web Server").getBoolean();
     }
 
     public static int getConnectTimeout(){
         return config.get("web server", "connect timeout", 60000,
                 "How long should the connection wait before timing out").getInt();
+    }
+
+    public static boolean isIntegrationEnabled(String modid){
+        return config
+                .get("integrations", modid, true, "Whether integration with " + modid + " should be enabled").getBoolean();
     }
 
     public static int getBoundedInputStreamMaxSize(){

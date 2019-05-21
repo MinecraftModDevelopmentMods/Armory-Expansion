@@ -10,19 +10,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "chitinjunglemyrmex": {
@@ -41,13 +28,6 @@
         "enableHead": true,
         "enableHandle": true,
         "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scalebronzedragon": {
@@ -60,19 +40,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scaleblueseaserpent": {
@@ -85,19 +52,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scalewhitedragon": {
@@ -110,19 +64,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "chitinwhitedeathworm": {
@@ -135,19 +76,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "chitinbrowndeathworm": {
@@ -160,19 +88,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scalesapphiredragon": {
@@ -185,19 +100,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scalebluedragon": {
@@ -210,19 +112,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "leatherforesttroll": {
@@ -235,19 +124,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scalegreendragon": {
@@ -260,19 +136,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scaledeepblueseaserpent": {
@@ -285,19 +148,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scaleredseaserpent": {
@@ -310,19 +160,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scalegreenseaserpent": {
@@ -335,19 +172,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scalesilverdragon": {
@@ -360,19 +184,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "chitindesertmyrmex": {
@@ -391,13 +202,6 @@
         "enableHead": true,
         "enableHandle": true,
         "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "chitintandeathworm": {
@@ -410,19 +214,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scalepurpleseaserpent": {
@@ -435,19 +226,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scalegraydragon": {
@@ -460,19 +238,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scaletealseaserpent": {
@@ -485,19 +250,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "bonedragon": {
@@ -505,12 +257,6 @@
       "material": true,
       "fluid": true,
       "traits": true,
-      "armorOptions": {
-        "enableArmor": true,
-        "enableCore": true,
-        "enablePlates": true,
-        "enableTrim": true
-      },
       "toolOptions": {
         "enableTool": true,
         "enableHead": true,
@@ -535,19 +281,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scalebronzeseaserpent": {
@@ -560,19 +293,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     },
     "scalereddragon": {
@@ -585,44 +305,6 @@
         "enableCore": true,
         "enablePlates": true,
         "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
-      }
-    },
-    "DEFAULT": {
-      "name": "DEFAULT",
-      "material": true,
-      "fluid": true,
-      "traits": true,
-      "armorOptions": {
-        "enableArmor": true,
-        "enableCore": true,
-        "enablePlates": true,
-        "enableTrim": true
-      },
-      "toolOptions": {
-        "enableTool": true,
-        "enableHead": true,
-        "enableHandle": true,
-        "enableExtra": true
-      },
-      "rangedOptions": {
-        "enableRanged": true,
-        "enableBow": true,
-        "enableShaft": true,
-        "enableFletching": true,
-        "enableProjectile": true
       }
     }
   }

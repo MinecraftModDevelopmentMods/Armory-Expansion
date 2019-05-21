@@ -66,6 +66,7 @@ public class WebIntegration extends JsonIntegration {
                 e.printStackTrace();
             }
         }
+        ArmoryExpansion.config.save();
     }
 
     @Override
@@ -81,6 +82,7 @@ public class WebIntegration extends JsonIntegration {
                 e.printStackTrace();
             }
         }
+        ArmoryExpansion.config.save();
     }
 
     @Override
@@ -96,6 +98,7 @@ public class WebIntegration extends JsonIntegration {
                 e.printStackTrace();
             }
         }
+        ArmoryExpansion.config.save();
     }
 
     @Override
