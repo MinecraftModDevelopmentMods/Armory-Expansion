@@ -1,5 +1,7 @@
 package org.softc.armoryexpansion.common.integration.aelib.integration;
 
+import net.minecraftforge.common.MinecraftForge;
+
 import java.io.InputStream;
 
 public class JsonIntegration extends AbstractIntegration {
@@ -8,7 +10,7 @@ public class JsonIntegration extends AbstractIntegration {
     protected JsonIntegration(String modId, String json) {
         this.modid = modId;
         this.json = json;
-//        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override

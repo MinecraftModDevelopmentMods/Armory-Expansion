@@ -3,6 +3,7 @@ package org.softc.armoryexpansion.common.integration.aelib.integration;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.block.Block;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -30,9 +31,9 @@ public abstract class AbstractIntegration implements IIntegration {
     protected Map<String, IBasicMaterial> materials = new HashMap<>();
     private Map<String, TiCAlloy> alloys = new HashMap<>();
 
-//    public AbstractIntegration() {
-//        MinecraftForge.EVENT_BUS.register(this);
-//    }
+    public AbstractIntegration() {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {

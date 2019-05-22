@@ -118,4 +118,24 @@ public class ToolRangedMaterial extends ToolMaterial implements IRangedMaterial 
             TinkerRegistry.addMaterialStats(material, this.getProjectileMaterialStats());
         }
     }
+
+    public void setBowMaterialStats(BowMaterialStats bowMaterialStats) {
+        this.bowMaterialStats = bowMaterialStats;
+    }
+
+    public void setBowStringMaterialStats(BowStringMaterialStats bowStringMaterialStats) {
+        this.bowStringMaterialStats = bowStringMaterialStats;
+    }
+
+    public void setArrowShaftMaterialStats(ArrowShaftMaterialStats arrowShaftMaterialStats) {
+        this.arrowShaftMaterialStats = arrowShaftMaterialStats;
+    }
+
+    public void setFletchingMaterialStats(FletchingMaterialStats fletchingMaterialStats) {
+        this.fletchingMaterialStats = fletchingMaterialStats;
+    }
+
+    public void setProjectileMaterialStats(ProjectileMaterialStats projectileMaterialStats) {
+        this.projectileMaterialStats = projectileMaterialStats;
+    }
 }

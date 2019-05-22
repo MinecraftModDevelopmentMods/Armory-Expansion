@@ -15,11 +15,11 @@ import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_constr
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits.TraitHolder;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.fluids.TiCFluidBlock;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.fluid.FluidMolten;
 import slimeknights.tconstruct.library.traits.ITrait;
+import slimeknights.tconstruct.smeltery.block.BlockMolten;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -51,6 +51,34 @@ public abstract class BasicMaterial implements IBasicMaterial {
 
     public boolean isCraftable() {
         return this.isCraftable;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public void setMeta(int meta) {
+        this.meta = meta;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public void setType(MaterialRenderType type) {
+        this.type = type;
+    }
+
+    public void setTexture(ResourceLocation texture) {
+        this.texture = texture;
+    }
+
+    public void setTraits(List<TraitHolder> traits) {
+        this.traits = traits;
     }
 
     @Override
@@ -149,7 +177,7 @@ public abstract class BasicMaterial implements IBasicMaterial {
 
     @Override
     public Block getFluidBlock(){
-        return new TiCFluidBlock(getFluid());
+        return new BlockMolten(getFluid());
     }
 
     @Override

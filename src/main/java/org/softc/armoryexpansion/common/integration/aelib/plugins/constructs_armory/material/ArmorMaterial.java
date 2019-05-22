@@ -125,4 +125,16 @@ public class ArmorMaterial extends BasicMaterial implements IArmorMaterial{
             TinkerRegistry.addMaterialStats(material, this.getTrimMaterialStats());
         }
     }
+
+    public void setCoreMaterialStats(CoreMaterialStats coreMaterialStats) {
+        this.coreMaterialStats = coreMaterialStats;
+    }
+
+    public void setPlatesMaterialStats(PlatesMaterialStats platesMaterialStats) {
+        this.platesMaterialStats = platesMaterialStats;
+    }
+
+    public void setTrimMaterialStats(TrimMaterialStats trimMaterialStats) {
+        this.trimMaterialStats = trimMaterialStats;
+    }
 }

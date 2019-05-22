@@ -99,4 +99,16 @@ public class ArmorToolMaterial extends ArmorMaterial implements IToolMaterial {
             TinkerRegistry.addMaterialStats(material, this.getExtraMaterialStats());
         }
     }
+
+    public void setHeadMaterialStats(HeadMaterialStats headMaterialStats) {
+        this.headMaterialStats = headMaterialStats;
+    }
+
+    public void setHandleMaterialStats(HandleMaterialStats handleMaterialStats) {
+        this.handleMaterialStats = handleMaterialStats;
+    }
+
+    public void setExtraMaterialStats(ExtraMaterialStats extraMaterialStats) {
+        this.extraMaterialStats = extraMaterialStats;
+    }
 }
