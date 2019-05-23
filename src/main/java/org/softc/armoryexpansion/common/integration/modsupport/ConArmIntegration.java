@@ -62,7 +62,7 @@ public class ConArmIntegration extends JsonIntegration {
     private List<ArmorMaterial> jsonMaterials = new LinkedList<>();
 
     public ConArmIntegration() {
-        super(ConstructsArmory.MODID, "assets/" + ArmoryExpansion.MODID + "/data/" + ConstructsArmory.MODID);
+        super(ConstructsArmory.MODID, ConstructsArmory.MODID, ConstructsArmory.MODID);
     }
 
     @Mod.EventHandler

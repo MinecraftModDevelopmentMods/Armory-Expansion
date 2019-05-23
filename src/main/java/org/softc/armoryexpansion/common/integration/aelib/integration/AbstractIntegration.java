@@ -25,6 +25,7 @@ import java.util.Map;
 public abstract class AbstractIntegration implements IIntegration {
     protected Logger logger;
     protected String modid = "";
+    protected String root= "";
     protected String configDir;
     protected IntegrationConfig integrationConfigHelper = new IntegrationConfig();
     private boolean forceCreateJson = false;
@@ -176,7 +177,7 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void loadMaterialsFromJson(File configDir, String modid){
-        this.loadMaterialsFromJson(configDir, "armoryexpansion", modid + "-materials");
+        this.loadMaterialsFromJson(configDir, this.root, modid + "-materials");
     }
 
     protected abstract void loadMaterialsFromSource();
@@ -226,7 +227,7 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void loadAlloysFromJson(File configDir, String modid){
-        this.loadAlloysFromJson(configDir, "armoryexpansion", modid + "-alloys");
+        this.loadAlloysFromJson(configDir, this.root, modid + "-alloys");
     }
 
     protected abstract void loadAlloysFromSource();
@@ -265,7 +266,7 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void loadConfigFromJson(File configDir, String modid){
-        this.loadConfigFromJson(configDir, "armoryexpansion", modid + "-config");
+        this.loadConfigFromJson(configDir, this.root, modid + "-config");
     }
 
     protected abstract void loadConfigFromSource();
@@ -293,7 +294,7 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void saveMaterialsToJson(File configDir, String modid, boolean forceCreate){
-        this.saveMaterialsToJson(configDir, "armoryexpansion", modid + "-materials", forceCreate);
+        this.saveMaterialsToJson(configDir, this.root, modid + "-materials", forceCreate);
     }
 
     private void saveAlloysToJson(String path, boolean forceCreate){
@@ -320,7 +321,7 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void saveAlloysToJson(File configDir, String modid, boolean forceCreate){
-        this.saveAlloysToJson(configDir, "armoryexpansion", modid + "-alloys", forceCreate);
+        this.saveAlloysToJson(configDir, this.root, modid + "-alloys", forceCreate);
     }
 
     private void saveConfigToJson(String path, boolean forceCreate){
@@ -346,7 +347,7 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void saveConfigToJson(File configDir, String modid, boolean forceCreate){
-        this.saveConfigToJson(configDir, "armoryexpansion", modid + "-config", forceCreate);
+        this.saveConfigToJson(configDir, this.root, modid + "-config", forceCreate);
     }
 
     @Override

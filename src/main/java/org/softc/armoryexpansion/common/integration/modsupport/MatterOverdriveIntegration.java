@@ -24,7 +24,7 @@ public class MatterOverdriveIntegration extends JsonIntegration {
             "after:matteroverdrive; ";
 
     public MatterOverdriveIntegration() {
-        super("matteroverdrive", "assets/" + ArmoryExpansion.MODID + "/data/matteroverdrive");
+        super("matteroverdrive", ArmoryExpansion.MODID, "matteroverdrive");
     }
 
     @Mod.EventHandler
