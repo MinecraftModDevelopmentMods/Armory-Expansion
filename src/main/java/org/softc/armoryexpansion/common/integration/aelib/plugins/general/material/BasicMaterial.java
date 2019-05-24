@@ -15,25 +15,25 @@ import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_constr
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits.TraitHolder;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.fluids.TiCFluidBlock;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.fluid.FluidMolten;
 import slimeknights.tconstruct.library.traits.ITrait;
+import slimeknights.tconstruct.smeltery.block.BlockMolten;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Material implements IMaterial {
+public abstract class BasicMaterial implements IBasicMaterial {
     protected String identifier;
-    protected String itemName;
-    protected int meta;
+    private String itemName;
+    private int meta;
     protected int color;
     protected MaterialRenderType type = MaterialRenderType.DEFAULT;
-    protected ResourceLocation texture;
+    private ResourceLocation texture;
 
-    protected boolean isCastable = false;
-    protected boolean isCraftable = false;
+    private boolean isCastable = false;
+    private boolean isCraftable = false;
 
     protected List<TraitHolder> traits = new LinkedList<>();
 
@@ -51,6 +51,34 @@ public abstract class Material implements IMaterial {
 
     public boolean isCraftable() {
         return this.isCraftable;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public void setMeta(int meta) {
+        this.meta = meta;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public void setType(MaterialRenderType type) {
+        this.type = type;
+    }
+
+    public void setTexture(ResourceLocation texture) {
+        this.texture = texture;
+    }
+
+    public void setTraits(List<TraitHolder> traits) {
+        this.traits = traits;
     }
 
     @Override
@@ -84,7 +112,7 @@ public abstract class Material implements IMaterial {
     }
 
     @Override
-    public IMaterial registerOreDict() {
+    public IBasicMaterial registerOreDict() {
         ItemStack stack = this.getItemStack();
         if(stack != null){
             OreDictionary.registerOre(this.getIdentifier(), this.getItemStack());
@@ -149,11 +177,11 @@ public abstract class Material implements IMaterial {
 
     @Override
     public Block getFluidBlock(){
-        return new TiCFluidBlock(getFluid());
+        return new BlockMolten(getFluid());
     }
 
     @Override
-    public abstract boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister);
+    public abstract boolean registerTinkersMaterialStats(MaterialConfigOptions properties);
 
     @Override
     public boolean updateTinkersMaterial(boolean canRegister){
@@ -183,13 +211,13 @@ public abstract class Material implements IMaterial {
     }
 
     @Override
-    public IMaterial addTrait(String trait, String location) {
+    public IBasicMaterial addTrait(String trait, String location) {
         this.traits.add(new TraitHolder(trait, location));
         return this;
     }
 
     @Override
     public boolean equals(Object material) {
-        return material instanceof Material && this.getIdentifier().equals(((Material) material).getIdentifier());
+        return material instanceof BasicMaterial && this.getIdentifier().equals(((BasicMaterial) material).getIdentifier());
     }
 }

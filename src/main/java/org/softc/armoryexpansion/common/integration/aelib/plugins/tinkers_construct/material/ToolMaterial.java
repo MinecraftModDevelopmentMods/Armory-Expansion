@@ -1,7 +1,7 @@
 package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material;
 
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.Material;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.BasicMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
@@ -9,7 +9,7 @@ import slimeknights.tconstruct.library.materials.HeadMaterialStats;
 
 import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
 
-public class ToolMaterial extends Material implements IToolMaterial {
+public class ToolMaterial extends BasicMaterial implements IToolMaterial {
     private HeadMaterialStats headMaterialStats;
     private HandleMaterialStats handleMaterialStats;
     private ExtraMaterialStats extraMaterialStats;
@@ -67,29 +67,53 @@ public class ToolMaterial extends Material implements IToolMaterial {
     }
 
     @Override
-    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties, boolean canRegister){
-        if (canRegister) {
+    public boolean registerTinkersMaterialStats(MaterialConfigOptions properties){
+        if (properties.isMaterialEnabled() && properties.isToolEnabled()) {
             slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
             if ("unknown".equals(material.getIdentifier())){
                 return false;
             }
-            this.registerToolStats(material);
+            this.registerToolStats(material, properties);
             return true;
         }
         return false;
     }
 
-    void registerToolStats(slimeknights.tconstruct.library.materials.Material material){
+    void registerToolStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
         if(this.isToolMaterial()){
-            if(material.getStats(HEAD) == null && this.getHeadMaterialStats() != null){
-                TinkerRegistry.addMaterialStats(material, this.getHeadMaterialStats());
-            }
-            if(material.getStats(HANDLE) == null && this.getHandleMaterialStats() != null){
-                TinkerRegistry.addMaterialStats(material, this.getHandleMaterialStats());
-            }
-            if(material.getStats(EXTRA) == null && this.getExtraMaterialStats() != null){
-                TinkerRegistry.addMaterialStats(material, this.getExtraMaterialStats());
-            }
+            this.registerHeadStats(material, properties);
+            this.registerHandleStats(material, properties);
+            this.registerExtraStats(material, properties);
         }
+    }
+
+    private void registerHeadStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(HEAD) == null && this.getHeadMaterialStats() != null && properties.isHeadEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getHeadMaterialStats());
+        }
+    }
+
+    private void registerHandleStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(HANDLE) == null && this.getHandleMaterialStats() != null && properties.isHandleEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getHandleMaterialStats());
+        }
+    }
+
+    private void registerExtraStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
+        if(material.getStats(EXTRA) == null && this.getExtraMaterialStats() != null && properties.isExtraEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.getExtraMaterialStats());
+        }
+    }
+
+    public void setHeadMaterialStats(HeadMaterialStats headMaterialStats) {
+        this.headMaterialStats = headMaterialStats;
+    }
+
+    public void setHandleMaterialStats(HandleMaterialStats handleMaterialStats) {
+        this.handleMaterialStats = handleMaterialStats;
+    }
+
+    public void setExtraMaterialStats(ExtraMaterialStats extraMaterialStats) {
+        this.extraMaterialStats = extraMaterialStats;
     }
 }

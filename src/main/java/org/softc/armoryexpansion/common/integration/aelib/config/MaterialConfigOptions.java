@@ -1,14 +1,8 @@
 package org.softc.armoryexpansion.common.integration.aelib.config;
 
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
 
-public class MaterialConfigOptions {
-    private String name;
-    private boolean material;
-    private boolean fluid;
-    private boolean traits;
-
-    private ArmorConfigOptions armorOptions;
+public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
     private ToolConfigOptions toolOptions;
     private RangedConfigOptions rangedOptions;
 
@@ -21,62 +15,26 @@ public class MaterialConfigOptions {
         this.rangedOptions = new RangedConfigOptions(false);
     }
 
-    MaterialConfigOptions(IMaterial iMaterial) {
-        this.name = iMaterial.getIdentifier();
-        this.material = true;
-        this.fluid = iMaterial.isCastable();
-        this.traits = true;
+    MaterialConfigOptions(IBasicMaterial iBasicMaterial) {
+        super(iBasicMaterial);
 
-        this.armorOptions = new ArmorConfigOptions(iMaterial.isArmorMaterial());
-        this.toolOptions = new ToolConfigOptions(iMaterial.isToolMaterial());
-        this.rangedOptions = new RangedConfigOptions(iMaterial.isRangedMaterial());
+        this.toolOptions = new ToolConfigOptions(iBasicMaterial.isToolMaterial());
+        this.rangedOptions = new RangedConfigOptions(iBasicMaterial.isRangedMaterial());
     }
 
-    String getName() {
-        return name;
-    }
-
-    boolean isMaterialEnabled(){
-        return this.material;
-    }
-
-    boolean isFluidEnabled(){
-        return this.fluid;
-    }
-
-    boolean isTraitsEnabled(){
-        return this.traits;
-    }
-
-    boolean isArmorEnabled(){
-        return this.armorOptions.enableArmor;
-    }
-
-    boolean isCoreEnabled(){
-        return this.armorOptions.enableCore;
-    }
-
-    boolean isPlatesEnabled(){
-        return this.armorOptions.enablePlates;
-    }
-
-    boolean isTrimEnabled(){
-        return this.armorOptions.enableTrim;
-    }
-
-    boolean isToolEnabled(){
+    public boolean isToolEnabled(){
         return this.toolOptions.enableTool;
     }
 
-    boolean isHeadEnabled(){
+    public boolean isHeadEnabled(){
         return this.toolOptions.enableHead;
     }
 
-    boolean isHandleEnabled(){
+    public boolean isHandleEnabled(){
         return this.toolOptions.enableHandle;
     }
 
-    boolean isExtraEnabled(){
+    public boolean isExtraEnabled(){
         return this.toolOptions.enableExtra;
     }
 
@@ -84,11 +42,11 @@ public class MaterialConfigOptions {
         return this.rangedOptions.enableRanged;
     }
 
-    boolean isBowEnabled(){
+    public boolean isBowEnabled(){
         return this.rangedOptions.enableBow;
     }
 
-    boolean isBowStringEnabled() {
+    public boolean isBowStringEnabled() {
         return this.rangedOptions.enableBowString;
     }
 
@@ -96,31 +54,12 @@ public class MaterialConfigOptions {
         return this.rangedOptions.enableShaft;
     }
 
-    boolean isFletchingEnabled(){
+    public boolean isFletchingEnabled(){
         return this.rangedOptions.enableFletching;
     }
 
-    boolean isProjectileEnabled(){
+    public boolean isProjectileEnabled(){
         return this.rangedOptions.enableProjectile;
-    }
-
-    private class ArmorConfigOptions {
-        private boolean enableArmor;
-        private boolean enableCore;
-        private boolean enablePlates;
-        private boolean enableTrim;
-
-
-        ArmorConfigOptions(boolean defVal) {
-            this(defVal, defVal, defVal, defVal);
-        }
-
-        ArmorConfigOptions(boolean enableArmor, boolean enableCore, boolean enablePlates, boolean enableTrim) {
-            this.enableArmor = enableArmor;
-            this.enableCore = enableCore;
-            this.enablePlates = enablePlates;
-            this.enableTrim = enableTrim;
-        }
     }
 
     private class ToolConfigOptions {

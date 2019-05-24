@@ -3,6 +3,7 @@ package org.softc.armoryexpansion.common.integration.aelib.integration;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.block.Block;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -14,7 +15,7 @@ import org.softc.armoryexpansion.common.integration.aelib.config.IntegrationConf
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorToolMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorToolRangedMaterial;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.alloys.TiCAlloy;
 
 import java.io.*;
@@ -24,15 +25,16 @@ import java.util.Map;
 public abstract class AbstractIntegration implements IIntegration {
     protected Logger logger;
     protected String modid = "";
+    protected String root= "";
     protected String configDir;
     protected IntegrationConfig integrationConfigHelper = new IntegrationConfig();
     private boolean forceCreateJson = false;
-    protected Map<String, IMaterial> materials = new HashMap<>();
+    protected Map<String, IBasicMaterial> materials = new HashMap<>();
     private Map<String, TiCAlloy> alloys = new HashMap<>();
 
-//    public AbstractIntegration() {
-//        MinecraftForge.EVENT_BUS.register(this);
-//    }
+    public AbstractIntegration() {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
@@ -94,7 +96,7 @@ public abstract class AbstractIntegration implements IIntegration {
         });
     }
 
-    protected void addMaterial(IMaterial material){
+    protected void addMaterial(IBasicMaterial material){
         if(isMaterialEnabled(material)){
             this.materials.putIfAbsent(material.getIdentifier(), material);
         }
@@ -175,7 +177,7 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void loadMaterialsFromJson(File configDir, String modid){
-        this.loadMaterialsFromJson(configDir, "armoryexpansion", modid + "-materials");
+        this.loadMaterialsFromJson(configDir, this.root, modid + "-materials");
     }
 
     protected abstract void loadMaterialsFromSource();
@@ -225,7 +227,7 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void loadAlloysFromJson(File configDir, String modid){
-        this.loadAlloysFromJson(configDir, "armoryexpansion", modid + "-alloys");
+        this.loadAlloysFromJson(configDir, this.root, modid + "-alloys");
     }
 
     protected abstract void loadAlloysFromSource();
@@ -264,7 +266,7 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void loadConfigFromJson(File configDir, String modid){
-        this.loadConfigFromJson(configDir, "armoryexpansion", modid + "-config");
+        this.loadConfigFromJson(configDir, this.root, modid + "-config");
     }
 
     protected abstract void loadConfigFromSource();
@@ -292,7 +294,7 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void saveMaterialsToJson(File configDir, String modid, boolean forceCreate){
-        this.saveMaterialsToJson(configDir, "armoryexpansion", modid + "-materials", forceCreate);
+        this.saveMaterialsToJson(configDir, this.root, modid + "-materials", forceCreate);
     }
 
     private void saveAlloysToJson(String path, boolean forceCreate){
@@ -319,7 +321,7 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void saveAlloysToJson(File configDir, String modid, boolean forceCreate){
-        this.saveAlloysToJson(configDir, "armoryexpansion", modid + "-alloys", forceCreate);
+        this.saveAlloysToJson(configDir, this.root, modid + "-alloys", forceCreate);
     }
 
     private void saveConfigToJson(String path, boolean forceCreate){
@@ -345,14 +347,16 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     private void saveConfigToJson(File configDir, String modid, boolean forceCreate){
-        this.saveConfigToJson(configDir, "armoryexpansion", modid + "-config", forceCreate);
+        this.saveConfigToJson(configDir, this.root, modid + "-config", forceCreate);
     }
 
     @Override
     public void oredictMaterials() {
         this.materials.values().forEach(m -> {
-            m.registerOreDict();
-            this.logger.info("Oredicted material {" + m.getIdentifier() + "};");
+            if (this.isMaterialEnabled(m)){
+                m.registerOreDict();
+                this.logger.info("Oredicted material {" + m.getIdentifier() + "};");
+            }
         });
     }
 
@@ -394,13 +398,13 @@ public abstract class AbstractIntegration implements IIntegration {
     @Override
     public void registerMaterialStats() {
         this.materials.values().forEach(m -> {
-            if (m.registerTinkersMaterialStats(this.getProperties(m), this.isMaterialEnabled(m))) {
+            if (m.registerTinkersMaterialStats(this.getProperties(m))) {
                 this.logger.info("Registered stats for tinker's material {" + m.getIdentifier() + "};");
             }
         });
     }
 
-    private MaterialConfigOptions getProperties(IMaterial m) {
+    private MaterialConfigOptions getProperties(IBasicMaterial m) {
         return this.integrationConfigHelper.getSafeMaterialConfigOptions(m.getIdentifier());
     }
 
@@ -416,20 +420,20 @@ public abstract class AbstractIntegration implements IIntegration {
     @Override
     public void registerMaterialTraits() {
         this.materials.values().forEach(m -> {
-            if (m.registerTinkersMaterialTraits(this.isMaterialEnabled(m))) {
+            if (m.registerTinkersMaterialTraits(this.isMaterialEnabled(m) && this.integrationConfigHelper.isTraitsEnabled(m))) {
                 this.logger.info("Registered traits for tinker's material {" + m.getIdentifier() + "};");
             }
         });
     }
 
     @Override
-    public boolean isMaterialEnabled(IMaterial material){
-        return this.integrationConfigHelper.isMaterialEnabled(material.getIdentifier());
+    public boolean isMaterialEnabled(IBasicMaterial material){
+        return this.integrationConfigHelper.isMaterialEnabled(material);
     }
 
     @Override
-    public boolean isMaterialFluidEnabled(IMaterial material){
-        return this.integrationConfigHelper.isFluidEnabled(material.getIdentifier());
+    public boolean isMaterialFluidEnabled(IBasicMaterial material){
+        return this.integrationConfigHelper.isFluidEnabled(material);
     }
 
     @Override

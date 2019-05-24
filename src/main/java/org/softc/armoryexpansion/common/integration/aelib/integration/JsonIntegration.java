@@ -1,14 +1,17 @@
 package org.softc.armoryexpansion.common.integration.aelib.integration;
 
+import net.minecraftforge.common.MinecraftForge;
+
 import java.io.InputStream;
 
 public class JsonIntegration extends AbstractIntegration {
     private String json;
 
-    protected JsonIntegration(String modId, String json) {
+    protected JsonIntegration(String modId, String root, String json) {
         this.modid = modId;
+        this.root = root;
         this.json = json;
-//        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -16,7 +19,7 @@ public class JsonIntegration extends AbstractIntegration {
         InputStream stream =
                 getClass()
                         .getClassLoader()
-                        .getResourceAsStream(json + "-materials.json");
+                        .getResourceAsStream("assets/" + this.root + "/data/" + json + "-materials.json");
         if(stream == null){
             return;
         }
@@ -27,7 +30,7 @@ public class JsonIntegration extends AbstractIntegration {
     protected void loadAlloysFromSource() {
         InputStream stream = getClass()
                 .getClassLoader()
-                .getResourceAsStream(json + "-alloys.json");
+                .getResourceAsStream("assets/" + this.root + "/data/" + json + "-alloys.json");
         if(stream == null){
             return;
         }
@@ -38,7 +41,7 @@ public class JsonIntegration extends AbstractIntegration {
     protected void loadConfigFromSource() {
         InputStream stream = getClass()
                 .getClassLoader()
-                .getResourceAsStream(json + "-config.json");
+                .getResourceAsStream("assets/" + this.root + "/data/" + json + "-config.json");
         if(stream == null){
             return;
         }

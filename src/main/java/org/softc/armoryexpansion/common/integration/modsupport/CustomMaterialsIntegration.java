@@ -38,7 +38,7 @@ public class CustomMaterialsIntegration extends JsonIntegration {
     private static File configDir;
 
     public CustomMaterialsIntegration() {
-        super(INTEGRATION_ID, "assets/" + ArmoryExpansion.MODID + "/data/" + INTEGRATION_ID);
+        super(INTEGRATION_ID, ArmoryExpansion.MODID, INTEGRATION_ID);
     }
 
     @Mod.EventHandler

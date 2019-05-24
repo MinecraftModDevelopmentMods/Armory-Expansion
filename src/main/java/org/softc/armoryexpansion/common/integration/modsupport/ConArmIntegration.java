@@ -17,7 +17,7 @@ import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_constr
 import org.softc.armoryexpansion.common.integration.aelib.integration.JsonIntegration;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.IArmorMaterial;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
@@ -62,7 +62,7 @@ public class ConArmIntegration extends JsonIntegration {
     private List<ArmorMaterial> jsonMaterials = new LinkedList<>();
 
     public ConArmIntegration() {
-        super(ConstructsArmory.MODID, "assets/" + ArmoryExpansion.MODID + "/data/" + ConstructsArmory.MODID);
+        super(ConstructsArmory.MODID, ConstructsArmory.MODID, ConstructsArmory.MODID);
     }
 
     @Mod.EventHandler
@@ -124,7 +124,7 @@ public class ConArmIntegration extends JsonIntegration {
                 IArmorMaterial m = newTiCMaterial(material, TinkerMaterials.iron);
                 //noinspection SuspiciousMethodCalls
                 if (!jsonMaterials.contains(m)){
-                    this.addMaterial((IMaterial) m);
+                    this.addMaterial((IBasicMaterial) m);
                 }
             }
         }
