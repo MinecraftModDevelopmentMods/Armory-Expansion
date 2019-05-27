@@ -108,30 +108,30 @@ dependencies {
 //    deobfCompile 'com.mcmoddev:ModernMetals:1.12-2.5.0-beta+'
 //    deobfCompile 'com.mcmoddev:MMDLib:1.12-1.0.0-beta+'
 
-    deobfCompile 'mezz.jei:jei_1.12.2:4.12.0+'
-    deobfCompile 'mcp.mobius.waila:Hwyla:1.8.23-B38_1.12'
+//    deobfCompile 'mezz.jei:jei_1.12.2:4.12.0+'
+//    deobfCompile 'mcp.mobius.waila:Hwyla:1.8.23-B38_1.12'
 
-    deobfCompile 'cofh:RedstoneFlux:1.12-2.1.0.+:universal'
-    deobfCompile 'cofh:CoFHCore:1.12.2-4.6.1.22+:universal'
-    deobfCompile 'cofh:CoFHWorld:1.12.2-1.3.0.6+:universal'
-    deobfCompile 'cofh:ThermalFoundation:1.12.2-2.6.1.22+:universal'
+//    deobfCompile 'cofh:RedstoneFlux:1.12-2.1.0.+:universal'
+//    deobfCompile 'cofh:CoFHCore:1.12.2-4.6.1.22+:universal'
+//    deobfCompile 'cofh:CoFHWorld:1.12.2-1.3.0.6+:universal'
+//    deobfCompile 'cofh:ThermalFoundation:1.12.2-2.6.1.22+:universal'
 
-    deobfCompile 'shadowfacts-forgelin:Forgelin:1.8.2'
-    deobfCompile 'pewter:Pewter:1.2.2'
+//    deobfCompile 'shadowfacts-forgelin:Forgelin:1.8.2'
+//    deobfCompile 'pewter:Pewter:1.2.2'
 
-    deobfCompile 'moar-tinkers:moartinkers:0.6.0'
+//    deobfCompile 'moar-tinkers:moartinkers:0.6.0'
 
-    deobfCompile 'plustic:plustic:7.0.7.0'
+//    deobfCompile 'plustic:plustic:7.0.7.0'
 
     deobfCompile 'llibrary:llibrary:1.7.9:1.12.2'
     deobfCompile 'ice-and-fire-dragons:iceandfire:1.7.0:1.12.2'
 
-    deobfCompile "matteroverdrive:MatterOverdrive-1.12.2:0.7.1.0:universal"
+//    deobfCompile "matteroverdrive:MatterOverdrive-1.12.2:0.7.1.0:universal"
 
 //    deobfCompile 'the-twilight-forest:twilightforest:1.12.2:3.8.689:universal'
     
-    deobfCompile 'autoreglib:AutoRegLib:1.3:29'
-    deobfCompile 'psi:Psi:r1.1:76'
+//    deobfCompile 'autoreglib:AutoRegLib:1.3:29'
+//    deobfCompile 'psi:Psi:r1.1:76'
 }
 
 processResources {
