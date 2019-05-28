@@ -42,7 +42,7 @@ public abstract class AbstractIntegration implements IIntegration {
         this.configDir = event.getModConfigurationDirectory().getPath();
         if(ArmoryExpansion.isIntegrationEnabled(modid)){
             this.setIntegrationData(this.configDir);
-            this.integrationConfigHelper.syncConfig(materials);
+//            this.integrationConfigHelper.syncConfig(materials);
             this.saveIntegrationData(this.configDir);
             this.registerMaterials();
 //            this.registerMaterialFluids();
@@ -68,6 +68,12 @@ public abstract class AbstractIntegration implements IIntegration {
         // Used as a stub
     }
 
+    @Override
+    public void registerBlocks(RegistryEvent.Register<Block> event){
+        this.registerMaterialFluids();
+        this.registerFluidBlocks(event);
+    }
+
     protected void setIntegrationData(String path){
         this.setConfig(path);
         this.setMaterials(path);
@@ -78,22 +84,6 @@ public abstract class AbstractIntegration implements IIntegration {
         this.saveConfig(path);
         this.saveMaterials(path);
         this.saveAlloys(path);
-    }
-
-    @Override
-    public void registerBlocks(RegistryEvent.Register<Block> event){
-        this.registerMaterialFluids();
-        this.registerFluidBlocks(event);
-    }
-
-    @Override
-    public void registerFluidBlocks(RegistryEvent.Register<Block> event){
-        this.materials.values().forEach(m -> {
-            if(m.isCastable()){
-                event.getRegistry().registerAll(m.getFluidBlock());
-                this.logger.info("Registered fluid block for material {" + m.getIdentifier() + "};");
-            }
-        });
     }
 
     protected void addMaterial(IBasicMaterial material){
@@ -233,7 +223,9 @@ public abstract class AbstractIntegration implements IIntegration {
     protected abstract void loadAlloysFromSource();
 
     private void loadConfig(IntegrationConfig integrationConfig){
-        this.integrationConfigHelper = integrationConfig;
+        if(integrationConfig != null){
+            this.integrationConfigHelper = integrationConfig;
+        }
     }
 
     void loadConfigFromJson(InputStream path){
@@ -383,6 +375,16 @@ public abstract class AbstractIntegration implements IIntegration {
         this.materials.values().forEach(m -> {
             if (m.registerTinkersFluidIMC(this.isMaterialEnabled(m) && this.isMaterialFluidEnabled(m))) {
                 this.logger.info("Sent IMC for tinker's fluid {" + m.getFluidName() + "};");
+            }
+        });
+    }
+
+    @Override
+    public void registerFluidBlocks(RegistryEvent.Register<Block> event){
+        this.materials.values().forEach(m -> {
+            if(m.isCastable()){
+                event.getRegistry().registerAll(m.getFluidBlock());
+                this.logger.info("Registered fluid block for material {" + m.getIdentifier() + "};");
             }
         });
     }

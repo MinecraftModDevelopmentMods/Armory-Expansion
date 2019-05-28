@@ -6,19 +6,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IntegrationConfig {
-    private static final MaterialConfigOptions DEFAULT = new MaterialConfigOptions();
+    private static MaterialConfigOptions DEFAULT;
     private Map<String, MaterialConfigOptions> integrationMaterials = new HashMap<>();
+
+    private static MaterialConfigOptions getDefault(){
+        if (DEFAULT == null) {
+            DEFAULT = new MaterialConfigOptions();
+        }
+        return DEFAULT;
+    }
 
     private void insertMaterialConfigOptions(MaterialConfigOptions materialConfigOptions){
         this.integrationMaterials.putIfAbsent(materialConfigOptions.getName(), materialConfigOptions);
     }
 
     public MaterialConfigOptions getSafeMaterialConfigOptions(String identifier){
-        return this.integrationMaterials.getOrDefault(identifier, DEFAULT);
+        return this.integrationMaterials.getOrDefault(identifier, getDefault());
     }
 
     public Map<String, MaterialConfigOptions> getIntegrationMaterials() {
-        return integrationMaterials;
+        return integrationMaterials == null ? new HashMap<>() : integrationMaterials;
     }
 
     public void syncConfig(Map<String, IBasicMaterial> materials) {

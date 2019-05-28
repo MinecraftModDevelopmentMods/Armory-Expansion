@@ -73,7 +73,7 @@ public class ConArmIntegration extends JsonIntegration {
         if (ArmoryExpansion.isIntegrationEnabled(modid)){
             this.loadMaterialsFromOtherIntegrations(event);
             this.setIntegrationData(this.configDir);
-            this.integrationConfigHelper.syncConfig(this.materials);
+//            this.integrationConfigHelper.syncConfig(this.materials);
             this.saveIntegrationData(this.configDir);
             this.registerMaterials();
             this.registerAlloys();
@@ -86,7 +86,7 @@ public class ConArmIntegration extends JsonIntegration {
     public void registerItems(RegistryEvent<Item> event){
         if(ArmoryExpansion.isIntegrationEnabled(modid)){
             this.setIntegrationData(this.configDir);
-            this.integrationConfigHelper.syncConfig(this.materials);
+//            this.integrationConfigHelper.syncConfig(this.materials);
             this.saveIntegrationData(this.configDir);
             this.registerMaterials();
             this.registerAlloys();
