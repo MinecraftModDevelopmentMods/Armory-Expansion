@@ -103,10 +103,10 @@ dependencies {
 
     deobfCompile 'constructs-armory:conarm:1.12.2:1.1.2'
 
-//    deobfCompile 'com.mcmoddev:OreSpawn:1.12-3.3.+'
-//    deobfCompile 'com.mcmoddev:BaseMetals:1.12-2.5.0-beta+'
-//    deobfCompile 'com.mcmoddev:ModernMetals:1.12-2.5.0-beta+'
-//    deobfCompile 'com.mcmoddev:MMDLib:1.12-1.0.0-beta+'
+    deobfCompile 'com.mcmoddev:OreSpawn:1.12-3.3.+'
+    deobfCompile 'com.mcmoddev:BaseMetals:1.12-2.5.0-beta+'
+    deobfCompile 'com.mcmoddev:ModernMetals:1.12-2.5.0-beta+'
+    deobfCompile 'com.mcmoddev:MMDLib:1.12-1.0.0-beta+'
 
 //    deobfCompile 'mezz.jei:jei_1.12.2:4.12.0+'
 //    deobfCompile 'mcp.mobius.waila:Hwyla:1.8.23-B38_1.12'
@@ -126,7 +126,7 @@ dependencies {
     deobfCompile 'llibrary:llibrary:1.7.9:1.12.2'
     deobfCompile 'ice-and-fire-dragons:iceandfire:1.7.0:1.12.2'
 
-//    deobfCompile "matteroverdrive:MatterOverdrive-1.12.2:0.7.1.0:universal"
+    deobfCompile "matteroverdrive:MatterOverdrive-1.12.2:0.7.1.0:universal"
 
 //    deobfCompile 'the-twilight-forest:twilightforest:1.12.2:3.8.689:universal'
     

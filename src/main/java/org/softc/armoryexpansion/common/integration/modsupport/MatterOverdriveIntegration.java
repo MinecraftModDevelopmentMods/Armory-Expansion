@@ -27,19 +27,23 @@ public class MatterOverdriveIntegration extends JsonIntegration {
         super("matteroverdrive", ArmoryExpansion.MODID, "matteroverdrive");
     }
 
+//    public MatterOverdriveIntegration() {
+//        super("matteroverdrive");
+//    }
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         this.modid = "matteroverdrive";
-//        super.preInit(event);
+        super.preInit(event);
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-//        super.init(event);
+        super.init(event);
     }
 
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> event){
-//        super.registerBlocks(event);
+        super.registerBlocks(event);
     }
 }

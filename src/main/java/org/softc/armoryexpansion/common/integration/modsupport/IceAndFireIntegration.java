@@ -28,6 +28,10 @@ public class IceAndFireIntegration extends JsonIntegration {
         super(IceAndFire.MODID, ArmoryExpansion.MODID, IceAndFire.MODID);
     }
 
+//    public IceAndFireIntegration() {
+//        super(IceAndFire.MODID);
+//    }
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         this.modid = IceAndFire.MODID;
