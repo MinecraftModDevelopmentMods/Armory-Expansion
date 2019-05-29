@@ -383,8 +383,9 @@ public abstract class AbstractIntegration implements IIntegration {
     public void registerFluidBlocks(RegistryEvent.Register<Block> event){
         this.materials.values().forEach(m -> {
             if(m.isCastable()){
-                event.getRegistry().registerAll(m.getFluidBlock());
-                this.logger.info("Registered fluid block for material {" + m.getIdentifier() + "};");
+                // TODO Fix this!!
+//                event.getRegistry().registerAll(m.getFluidBlock());
+//                this.logger.info("Registered fluid block for material {" + m.getIdentifier() + "};");
             }
         });
     }
