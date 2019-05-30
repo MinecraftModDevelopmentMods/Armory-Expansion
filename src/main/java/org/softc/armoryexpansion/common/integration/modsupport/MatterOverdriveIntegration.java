@@ -1,6 +1,7 @@
 package org.softc.armoryexpansion.common.integration.modsupport;
 
 import net.minecraft.block.Block;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -25,6 +26,7 @@ public class MatterOverdriveIntegration extends JsonIntegration {
 
     public MatterOverdriveIntegration() {
         super("matteroverdrive", ArmoryExpansion.MODID, "matteroverdrive");
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
 //    public MatterOverdriveIntegration() {

@@ -42,7 +42,7 @@ public abstract class AbstractIntegration implements IIntegration {
         this.configDir = event.getModConfigurationDirectory().getPath();
         if(ArmoryExpansion.isIntegrationEnabled(modid)){
             this.setIntegrationData(this.configDir);
-//            this.integrationConfigHelper.syncConfig(materials);
+            this.integrationConfigHelper.syncConfig(materials);
             this.saveIntegrationData(this.configDir);
             this.registerMaterials();
 //            this.registerMaterialFluids();
@@ -70,8 +70,8 @@ public abstract class AbstractIntegration implements IIntegration {
 
     @Override
     public void registerBlocks(RegistryEvent.Register<Block> event){
-        this.registerMaterialFluids();
-        this.registerFluidBlocks(event);
+//        this.registerMaterialFluids();
+//        this.registerFluidBlocks(event);
     }
 
     protected void setIntegrationData(String path){

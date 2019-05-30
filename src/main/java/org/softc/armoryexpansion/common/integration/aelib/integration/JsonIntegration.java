@@ -15,7 +15,6 @@ public class JsonIntegration extends AbstractIntegration {
         this.modid = modId;
         this.root = root;
         this.json = json;
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override

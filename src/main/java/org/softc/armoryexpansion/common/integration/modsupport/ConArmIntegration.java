@@ -7,6 +7,7 @@ import c4.conarm.lib.materials.TrimMaterialStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -62,7 +63,8 @@ public class ConArmIntegration extends JsonIntegration {
     private List<ArmorMaterial> jsonMaterials = new LinkedList<>();
 
     public ConArmIntegration() {
-        super(ConstructsArmory.MODID, ConstructsArmory.MODID, ConstructsArmory.MODID);
+        super(ConstructsArmory.MODID, ArmoryExpansion.MODID, ConstructsArmory.MODID);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Mod.EventHandler
@@ -73,7 +75,7 @@ public class ConArmIntegration extends JsonIntegration {
         if (ArmoryExpansion.isIntegrationEnabled(modid)){
             this.loadMaterialsFromOtherIntegrations(event);
             this.setIntegrationData(this.configDir);
-//            this.integrationConfigHelper.syncConfig(this.materials);
+            this.integrationConfigHelper.syncConfig(this.materials);
             this.saveIntegrationData(this.configDir);
             this.registerMaterials();
             this.registerAlloys();
@@ -86,7 +88,7 @@ public class ConArmIntegration extends JsonIntegration {
     public void registerItems(RegistryEvent<Item> event){
         if(ArmoryExpansion.isIntegrationEnabled(modid)){
             this.setIntegrationData(this.configDir);
-//            this.integrationConfigHelper.syncConfig(this.materials);
+            this.integrationConfigHelper.syncConfig(this.materials);
             this.saveIntegrationData(this.configDir);
             this.registerMaterials();
             this.registerAlloys();

@@ -101,4 +101,9 @@ public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
             this.enableProjectile = enableProjectile;
         }
     }
+
+    @Override
+    public boolean equals(Object o){
+        return o instanceof MaterialConfigOptions && this.name.equals(((MaterialConfigOptions) o).name);
+    }
 }

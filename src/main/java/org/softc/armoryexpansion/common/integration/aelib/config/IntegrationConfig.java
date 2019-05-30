@@ -17,7 +17,10 @@ public class IntegrationConfig {
     }
 
     private void insertMaterialConfigOptions(MaterialConfigOptions materialConfigOptions){
-        this.integrationMaterials.putIfAbsent(materialConfigOptions.getName(), materialConfigOptions);
+//        this.integrationMaterials.putIfAbsent(materialConfigOptions.getName(), materialConfigOptions);
+        if(!this.integrationMaterials.containsKey(materialConfigOptions.name)){
+            this.integrationMaterials.put(materialConfigOptions.getName(), materialConfigOptions);
+        }
     }
 
     public MaterialConfigOptions getSafeMaterialConfigOptions(String identifier){
