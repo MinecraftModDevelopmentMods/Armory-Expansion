@@ -16,7 +16,7 @@ public class IntegrationConfig {
         return DEFAULT;
     }
 
-    private void insertMaterialConfigOptions(MaterialConfigOptions materialConfigOptions){
+    public void insertMaterialConfigOptions(MaterialConfigOptions materialConfigOptions){
 //        this.integrationMaterials.putIfAbsent(materialConfigOptions.getName(), materialConfigOptions);
         if(!this.integrationMaterials.containsKey(materialConfigOptions.name)){
             this.integrationMaterials.put(materialConfigOptions.getName(), materialConfigOptions);

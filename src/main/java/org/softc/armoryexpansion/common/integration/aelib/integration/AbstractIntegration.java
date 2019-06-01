@@ -222,30 +222,35 @@ public abstract class AbstractIntegration implements IIntegration {
 
     protected abstract void loadAlloysFromSource();
 
-    private void loadConfig(IntegrationConfig integrationConfig){
-        if(integrationConfig != null){
-            this.integrationConfigHelper = integrationConfig;
+    private void loadConfig(MaterialConfigOptions[] materialConfigOptions){
+        if(materialConfigOptions != null){
+            if (this.integrationConfigHelper == null){
+                this.integrationConfigHelper = new IntegrationConfig();
+            }
+            for(MaterialConfigOptions material : materialConfigOptions){
+                this.integrationConfigHelper.insertMaterialConfigOptions(material);
+            }
         }
     }
 
     void loadConfigFromJson(InputStream path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        IntegrationConfig jsonIntegrationConfig = gson.fromJson(
+        MaterialConfigOptions[] jsonIntegrationConfig = gson.fromJson(
                 new BufferedReader(
                         new InputStreamReader(
-                                new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), IntegrationConfig.class);
+                                new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), MaterialConfigOptions[].class);
         this.loadConfig(jsonIntegrationConfig);
     }
 
     private void loadConfigFromJson(String path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        IntegrationConfig jsonIntegrationConfig = new IntegrationConfig();
+        MaterialConfigOptions[] jsonIntegrationConfig = new MaterialConfigOptions[0];
         try {
             File input = new File(path);
             if(input.exists()){
-                jsonIntegrationConfig = gson.fromJson(new FileReader(input), IntegrationConfig.class);
+                jsonIntegrationConfig = gson.fromJson(new FileReader(input), MaterialConfigOptions[].class);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -327,7 +332,7 @@ public abstract class AbstractIntegration implements IIntegration {
         output.getParentFile().mkdirs();
         try {
             FileWriter writer = new FileWriter(output);
-            writer.write(gson.toJson(this.integrationConfigHelper.getIntegrationMaterials()));
+            writer.write(gson.toJson(this.integrationConfigHelper.getIntegrationMaterials().values().toArray()));
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

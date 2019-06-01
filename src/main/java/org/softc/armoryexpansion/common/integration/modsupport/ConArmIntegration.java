@@ -102,9 +102,11 @@ public class ConArmIntegration extends JsonIntegration {
     }
 
     private void loadJsonMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){
+        File jsonDir = new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/");
+        //noinspection ResultOfMethodCallIgnored
+        jsonDir.mkdirs();
         for (File json : Objects.requireNonNull(
-                new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/")
-                        .listFiles((dir, name) -> name.contains("-materials.json") && !name.contains(ConstructsArmory.MODID)))){
+                jsonDir.listFiles((dir, name) -> name.contains("-materials.json") && !name.contains(ConstructsArmory.MODID)))){
             loadMaterialsFromOtherIntegration(json);
         }
     }
