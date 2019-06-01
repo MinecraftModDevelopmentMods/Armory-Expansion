@@ -2,6 +2,7 @@ package org.softc.armoryexpansion.common.integration.modsupport;
 
 import com.github.alexthe666.iceandfire.IceAndFire;
 import net.minecraft.block.Block;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -26,7 +27,12 @@ public class IceAndFireIntegration extends JsonIntegration {
 
     public IceAndFireIntegration() {
         super(IceAndFire.MODID, ArmoryExpansion.MODID, IceAndFire.MODID);
+        MinecraftForge.EVENT_BUS.register(this);
     }
+
+//    public IceAndFireIntegration() {
+//        super(IceAndFire.MODID);
+//    }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {

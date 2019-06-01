@@ -3,6 +3,7 @@ package org.softc.armoryexpansion.common.integration.modsupport;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.block.Block;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -39,6 +40,7 @@ public class CustomMaterialsIntegration extends JsonIntegration {
 
     public CustomMaterialsIntegration() {
         super(INTEGRATION_ID, ArmoryExpansion.MODID, INTEGRATION_ID);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Mod.EventHandler

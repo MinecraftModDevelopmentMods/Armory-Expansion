@@ -7,11 +7,14 @@ import java.io.InputStream;
 public class JsonIntegration extends AbstractIntegration {
     private String json;
 
+    protected JsonIntegration(String modId) {
+        this(modId, modId, modId);
+    }
+
     protected JsonIntegration(String modId, String root, String json) {
         this.modid = modId;
         this.root = root;
         this.json = json;
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override

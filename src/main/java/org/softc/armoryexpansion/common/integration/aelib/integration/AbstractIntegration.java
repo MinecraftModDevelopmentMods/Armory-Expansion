@@ -68,6 +68,12 @@ public abstract class AbstractIntegration implements IIntegration {
         // Used as a stub
     }
 
+    @Override
+    public void registerBlocks(RegistryEvent.Register<Block> event){
+//        this.registerMaterialFluids();
+//        this.registerFluidBlocks(event);
+    }
+
     protected void setIntegrationData(String path){
         this.setConfig(path);
         this.setMaterials(path);
@@ -78,22 +84,6 @@ public abstract class AbstractIntegration implements IIntegration {
         this.saveConfig(path);
         this.saveMaterials(path);
         this.saveAlloys(path);
-    }
-
-    @Override
-    public void registerBlocks(RegistryEvent.Register<Block> event){
-        this.registerMaterialFluids();
-        this.registerFluidBlocks(event);
-    }
-
-    @Override
-    public void registerFluidBlocks(RegistryEvent.Register<Block> event){
-        this.materials.values().forEach(m -> {
-            if(m.isCastable()){
-                event.getRegistry().registerAll(m.getFluidBlock());
-                this.logger.info("Registered fluid block for material {" + m.getIdentifier() + "};");
-            }
-        });
     }
 
     protected void addMaterial(IBasicMaterial material){
@@ -232,28 +222,35 @@ public abstract class AbstractIntegration implements IIntegration {
 
     protected abstract void loadAlloysFromSource();
 
-    private void loadConfig(IntegrationConfig integrationConfig){
-        this.integrationConfigHelper = integrationConfig;
+    private void loadConfig(MaterialConfigOptions[] materialConfigOptions){
+        if(materialConfigOptions != null){
+            if (this.integrationConfigHelper == null){
+                this.integrationConfigHelper = new IntegrationConfig();
+            }
+            for(MaterialConfigOptions material : materialConfigOptions){
+                this.integrationConfigHelper.insertMaterialConfigOptions(material);
+            }
+        }
     }
 
     void loadConfigFromJson(InputStream path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        IntegrationConfig jsonIntegrationConfig = gson.fromJson(
+        MaterialConfigOptions[] jsonIntegrationConfig = gson.fromJson(
                 new BufferedReader(
                         new InputStreamReader(
-                                new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), IntegrationConfig.class);
+                                new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), MaterialConfigOptions[].class);
         this.loadConfig(jsonIntegrationConfig);
     }
 
     private void loadConfigFromJson(String path){
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        IntegrationConfig jsonIntegrationConfig = new IntegrationConfig();
+        MaterialConfigOptions[] jsonIntegrationConfig = new MaterialConfigOptions[0];
         try {
             File input = new File(path);
             if(input.exists()){
-                jsonIntegrationConfig = gson.fromJson(new FileReader(input), IntegrationConfig.class);
+                jsonIntegrationConfig = gson.fromJson(new FileReader(input), MaterialConfigOptions[].class);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -335,7 +332,7 @@ public abstract class AbstractIntegration implements IIntegration {
         output.getParentFile().mkdirs();
         try {
             FileWriter writer = new FileWriter(output);
-            writer.write(gson.toJson(this.integrationConfigHelper.getIntegrationMaterials()));
+            writer.write(gson.toJson(this.integrationConfigHelper.getIntegrationMaterials().values().toArray()));
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -383,6 +380,17 @@ public abstract class AbstractIntegration implements IIntegration {
         this.materials.values().forEach(m -> {
             if (m.registerTinkersFluidIMC(this.isMaterialEnabled(m) && this.isMaterialFluidEnabled(m))) {
                 this.logger.info("Sent IMC for tinker's fluid {" + m.getFluidName() + "};");
+            }
+        });
+    }
+
+    @Override
+    public void registerFluidBlocks(RegistryEvent.Register<Block> event){
+        this.materials.values().forEach(m -> {
+            if(m.isCastable()){
+                // TODO Fix this!!
+//                event.getRegistry().registerAll(m.getFluidBlock());
+//                this.logger.info("Registered fluid block for material {" + m.getIdentifier() + "};");
             }
         });
     }

@@ -7,6 +7,7 @@ import c4.conarm.lib.materials.TrimMaterialStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -62,7 +63,8 @@ public class ConArmIntegration extends JsonIntegration {
     private List<ArmorMaterial> jsonMaterials = new LinkedList<>();
 
     public ConArmIntegration() {
-        super(ConstructsArmory.MODID, ConstructsArmory.MODID, ConstructsArmory.MODID);
+        super(ConstructsArmory.MODID, ArmoryExpansion.MODID, ConstructsArmory.MODID);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Mod.EventHandler
@@ -100,9 +102,11 @@ public class ConArmIntegration extends JsonIntegration {
     }
 
     private void loadJsonMaterialsFromOtherIntegrations(FMLPreInitializationEvent event){
+        File jsonDir = new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/");
+        //noinspection ResultOfMethodCallIgnored
+        jsonDir.mkdirs();
         for (File json : Objects.requireNonNull(
-                new File(event.getModConfigurationDirectory().getPath() + "/" + ArmoryExpansion.MODID + "/")
-                        .listFiles((dir, name) -> name.contains("-materials.json") && !name.contains(ConstructsArmory.MODID)))){
+                jsonDir.listFiles((dir, name) -> name.contains("-materials.json") && !name.contains(ConstructsArmory.MODID)))){
             loadMaterialsFromOtherIntegration(json);
         }
     }

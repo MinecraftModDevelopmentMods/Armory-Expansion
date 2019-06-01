@@ -145,7 +145,7 @@ public abstract class BasicMaterial implements IBasicMaterial {
             return false;
         }
 
-        Fluid materialFluid = new FluidMolten(this.getIdentifier(), this.getColor());
+        Fluid materialFluid = new FluidMolten(this.getFluidName(), this.getColor());
         FluidRegistry.registerFluid(materialFluid);
         FluidRegistry.addBucketForFluid(materialFluid);
         return true;
@@ -172,12 +172,12 @@ public abstract class BasicMaterial implements IBasicMaterial {
 
     @Override
     public FluidMolten getFluid(){
-        return new FluidMolten(this.getIdentifier(), this.getColor());
+        return new FluidMolten(this.getFluidName(), this.getColor());
     }
 
     @Override
     public Block getFluidBlock(){
-        return new BlockMolten(getFluid());
+        return new BlockMolten(this.getFluid());
     }
 
     @Override
