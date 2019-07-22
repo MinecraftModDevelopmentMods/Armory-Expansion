@@ -46,9 +46,9 @@ import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
 )
 @Mod.EventBusSubscriber
 public class ConArmIntegration extends JsonIntegration {
-    private static final String MODID = ArmoryExpansion.MODID + "-" + ConstructsArmory.MODID;
-    private static final String NAME = ArmoryExpansion.NAME + " - " + ConstructsArmory.MODNAME;
-    private static final String DEPENDENCIES =
+    static final String MODID = ArmoryExpansion.MODID + "-" + ConstructsArmory.MODID;
+    static final String NAME = ArmoryExpansion.NAME + " - " + ConstructsArmory.MODNAME;
+    static final String DEPENDENCIES =
                     "required-after:" + ArmoryExpansion.MODID + "; " +
                     "after:*";
 

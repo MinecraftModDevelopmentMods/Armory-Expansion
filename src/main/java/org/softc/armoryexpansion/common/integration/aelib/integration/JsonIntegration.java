@@ -1,7 +1,5 @@
 package org.softc.armoryexpansion.common.integration.aelib.integration;
 
-import net.minecraftforge.common.MinecraftForge;
-
 import java.io.InputStream;
 
 public class JsonIntegration extends AbstractIntegration {
@@ -27,6 +25,17 @@ public class JsonIntegration extends AbstractIntegration {
             return;
         }
         this.loadMaterialsFromJson(stream);
+    }
+
+    @Override
+    protected void loadOreDictionaryEntriesFromSource() {
+        InputStream stream = getClass()
+                .getClassLoader()
+                .getResourceAsStream("assets/" + this.root + "/data/" + json + "-oreDictEntries.json");
+        if(stream == null){
+            return;
+        }
+        this.loadConfigFromJson(stream);
     }
 
     @Override
