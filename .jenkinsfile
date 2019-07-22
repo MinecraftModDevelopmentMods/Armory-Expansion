@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                git pull
-                echo 'Checking out branch..'
-            }
-        }
+//        stage('Checkout') {
+//            steps {
+//                checkout
+//                echo 'Checking out branch..'
+//            }
+//        }
         stage('Build') {
             steps {
                 sh 'gradle clean build'
