@@ -3,8 +3,10 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            git pull
-            echo 'Checking out branch..'
+            steps {
+                git pull
+                echo 'Checking out branch..'
+            }
         }
         stage('Build') {
             steps {
