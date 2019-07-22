@@ -1,13 +1,11 @@
 pipeline {
     agent any
 
+    options {
+        disableConcurrentBuilds()
+    }
+
     stages {
-//        stage('Checkout') {
-//            steps {
-//                checkout
-//                echo 'Checking out branch..'
-//            }
-//        }
         stage('Build') {
             steps {
                 sh 'gradle clean build'
