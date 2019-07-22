@@ -10,7 +10,7 @@ pipeline {
 //        }
         stage('Build') {
             steps {
-                sh 'gradle setupDecompWorkspace clean build'
+                sh 'gradle clean build'
                 echo 'Building branch..'
             }
         }
