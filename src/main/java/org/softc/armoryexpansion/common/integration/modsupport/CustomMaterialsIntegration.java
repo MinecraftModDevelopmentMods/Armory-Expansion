@@ -31,9 +31,9 @@ public class CustomMaterialsIntegration extends JsonIntegration {
     private static final String INTEGRATION_ID = "custommaterials";
     private static final String INTEGRATION_NAME = "Custom Materials";
 
-    static final String MODID = ArmoryExpansion.MODID + "-" + INTEGRATION_ID;
-    static final String NAME = ArmoryExpansion.NAME + " - " + INTEGRATION_NAME;
-    static final String DEPENDENCIES =
+    private static final String MODID = ArmoryExpansion.MODID + "-" + INTEGRATION_ID;
+    private static final String NAME = ArmoryExpansion.NAME + " - " + INTEGRATION_NAME;
+    private static final String DEPENDENCIES =
             "required-after:" + ArmoryExpansion.MODID + "; ";
 
     private static File configDir;

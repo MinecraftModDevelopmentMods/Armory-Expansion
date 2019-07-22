@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
 
+@SuppressWarnings("WeakerAccess")
 public interface IIntegration {
 
     void preInit(FMLPreInitializationEvent event);

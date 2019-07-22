@@ -18,9 +18,9 @@ import org.softc.armoryexpansion.common.integration.aelib.integration.JsonIntegr
 )
 @Mod.EventBusSubscriber
 public class MatterOverdriveIntegration extends JsonIntegration {
-    static final String MODID = ArmoryExpansion.MODID + "-matteroverdrive";
-    static final String NAME = ArmoryExpansion.NAME + " - MatterOverdrive";
-    static final String DEPENDENCIES =
+    private static final String MODID = ArmoryExpansion.MODID + "-matteroverdrive";
+    private static final String NAME = ArmoryExpansion.NAME + " - MatterOverdrive";
+    private static final String DEPENDENCIES =
             "required-after:" + ArmoryExpansion.MODID + "; " +
             "after:matteroverdrive; ";
 

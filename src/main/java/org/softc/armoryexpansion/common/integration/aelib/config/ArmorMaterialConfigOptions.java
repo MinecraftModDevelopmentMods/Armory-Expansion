@@ -2,6 +2,7 @@ package org.softc.armoryexpansion.common.integration.aelib.config;
 
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
 
+@SuppressWarnings("WeakerAccess")
 public class ArmorMaterialConfigOptions {
     protected String name;
     protected boolean material;

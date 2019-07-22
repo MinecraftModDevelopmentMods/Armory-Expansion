@@ -16,12 +16,14 @@ import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigO
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorToolMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorToolRangedMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.ore_dictionary.IOreDictionary;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.alloys.TiCAlloy;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("WeakerAccess")
 public abstract class AbstractIntegration implements IIntegration {
     protected Logger logger;
     protected String modid = "";
@@ -30,12 +32,14 @@ public abstract class AbstractIntegration implements IIntegration {
     protected IntegrationConfig integrationConfigHelper = new IntegrationConfig();
     private boolean forceCreateJson = false;
     protected Map<String, IBasicMaterial> materials = new HashMap<>();
+    private Map<String, IOreDictionary> oreDictionaryEntries = new HashMap<>();
     private Map<String, TiCAlloy> alloys = new HashMap<>();
 
     public AbstractIntegration() {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+    // Forge Mod Loader events
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         this.logger = event.getModLog();
@@ -74,16 +78,27 @@ public abstract class AbstractIntegration implements IIntegration {
 //        this.registerFluidBlocks(event);
     }
 
+    // Integration Data
     protected void setIntegrationData(String path){
         this.setConfig(path);
         this.setMaterials(path);
+        this.setOreDictionaryEntries(path);
         this.setAlloys(path);
     }
 
     protected void saveIntegrationData(String path){
         this.saveConfig(path);
         this.saveMaterials(path);
+        this.saveOreDictionaryEntries(path);
         this.saveAlloys(path);
+    }
+
+    // Materials
+    protected void setMaterials(String path){
+        this.loadMaterialsFromJson(new File(path), this.modid);
+        this.logger.info("Done loading all materials from local JSON files");
+        this.loadMaterialsFromSource();
+        this.logger.info("Done loading all materials from source");
     }
 
     protected void addMaterial(IBasicMaterial material){
@@ -92,40 +107,35 @@ public abstract class AbstractIntegration implements IIntegration {
         }
     }
 
-    protected void setMaterials(String path){
-        this.loadMaterialsFromJson(new File(path), this.modid);
-        this.logger.info("Done loading all materials from local JSON files");
-        this.loadMaterialsFromSource();
-        this.logger.info("Done loading all materials from source");
-    }
-
     private void saveMaterials(String path){
         this.saveMaterialsToJson(new File(path), this.modid, this.forceCreateJson);
         this.logger.info("Done saving all materials to local JSON files");
     }
 
-    private void setAlloys(String path){
-        this.loadAlloysFromJson(new File(path), this.modid);
-        this.logger.info("Done loading all alloys from local JSON files");
-        this.loadAlloysFromSource();
-        this.logger.info("Done loading all alloys from source");
+    private void saveMaterialsToJson(String path, boolean forceCreate){
+        if(materials.values().size() <= 0 && !forceCreate){
+            return;
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+        File output = new File(path);
+        //noinspection ResultOfMethodCallIgnored
+        output.getParentFile().mkdirs();
+        try {
+            FileWriter writer = new FileWriter(output);
+            writer.write(gson.toJson(this.materials.values()));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void saveAlloys(String path){
-        this.saveAlloysToJson(new File(path), this.modid, this.forceCreateJson);
-        this.logger.info("Done saving all alloys to local JSON files");
+    private void saveMaterialsToJson(File configDir, String root, String modid, boolean forceCreate){
+        this.saveMaterialsToJson(configDir.getPath() + "/" + root + "/" + modid + ".json", forceCreate);
     }
 
-    protected void setConfig(String path){
-        this.loadConfigFromJson(new File(path), this.modid);
-        this.logger.info("Done loading config from local JSON file");
-        this.loadConfigFromSource();
-        this.logger.info("Done loading config from source");
-    }
-
-    private void saveConfig(String path){
-        this.saveConfigToJson(new File(path), this.modid, this.forceCreateJson);
-        this.logger.info("Done saving config to local JSON file");
+    private void saveMaterialsToJson(File configDir, String modid, boolean forceCreate){
+        this.saveMaterialsToJson(configDir, this.root, modid + "-materials", forceCreate);
     }
 
     private void loadMaterials(ArmorToolMaterial[] jsonMaterials){
@@ -171,6 +181,135 @@ public abstract class AbstractIntegration implements IIntegration {
     }
 
     protected abstract void loadMaterialsFromSource();
+
+    // Ore Dictionary Entries
+    private void setOreDictionaryEntries(String path){
+        this.loadOreDictionaryEntriesFromJson(new File(path), this.modid);
+        this.logger.info("Done loading all ore dictionary entries from local JSON files");
+        this.loadOreDictionaryEntriesFromSource();
+        this.logger.info("Done loading all ore dictionary entries from source");
+    }
+
+    private void addOreDictionaryEntry(IOreDictionary oreDictionary) {
+        if(isMaterialEnabled(this.materials.get(oreDictionary.getIdentifier()))){
+            this.oreDictionaryEntries.putIfAbsent(oreDictionary.getIdentifier(), oreDictionary);
+        }
+    }
+
+    private void saveOreDictionaryEntries(String path) {
+        this.saveOreDictionaryEntriesToJson(new File(path), this.modid, this.forceCreateJson);
+        this.logger.info("Done saving all ore dictionary entries to local JSON files");
+    }
+
+    private void saveOreDictionaryEntriesToJson(String path, boolean forceCreate) {
+        if(oreDictionaryEntries.values().size() <= 0 && !forceCreate){
+            return;
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+        File output = new File(path);
+        //noinspection ResultOfMethodCallIgnored
+        output.getParentFile().mkdirs();
+        try {
+            FileWriter writer = new FileWriter(output);
+            writer.write(gson.toJson(this.oreDictionaryEntries.values()));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveOreDictionaryEntriesToJson(File configDir, String root, String modid, boolean forceCreate) {
+        this.saveOreDictionaryEntriesToJson(configDir.getPath() + "/" + root + "/" + modid + ".json", forceCreate);
+    }
+
+    private void saveOreDictionaryEntriesToJson(File configDir, String modid, boolean forceCreate) {
+        this.saveOreDictionaryEntriesToJson(configDir, this.root, modid + "-oreDictEntries", forceCreate);
+    }
+
+    private void loadOreDictionaryEntries(IOreDictionary[] jsonMaterials) {
+        if(jsonMaterials == null){
+            return;
+        }
+        for(IOreDictionary iOreDictionary:jsonMaterials){
+            this.oreDictionaryEntries.putIfAbsent(iOreDictionary.getIdentifier(), iOreDictionary);
+        }
+    }
+
+    void loadOreDictionaryEntriesFromJson(InputStream path) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+
+        IOreDictionary[] jsonMaterials = gson.fromJson(
+                new BufferedReader(
+                        new InputStreamReader(
+                                new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), IOreDictionary[].class);
+        this.loadOreDictionaryEntries(jsonMaterials);
+    }
+
+    private void loadOreDictionaryEntriesFromJson(String path) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+
+        IOreDictionary[] jsonMaterials = new IOreDictionary[0];
+        try {
+            File input = new File(path);
+            if(input.exists()){
+                jsonMaterials = gson.fromJson(new FileReader(input), IOreDictionary[].class);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        this.loadOreDictionaryEntries(jsonMaterials);
+    }
+
+    private void loadOreDictionaryEntriesFromJson(File configDir, String root, String modid) {
+        this.loadOreDictionaryEntriesFromJson(configDir.getPath() + "/" + root + "/" + modid + ".json");
+    }
+
+    private void loadOreDictionaryEntriesFromJson(File configDir, String modid) {
+        this.loadOreDictionaryEntriesFromJson(configDir, this.root, modid + "-oreDictEntries");
+    }
+
+    protected abstract void loadOreDictionaryEntriesFromSource();
+
+    // Alloys
+    private void setAlloys(String path){
+        this.loadAlloysFromJson(new File(path), this.modid);
+        this.logger.info("Done loading all alloys from local JSON files");
+        this.loadAlloysFromSource();
+        this.logger.info("Done loading all alloys from source");
+    }
+
+    private void saveAlloys(String path){
+        this.saveAlloysToJson(new File(path), this.modid, this.forceCreateJson);
+        this.logger.info("Done saving all alloys to local JSON files");
+    }
+
+    private void saveAlloysToJson(String path, boolean forceCreate){
+        if(alloys.values().size() <= 0 && !forceCreate){
+            return;
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+        File output = new File(path);
+        //noinspection ResultOfMethodCallIgnored
+        output.getParentFile().mkdirs();
+        try {
+            FileWriter writer = new FileWriter(output);
+            writer.write(returnAlloyExample());
+            writer.write(gson.toJson(this.alloys.values()));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveAlloysToJson(File configDir, String root, String modid, boolean forceCreate){
+        this.saveAlloysToJson(configDir.getPath() + "/" + root + "/" + modid + ".json", forceCreate);
+    }
+
+    private void saveAlloysToJson(File configDir, String modid, boolean forceCreate){
+        this.saveAlloysToJson(configDir, this.root, modid + "-alloys", forceCreate);
+    }
 
     private void loadAlloys(TiCAlloy[] jsonAlloys){
         if(jsonAlloys == null){
@@ -222,6 +361,45 @@ public abstract class AbstractIntegration implements IIntegration {
 
     protected abstract void loadAlloysFromSource();
 
+    // Config
+    protected void setConfig(String path){
+        this.loadConfigFromJson(new File(path), this.modid);
+        this.logger.info("Done loading config from local JSON file");
+        this.loadConfigFromSource();
+        this.logger.info("Done loading config from source");
+    }
+
+    private void saveConfig(String path){
+        this.saveConfigToJson(new File(path), this.modid, this.forceCreateJson);
+        this.logger.info("Done saving config to local JSON file");
+    }
+
+    private void saveConfigToJson(String path, boolean forceCreate){
+        if(materials.values().size() <= 0 && !forceCreate){
+            return;
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+        File output = new File(path);
+        //noinspection ResultOfMethodCallIgnored
+        output.getParentFile().mkdirs();
+        try {
+            FileWriter writer = new FileWriter(output);
+            writer.write(gson.toJson(this.integrationConfigHelper.getIntegrationMaterials().values().toArray()));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveConfigToJson(File configDir, String root, String modid, boolean forceCreate){
+        this.saveConfigToJson(configDir.getPath() + "/" + root + "/" + modid + ".json", forceCreate);
+    }
+
+    private void saveConfigToJson(File configDir, String modid, boolean forceCreate){
+        this.saveConfigToJson(configDir, this.root, modid + "-config", forceCreate);
+    }
+
     private void loadConfig(MaterialConfigOptions[] materialConfigOptions){
         if(materialConfigOptions != null){
             if (this.integrationConfigHelper == null){
@@ -268,90 +446,12 @@ public abstract class AbstractIntegration implements IIntegration {
 
     protected abstract void loadConfigFromSource();
 
-    private void saveMaterialsToJson(String path, boolean forceCreate){
-        if(materials.values().size() <= 0 && !forceCreate){
-            return;
-        }
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
-        File output = new File(path);
-        //noinspection ResultOfMethodCallIgnored
-        output.getParentFile().mkdirs();
-        try {
-            FileWriter writer = new FileWriter(output);
-            writer.write(gson.toJson(this.materials.values()));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveMaterialsToJson(File configDir, String root, String modid, boolean forceCreate){
-        this.saveMaterialsToJson(configDir.getPath() + "/" + root + "/" + modid + ".json", forceCreate);
-    }
-
-    private void saveMaterialsToJson(File configDir, String modid, boolean forceCreate){
-        this.saveMaterialsToJson(configDir, this.root, modid + "-materials", forceCreate);
-    }
-
-    private void saveAlloysToJson(String path, boolean forceCreate){
-        if(alloys.values().size() <= 0 && !forceCreate){
-            return;
-        }
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
-        File output = new File(path);
-        //noinspection ResultOfMethodCallIgnored
-        output.getParentFile().mkdirs();
-        try {
-            FileWriter writer = new FileWriter(output);
-            writer.write(returnAlloyExample());
-            writer.write(gson.toJson(this.alloys.values()));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveAlloysToJson(File configDir, String root, String modid, boolean forceCreate){
-        this.saveAlloysToJson(configDir.getPath() + "/" + root + "/" + modid + ".json", forceCreate);
-    }
-
-    private void saveAlloysToJson(File configDir, String modid, boolean forceCreate){
-        this.saveAlloysToJson(configDir, this.root, modid + "-alloys", forceCreate);
-    }
-
-    private void saveConfigToJson(String path, boolean forceCreate){
-        if(materials.values().size() <= 0 && !forceCreate){
-            return;
-        }
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
-        File output = new File(path);
-        //noinspection ResultOfMethodCallIgnored
-        output.getParentFile().mkdirs();
-        try {
-            FileWriter writer = new FileWriter(output);
-            writer.write(gson.toJson(this.integrationConfigHelper.getIntegrationMaterials().values().toArray()));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveConfigToJson(File configDir, String root, String modid, boolean forceCreate){
-        this.saveConfigToJson(configDir.getPath() + "/" + root + "/" + modid + ".json", forceCreate);
-    }
-
-    private void saveConfigToJson(File configDir, String modid, boolean forceCreate){
-        this.saveConfigToJson(configDir, this.root, modid + "-config", forceCreate);
-    }
-
+    // IIntegration implementations
     @Override
     public void oredictMaterials() {
         this.materials.values().forEach(m -> {
             if (this.isMaterialEnabled(m)){
-                m.registerOreDict();
+                this.oreDictionaryEntries.get(m.getIdentifier()).registerOreDict();
                 this.logger.info("Oredicted material {" + m.getIdentifier() + "};");
             }
         });
@@ -412,14 +512,10 @@ public abstract class AbstractIntegration implements IIntegration {
         });
     }
 
-    private MaterialConfigOptions getProperties(IBasicMaterial m) {
-        return this.integrationConfigHelper.getSafeMaterialConfigOptions(m.getIdentifier());
-    }
-
     @Override
     public void updateMaterials() {
         this.materials.values().forEach(m -> {
-            if (m.updateTinkersMaterial(this.isMaterialEnabled(m))) {
+            if (this.oreDictionaryEntries.get(m.getIdentifier()).updateTinkersMaterial(this.isMaterialEnabled(m))) {
                 this.logger.info("Updated tinker's material {" + m.getIdentifier() + "};");
             }
         });
@@ -447,6 +543,11 @@ public abstract class AbstractIntegration implements IIntegration {
     @Override
     public void enableForceJsonCreation(){
         this.forceCreateJson = true;
+    }
+
+    // Helpers
+    private MaterialConfigOptions getProperties(IBasicMaterial m) {
+        return this.integrationConfigHelper.getSafeMaterialConfigOptions(m.getIdentifier());
     }
 
     private String returnAlloyExample() {

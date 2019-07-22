@@ -8,6 +8,7 @@ import slimeknights.tconstruct.library.materials.*;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.PROJECTILE;
 
+@SuppressWarnings("WeakerAccess")
 public class ArmorToolRangedMaterial extends ArmorToolMaterial implements IRangedMaterial {
     private BowMaterialStats bowMaterialStats;
     private BowStringMaterialStats bowStringMaterialStats;

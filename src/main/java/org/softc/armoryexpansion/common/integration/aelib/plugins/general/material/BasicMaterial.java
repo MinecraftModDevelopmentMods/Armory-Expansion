@@ -24,10 +24,9 @@ import slimeknights.tconstruct.smeltery.block.BlockMolten;
 import java.util.LinkedList;
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public abstract class BasicMaterial implements IBasicMaterial {
     protected String identifier;
-    private String itemName;
-    private int meta;
     protected int color;
     protected MaterialRenderType type = MaterialRenderType.DEFAULT;
     private ResourceLocation texture;
@@ -53,30 +52,6 @@ public abstract class BasicMaterial implements IBasicMaterial {
         return this.isCraftable;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public void setMeta(int meta) {
-        this.meta = meta;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    public void setType(MaterialRenderType type) {
-        this.type = type;
-    }
-
-    public void setTexture(ResourceLocation texture) {
-        this.texture = texture;
-    }
-
     public void setTraits(List<TraitHolder> traits) {
         this.traits = traits;
     }
@@ -92,16 +67,6 @@ public abstract class BasicMaterial implements IBasicMaterial {
     }
 
     @Override
-    public Item getItem() {
-        return this.itemName != null ? Item.getByNameOrId(this.itemName) : null;
-    }
-
-    @Override
-    public ItemStack getItemStack() {
-        return this.getItem() != null ? new ItemStack(this.getItem(), 1, this.meta) : null;
-    }
-
-    @Override
     public MaterialRenderType getType() {
         return this.type;
     }
@@ -109,15 +74,6 @@ public abstract class BasicMaterial implements IBasicMaterial {
     @Override
     public ResourceLocation getTexture() {
         return this.texture;
-    }
-
-    @Override
-    public IBasicMaterial registerOreDict() {
-        ItemStack stack = this.getItemStack();
-        if(stack != null){
-            OreDictionary.registerOre(this.getIdentifier(), this.getItemStack());
-        }
-        return this;
     }
 
     @Override
@@ -182,17 +138,6 @@ public abstract class BasicMaterial implements IBasicMaterial {
 
     @Override
     public abstract boolean registerTinkersMaterialStats(MaterialConfigOptions properties);
-
-    @Override
-    public boolean updateTinkersMaterial(boolean canRegister){
-        slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
-        if ("unknown".equals(material.identifier) || !canRegister) {
-            return false;
-        }
-        material.addItem(this.getItem());
-        material.setRepresentativeItem(this.getItemStack());
-        return true;
-    }
 
     @Override
     public boolean registerTinkersMaterialTraits(boolean canRegister) {
