@@ -5,10 +5,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import slimeknights.tconstruct.library.TinkerRegistry;
 
+import java.util.Arrays;
+
 public class BasicOreDictionary implements IOreDictionary {
     private String identifier;
-    private String itemName;
-    private int meta;
+    private ItemHolder[] entries;
 
     @Override
     public String getIdentifier() {
@@ -16,20 +17,22 @@ public class BasicOreDictionary implements IOreDictionary {
     }
 
     @Override
-    public Item getItem() {
-        return this.itemName != null ? Item.getByNameOrId(this.itemName) : null;
+    public Item getItem(ItemHolder itemHolder) {
+        return itemHolder != null ? Item.getByNameOrId(itemHolder.getItemName()) : null;
     }
 
     @Override
-    public ItemStack getItemStack() {
-        return this.getItem() != null ? new ItemStack(this.getItem(), 1, this.meta) : null;
+    public ItemStack getItemStack(ItemHolder itemHolder) {
+        return this.getItem(itemHolder) != null ? new ItemStack(this.getItem(itemHolder), 1, itemHolder.getMeta()) : null;
     }
 
     @Override
     public void registerOreDict() {
-        ItemStack stack = this.getItemStack();
-        if(stack != null){
-            OreDictionary.registerOre(this.getIdentifier(), this.getItemStack());
+        for (ItemHolder itemHolder : entries) {
+            ItemStack stack = this.getItemStack(itemHolder);
+            if (stack != null) {
+                OreDictionary.registerOre(this.getIdentifier(), stack);
+            }
         }
     }
 
@@ -39,8 +42,10 @@ public class BasicOreDictionary implements IOreDictionary {
         if ("unknown".equals(material.identifier) || !canRegister) {
             return false;
         }
-        material.addItem(this.getItem());
-        material.setRepresentativeItem(this.getItemStack());
+        for (ItemHolder itemHolder : entries) {
+            material.addItem(this.getItem(itemHolder));
+        }
+        material.setRepresentativeItem(this.getItemStack(Arrays.stream(entries).findFirst().orElse(null)));
         return true;
     }
 }

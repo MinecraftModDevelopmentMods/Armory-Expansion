@@ -6,9 +6,9 @@ import net.minecraft.item.ItemStack;
 public interface IOreDictionary {
     String getIdentifier();
 
-    Item getItem();
+    Item getItem(ItemHolder itemHolder);
 
-    ItemStack getItemStack();
+    ItemStack getItemStack(ItemHolder itemHolder);
 
     void registerOreDict();
 

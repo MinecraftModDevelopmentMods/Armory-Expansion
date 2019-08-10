@@ -46,8 +46,6 @@
       "materialType": "projectile"
     },
     "identifier": "dilithium",
-    "itemName": "matteroverdrive:dilithium_crystal",
-    "meta": 0,
     "color": 11184810,
     "type": "METAL",
     "isCastable": true,
@@ -101,8 +99,6 @@
       "materialType": "projectile"
     },
     "identifier": "tritanium",
-    "itemName": "matteroverdrive:tritanium_ingot",
-    "meta": 0,
     "color": 11184810,
     "type": "METAL",
     "isCastable": true,

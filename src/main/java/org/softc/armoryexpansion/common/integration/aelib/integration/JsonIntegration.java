@@ -35,7 +35,7 @@ public class JsonIntegration extends AbstractIntegration {
         if(stream == null){
             return;
         }
-        this.loadConfigFromJson(stream);
+        this.loadOreDictionaryEntriesFromJson(stream);
     }
 
     @Override

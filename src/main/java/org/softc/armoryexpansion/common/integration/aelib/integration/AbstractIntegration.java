@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -16,6 +17,7 @@ import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigO
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorToolMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material.ArmorToolRangedMaterial;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.ore_dictionary.BasicOreDictionary;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.ore_dictionary.IOreDictionary;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.alloys.TiCAlloy;
 
@@ -44,7 +46,7 @@ public abstract class AbstractIntegration implements IIntegration {
     public void preInit(FMLPreInitializationEvent event) {
         this.logger = event.getModLog();
         this.configDir = event.getModConfigurationDirectory().getPath();
-        if(ArmoryExpansion.isIntegrationEnabled(modid)){
+        if(Loader.isModLoaded(modid) && ArmoryExpansion.isIntegrationEnabled(modid)){
             this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(materials);
             this.saveIntegrationData(this.configDir);
@@ -227,11 +229,11 @@ public abstract class AbstractIntegration implements IIntegration {
         this.saveOreDictionaryEntriesToJson(configDir, this.root, modid + "-oreDictEntries", forceCreate);
     }
 
-    private void loadOreDictionaryEntries(IOreDictionary[] jsonMaterials) {
-        if(jsonMaterials == null){
+    private void loadOreDictionaryEntries(IOreDictionary[] jsonOreDicts) {
+        if(jsonOreDicts == null){
             return;
         }
-        for(IOreDictionary iOreDictionary:jsonMaterials){
+        for(IOreDictionary iOreDictionary:jsonOreDicts){
             this.oreDictionaryEntries.putIfAbsent(iOreDictionary.getIdentifier(), iOreDictionary);
         }
     }
@@ -242,18 +244,18 @@ public abstract class AbstractIntegration implements IIntegration {
         IOreDictionary[] jsonMaterials = gson.fromJson(
                 new BufferedReader(
                         new InputStreamReader(
-                                new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), IOreDictionary[].class);
+                                new BoundedInputStream(path, ArmoryExpansion.getBoundedInputStreamMaxSize()))), BasicOreDictionary[].class);
         this.loadOreDictionaryEntries(jsonMaterials);
     }
 
     private void loadOreDictionaryEntriesFromJson(String path) {
         Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-        IOreDictionary[] jsonMaterials = new IOreDictionary[0];
+        IOreDictionary[] jsonMaterials = new BasicOreDictionary[0];
         try {
             File input = new File(path);
             if(input.exists()){
-                jsonMaterials = gson.fromJson(new FileReader(input), IOreDictionary[].class);
+                jsonMaterials = gson.fromJson(new FileReader(input), BasicOreDictionary[].class);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -451,7 +453,9 @@ public abstract class AbstractIntegration implements IIntegration {
     public void oredictMaterials() {
         this.materials.values().forEach(m -> {
             if (this.isMaterialEnabled(m)){
-                this.oreDictionaryEntries.get(m.getIdentifier()).registerOreDict();
+                IOreDictionary oreDictionary = this.oreDictionaryEntries.get(m.getIdentifier());
+                if (oreDictionary != null)
+                    oreDictionary.registerOreDict();
                 this.logger.info("Oredicted material {" + m.getIdentifier() + "};");
             }
         });
@@ -515,7 +519,8 @@ public abstract class AbstractIntegration implements IIntegration {
     @Override
     public void updateMaterials() {
         this.materials.values().forEach(m -> {
-            if (this.oreDictionaryEntries.get(m.getIdentifier()).updateTinkersMaterial(this.isMaterialEnabled(m))) {
+            IOreDictionary oreDictionaryEntry = this.oreDictionaryEntries.get(m.getIdentifier());
+            if (oreDictionaryEntry != null && oreDictionaryEntry.updateTinkersMaterial(this.isMaterialEnabled(m))) {
                 this.logger.info("Updated tinker's material {" + m.getIdentifier() + "};");
             }
         });
