@@ -77,9 +77,9 @@ public class ConArmIntegration extends JsonIntegration {
             this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(this.materials);
             this.saveIntegrationData(this.configDir);
-            this.registerMaterials();
-            this.registerAlloys();
-            this.registerMaterialStats();
+            //this.registerMaterials();
+          //  this.registerAlloys();
+           // this.registerMaterialStats();
         }
         ArmoryExpansion.config.save();
     }
