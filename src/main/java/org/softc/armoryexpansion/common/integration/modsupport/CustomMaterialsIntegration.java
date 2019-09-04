@@ -51,6 +51,11 @@ class CustomMaterialsIntegration extends JsonIntegration {
         super.preInit(event);
     }
 
+    @Override
+    public boolean isLoadable() {
+        return ArmoryExpansion.isIntegrationEnabled(modid);
+    }
+
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         super.init(event);
@@ -59,9 +64,7 @@ class CustomMaterialsIntegration extends JsonIntegration {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
-        // TODO Figure out how to print a list of all trait identifiers
         this.exportAllTraitsToJson(configDir);
-        // TODO Figure out how to print a list of all part identifiers
         this.exportAllPartsToJson(configDir);
     }
 
@@ -71,6 +74,7 @@ class CustomMaterialsIntegration extends JsonIntegration {
     }
 
     private void exportAllTraitsToJson(File configDir){
+        // TODO Figure out how to print a list of all trait identifiers
         Set<String> traits = new HashSet<>();
         TinkerRegistry.getAllMaterials().forEach(m -> m.getAllTraits().forEach(t -> traits.add(t.getIdentifier())));
 

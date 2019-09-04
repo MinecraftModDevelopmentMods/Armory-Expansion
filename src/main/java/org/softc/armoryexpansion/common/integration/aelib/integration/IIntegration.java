@@ -36,6 +36,8 @@ public interface IIntegration {
 
     void registerMaterialTraits();
 
+    boolean isLoadable();
+
     boolean isMaterialEnabled(IBasicMaterial material);
 
     boolean isMaterialFluidEnabled(IBasicMaterial material);

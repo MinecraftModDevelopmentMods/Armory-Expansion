@@ -41,12 +41,16 @@ public abstract class AbstractIntegration implements IIntegration {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+    public boolean isLoadable() {
+        return Loader.isModLoaded(modid) && ArmoryExpansion.isIntegrationEnabled(modid);
+    }
+
     // Forge Mod Loader events
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         this.logger = event.getModLog();
         this.configDir = event.getModConfigurationDirectory().getPath();
-        if(Loader.isModLoaded(modid) && ArmoryExpansion.isIntegrationEnabled(modid)){
+        if(this.isLoadable()){
             this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(materials);
             this.saveIntegrationData(this.configDir);
@@ -60,7 +64,7 @@ public abstract class AbstractIntegration implements IIntegration {
 
     @Override
     public void init(FMLInitializationEvent event) {
-        if(ArmoryExpansion.isIntegrationEnabled(modid)){
+        if(isLoadable()){
             this.oredictMaterials();
             this.registerMaterialFluidsIMC();
             this.updateMaterials();

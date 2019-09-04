@@ -24,29 +24,6 @@
   },
   {
     "coreMaterialStats": {
-      "durability": 20.0,
-      "defense": 14.0,
-      "materialType": "core"
-    },
-    "platesMaterialStats": {
-      "durability": 20.0,
-      "modifier": 1.875,
-      "toughness": 0.0,
-      "materialType": "plates"
-    },
-    "trimMaterialStats": {
-      "extraDurability": 2.5,
-      "materialType": "trim"
-    },
-    "identifier": "chitindesertmyrmex",
-    "color": 5847042,
-    "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": []
-  },
-  {
-    "coreMaterialStats": {
       "durability": 15.0,
       "defense": 14.0,
       "materialType": "core"
@@ -63,29 +40,6 @@
     },
     "identifier": "chitintandeathworm",
     "color": 12895428,
-    "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": []
-  },
-  {
-    "coreMaterialStats": {
-      "durability": 20.0,
-      "defense": 14.0,
-      "materialType": "core"
-    },
-    "platesMaterialStats": {
-      "durability": 20.0,
-      "modifier": 1.875,
-      "toughness": 0.0,
-      "materialType": "plates"
-    },
-    "trimMaterialStats": {
-      "extraDurability": 2.5,
-      "materialType": "trim"
-    },
-    "identifier": "chitinjunglemyrmex",
-    "color": 153931,
     "type": "METAL",
     "isCastable": false,
     "isCraftable": true,

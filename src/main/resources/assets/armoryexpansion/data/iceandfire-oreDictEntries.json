@@ -9,28 +9,10 @@
   ]
   },
   {
-    "identifier": "chitindesertmyrmex",
-    "entries": [
-      {
-        "itemName": "iceandfire:myrmex_desert_chitin",
-        "meta": 0
-      }
-    ]
-  },
-  {
     "identifier": "chitintandeathworm",
     "entries": [
       {
         "itemName": "iceandfire:deathworm_chitin",
-        "meta": 0
-      }
-    ]
-  },
-  {
-    "identifier": "chitinjunglemyrmex",
-    "entries": [
-      {
-        "itemName": "iceandfire:myrmex_jungle_chitin",
         "meta": 0
       }
     ]
