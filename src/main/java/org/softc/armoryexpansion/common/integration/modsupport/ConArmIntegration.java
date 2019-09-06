@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -77,11 +78,14 @@ public class ConArmIntegration extends JsonIntegration {
             this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(this.materials);
             this.saveIntegrationData(this.configDir);
-//            this.registerMaterials();
-//            this.registerAlloys();
             this.registerMaterialStats();
         }
         ArmoryExpansion.config.save();
+    }
+
+    @Mod.EventHandler
+    public void init(FMLInitializationEvent event) {
+        super.init(event);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -90,8 +94,6 @@ public class ConArmIntegration extends JsonIntegration {
             this.setIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(this.materials);
             this.saveIntegrationData(this.configDir);
-//            this.registerMaterials();
-//            this.registerAlloys();
             this.registerMaterialStats();
         }
         ArmoryExpansion.config.save();

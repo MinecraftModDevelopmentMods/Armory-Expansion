@@ -1,8 +1,8 @@
 package org.softc.armoryexpansion.common.integration.aelib.plugins.general.ore_dictionary;
 
 public class ItemHolder {
-    private String itemName;
-    private int meta;
+    protected String itemName;
+    protected int meta;
 
     public String getItemName() {
         return itemName;

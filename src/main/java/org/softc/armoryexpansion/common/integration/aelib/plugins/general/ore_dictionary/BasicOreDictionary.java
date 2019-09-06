@@ -8,8 +8,8 @@ import slimeknights.tconstruct.library.TinkerRegistry;
 import java.util.Arrays;
 
 public class BasicOreDictionary implements IOreDictionary {
-    private String identifier;
-    private ItemHolder[] entries;
+    protected String identifier;
+    protected ItemHolder[] entries;
 
     @Override
     public String getIdentifier() {
