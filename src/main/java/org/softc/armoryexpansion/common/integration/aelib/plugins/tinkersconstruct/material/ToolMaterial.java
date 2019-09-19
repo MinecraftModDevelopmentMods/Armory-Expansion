@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkers_construct.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkersconstruct.material;
 
 import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.BasicMaterial;
@@ -6,54 +6,56 @@ import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
 import slimeknights.tconstruct.library.materials.HeadMaterialStats;
-
-import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
+import slimeknights.tconstruct.library.materials.MaterialTypes;
 
 public class ToolMaterial extends BasicMaterial implements IToolMaterial {
-    private HeadMaterialStats headMaterialStats;
-    private HandleMaterialStats handleMaterialStats;
-    private ExtraMaterialStats extraMaterialStats;
+    protected HeadMaterialStats headMaterialStats;
+    protected HandleMaterialStats handleMaterialStats;
+    protected ExtraMaterialStats extraMaterialStats;
 
     @Override
     public HeadMaterialStats getHeadMaterialStats() {
-        return headMaterialStats;
+        return this.headMaterialStats;
     }
 
     @Override
     public HandleMaterialStats getHandleMaterialStats() {
-        return handleMaterialStats;
+        return this.handleMaterialStats;
     }
 
     @Override
     public ExtraMaterialStats getExtraMaterialStats() {
-        return extraMaterialStats;
+        return this.extraMaterialStats;
     }
 
     @Override
     public IToolMaterial addPrimaryToolTrait(String trait) {
-        return (IToolMaterial) this.addTrait(trait, HEAD);
+        return (IToolMaterial) this.addTrait(trait, MaterialTypes.HEAD);
     }
 
     @Override
     public IToolMaterial addSecondaryToolTrait(String trait) {
-        return (IToolMaterial) this.addTrait(trait, HANDLE).addTrait(trait, EXTRA);
+        this.addTrait(trait, MaterialTypes.HANDLE);
+        return (IToolMaterial) this.addTrait(trait, MaterialTypes.EXTRA);
     }
 
     @Override
     public IToolMaterial addGlobalToolTrait(String trait) {
-        return this.addPrimaryToolTrait(trait).addSecondaryToolTrait(trait);
+        this.addPrimaryToolTrait(trait);
+        return this.addSecondaryToolTrait(trait);
     }
 
     @Override
     public IToolMaterial addToolTrait(String trait1, String trait2) {
-        return this.addPrimaryToolTrait(trait1).addSecondaryToolTrait(trait2);
+        this.addPrimaryToolTrait(trait1);
+        return this.addSecondaryToolTrait(trait2);
     }
 
     @Override
     public boolean isToolMaterial() {
-        return this.getHeadMaterialStats() != null
-                || this.getHandleMaterialStats() != null
-                || this.getExtraMaterialStats() != null;
+        return null != this.headMaterialStats
+                || null != this.handleMaterialStats
+                || null != this.extraMaterialStats;
     }
 
     @Override
@@ -68,13 +70,12 @@ public class ToolMaterial extends BasicMaterial implements IToolMaterial {
 
     @Override
     public boolean registerTinkersMaterialStats(MaterialConfigOptions properties){
-        if (properties.isMaterialEnabled() && properties.isToolEnabled()) {
+        if (properties.materialEnabled() && properties.isToolEnabled()) {
             slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
-            if ("unknown".equals(material.getIdentifier())){
-                return false;
+            if (!"unknown".equals(material.getIdentifier())) {
+                this.registerToolStats(material, properties);
+                return true;
             }
-            this.registerToolStats(material, properties);
-            return true;
         }
         return false;
     }
@@ -88,32 +89,20 @@ public class ToolMaterial extends BasicMaterial implements IToolMaterial {
     }
 
     private void registerHeadStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
-        if(material.getStats(HEAD) == null && this.getHeadMaterialStats() != null && properties.isHeadEnabled()){
-            TinkerRegistry.addMaterialStats(material, this.getHeadMaterialStats());
+        if(null == material.getStats(MaterialTypes.HEAD) && null != this.headMaterialStats && properties.isHeadEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.headMaterialStats);
         }
     }
 
     private void registerHandleStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
-        if(material.getStats(HANDLE) == null && this.getHandleMaterialStats() != null && properties.isHandleEnabled()){
-            TinkerRegistry.addMaterialStats(material, this.getHandleMaterialStats());
+        if(null == material.getStats(MaterialTypes.HANDLE) && null != this.handleMaterialStats && properties.isHandleEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.handleMaterialStats);
         }
     }
 
     private void registerExtraStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
-        if(material.getStats(EXTRA) == null && this.getExtraMaterialStats() != null && properties.isExtraEnabled()){
-            TinkerRegistry.addMaterialStats(material, this.getExtraMaterialStats());
+        if(null == material.getStats(MaterialTypes.EXTRA) && null != this.extraMaterialStats && properties.isExtraEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.extraMaterialStats);
         }
-    }
-
-    public void setHeadMaterialStats(HeadMaterialStats headMaterialStats) {
-        this.headMaterialStats = headMaterialStats;
-    }
-
-    public void setHandleMaterialStats(HandleMaterialStats handleMaterialStats) {
-        this.handleMaterialStats = handleMaterialStats;
-    }
-
-    public void setExtraMaterialStats(ExtraMaterialStats extraMaterialStats) {
-        this.extraMaterialStats = extraMaterialStats;
     }
 }

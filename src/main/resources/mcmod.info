@@ -4,10 +4,10 @@
   "name": "Armory Expansion",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "https://minecraft.curseforge.com/projects/armory-expansion",
+  "url": "https://www.curseforge.com/minecraft/mc-mods/armory-expansion",
   "updateUrl": "",
   "authorList": ["YaibaToKen"],
-  "credits": "The MMDLib Team and MMD Community for all the help given and code bits provided",
+  "credits": "The MMDLib Team and MMD Community for all the help given and code bits provided.",
   "logoFile": ""
 },
 {

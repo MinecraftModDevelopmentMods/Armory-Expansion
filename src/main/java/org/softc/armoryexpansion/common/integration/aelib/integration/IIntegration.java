@@ -1,24 +1,25 @@
 package org.softc.armoryexpansion.common.integration.aelib.integration;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
 
-@SuppressWarnings("WeakerAccess")
 public interface IIntegration {
-
     void preInit(FMLPreInitializationEvent event);
 
     void init(FMLInitializationEvent event);
 
     void postInit(FMLPostInitializationEvent event);
 
-    void registerBlocks(RegistryEvent.Register<Block> event);
+    void registerItems(RegistryEvent<Item> event);
 
-    void registerFluidBlocks(RegistryEvent.Register<Block> event);
+    void registerBlocks(RegistryEvent.Register<? super Block> event);
+
+    void registerFluidBlocks(RegistryEvent.Register<? super Block> event);
 
     void oredictMaterials();
 

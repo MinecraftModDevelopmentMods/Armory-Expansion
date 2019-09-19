@@ -35,7 +35,7 @@ public class MatterOverdriveIntegration extends JsonIntegration {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        this.modid = "matteroverdrive";
+        this.modId = "matteroverdrive";
         super.preInit(event);
     }
 
@@ -45,7 +45,7 @@ public class MatterOverdriveIntegration extends JsonIntegration {
     }
 
     @SubscribeEvent
-    public void registerBlocks(RegistryEvent.Register<Block> event){
+    public void registerBlocks(RegistryEvent.Register<? super Block> event){
         super.registerBlocks(event);
     }
 }

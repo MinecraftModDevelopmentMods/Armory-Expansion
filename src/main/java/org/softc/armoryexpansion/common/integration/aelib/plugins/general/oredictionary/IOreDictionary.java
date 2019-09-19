@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.general.ore_dictionary;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.general.oredictionary;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

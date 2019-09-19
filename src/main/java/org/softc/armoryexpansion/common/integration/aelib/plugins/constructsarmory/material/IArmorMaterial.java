@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.constructsarmory.material;
 
 import c4.conarm.lib.materials.CoreMaterialStats;
 import c4.conarm.lib.materials.PlatesMaterialStats;

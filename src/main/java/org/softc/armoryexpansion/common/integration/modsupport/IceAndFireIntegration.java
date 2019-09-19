@@ -36,7 +36,7 @@ public class IceAndFireIntegration extends JsonIntegration {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        this.modid = IceAndFire.MODID;
+        this.modId = IceAndFire.MODID;
         super.preInit(event);
     }
 
@@ -46,7 +46,7 @@ public class IceAndFireIntegration extends JsonIntegration {
     }
 
     @SubscribeEvent
-    public void registerBlocks(RegistryEvent.Register<Block> event){
+    public void registerBlocks(RegistryEvent.Register<? super Block> event){
         super.registerBlocks(event);
     }
 }

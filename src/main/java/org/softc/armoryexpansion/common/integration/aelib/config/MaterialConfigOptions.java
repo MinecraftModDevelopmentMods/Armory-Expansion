@@ -7,10 +7,7 @@ public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
     private RangedConfigOptions rangedOptions;
 
     MaterialConfigOptions() {
-        this.name = "DEFAULT";
-        this.material = true;
-        this.traits = true;
-        this.armorOptions = new ArmorConfigOptions(false);
+        super("DEFAULT", true, true, false);
         this.toolOptions = new ToolConfigOptions(false);
         this.rangedOptions = new RangedConfigOptions(false);
     }
@@ -62,7 +59,7 @@ public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
         return this.rangedOptions.enableProjectile;
     }
 
-    private class ToolConfigOptions {
+    private static class ToolConfigOptions {
         private boolean enableTool;
         private boolean enableHead;
         private boolean enableHandle;
@@ -80,7 +77,7 @@ public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
         }
     }
 
-    private class RangedConfigOptions {
+    private static class RangedConfigOptions {
         private boolean enableRanged;
         private boolean enableBow;
         private boolean enableBowString;
@@ -103,7 +100,7 @@ public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
     }
 
     @Override
-    public boolean equals(Object o){
-        return o instanceof MaterialConfigOptions && this.name.equals(((MaterialConfigOptions) o).name);
+    public boolean equals(Object obj){
+        return obj instanceof MaterialConfigOptions && this.getName().equals(((ArmorMaterialConfigOptions) obj).getName());
     }
 }

@@ -1,5 +1,6 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.constructs_armory.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.constructsarmory.material;
 
+import c4.conarm.lib.materials.ArmorMaterialType;
 import c4.conarm.lib.materials.CoreMaterialStats;
 import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
@@ -8,28 +9,17 @@ import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigO
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.BasicMaterial;
 import slimeknights.tconstruct.library.TinkerRegistry;
 
-import static c4.conarm.lib.materials.ArmorMaterialType.*;
-
 public class ArmorMaterial extends BasicMaterial implements IArmorMaterial{
-    private CoreMaterialStats coreMaterialStats;
-    private PlatesMaterialStats platesMaterialStats;
-    private TrimMaterialStats trimMaterialStats;
+    protected CoreMaterialStats coreMaterialStats;
+    protected PlatesMaterialStats platesMaterialStats;
+    protected TrimMaterialStats trimMaterialStats;
 
     ArmorMaterial(String identifier, int color) {
-        this(identifier, color, MaterialRenderType.DEFAULT);
-    }
-
-    private ArmorMaterial(String identifier, int color, MaterialRenderType type) {
-        this.identifier = identifier;
-        this.color = color;
-        this.type = type;
+        super(identifier, color, MaterialRenderType.DEFAULT);
     }
 
     public ArmorMaterial(String identifier, int color, MaterialRenderType type, CoreMaterialStats coreMaterialStats, PlatesMaterialStats platesMaterialStats, TrimMaterialStats trimMaterialStats) {
-        this.identifier = identifier;
-        this.color = color;
-        this.type = type;
-
+        super(identifier, color, type);
         this.coreMaterialStats = coreMaterialStats;
         this.platesMaterialStats = platesMaterialStats;
         this.trimMaterialStats = trimMaterialStats;
@@ -37,37 +27,40 @@ public class ArmorMaterial extends BasicMaterial implements IArmorMaterial{
 
     @Override
     public CoreMaterialStats getCoreMaterialStats() {
-        return coreMaterialStats;
+        return this.coreMaterialStats;
     }
 
     @Override
     public PlatesMaterialStats getPlatesMaterialStats() {
-        return platesMaterialStats;
+        return this.platesMaterialStats;
     }
 
     @Override
     public TrimMaterialStats getTrimMaterialStats() {
-        return trimMaterialStats;
+        return this.trimMaterialStats;
     }
 
     @Override
     public IArmorMaterial addPrimaryArmorTrait(String trait) {
-        return (IArmorMaterial) this.addTrait(trait, CORE);
+        return (IArmorMaterial) this.addTrait(trait, ArmorMaterialType.CORE);
     }
 
     @Override
     public IArmorMaterial addSecondaryArmorTrait(String trait) {
-        return (IArmorMaterial) this.addTrait(trait, TRIM).addTrait(trait, PLATES);
+        this.addTrait(trait, ArmorMaterialType.TRIM);
+        return (IArmorMaterial) this.addTrait(trait, ArmorMaterialType.PLATES);
     }
 
     @Override
     public IArmorMaterial addGlobalArmorTrait(String trait) {
-        return this.addPrimaryArmorTrait(trait).addSecondaryArmorTrait(trait);
+        this.addPrimaryArmorTrait(trait);
+        return this.addSecondaryArmorTrait(trait);
     }
 
     @Override
     public IArmorMaterial addArmorTrait(String trait1, String trait2) {
-        return this.addPrimaryArmorTrait(trait1).addSecondaryArmorTrait(trait2);
+        this.addPrimaryArmorTrait(trait1);
+        return this.addSecondaryArmorTrait(trait2);
     }
 
     @Override
@@ -77,9 +70,9 @@ public class ArmorMaterial extends BasicMaterial implements IArmorMaterial{
 
     @Override
     public boolean isArmorMaterial() {
-        return this.getCoreMaterialStats() != null
-                || this.getPlatesMaterialStats() != null
-                || this.getTrimMaterialStats() != null;
+        return null != this.coreMaterialStats
+                || null != this.platesMaterialStats
+                || null != this.trimMaterialStats;
     }
 
     @Override
@@ -89,13 +82,12 @@ public class ArmorMaterial extends BasicMaterial implements IArmorMaterial{
 
     @Override
     public boolean registerTinkersMaterialStats(MaterialConfigOptions properties){
-        if (properties.isMaterialEnabled() && properties.isArmorEnabled()) {
+        if (properties.materialEnabled() && properties.armorEnabled()) {
             slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
-            if ("unknown".equals(material.getIdentifier())){
-                return false;
+            if (!"unknown".equals(material.getIdentifier())) {
+                this.registerArmorStats(material, properties);
+                return true;
             }
-            this.registerArmorStats(material, properties);
-            return true;
         }
         return false;
     }
@@ -109,32 +101,20 @@ public class ArmorMaterial extends BasicMaterial implements IArmorMaterial{
     }
 
     private void registerCoreStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
-        if(material.getStats(CORE) == null && this.getCoreMaterialStats() != null && properties.isCoreEnabled()){
-            TinkerRegistry.addMaterialStats(material, this.getCoreMaterialStats());
+        if(null == material.getStats(ArmorMaterialType.CORE) && null != this.coreMaterialStats && properties.coreEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.coreMaterialStats);
         }
     }
 
     private void registerPlatesStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
-        if(material.getStats(PLATES) == null && this.getPlatesMaterialStats() != null && properties.isPlatesEnabled()){
-            TinkerRegistry.addMaterialStats(material, this.getPlatesMaterialStats());
+        if(null == material.getStats(ArmorMaterialType.PLATES) && null != this.platesMaterialStats && properties.platesEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.platesMaterialStats);
         }
     }
 
     private void registerTrimStats(slimeknights.tconstruct.library.materials.Material material, MaterialConfigOptions properties){
-        if(material.getStats(TRIM) == null && this.getTrimMaterialStats() != null && properties.isTrimEnabled()){
-            TinkerRegistry.addMaterialStats(material, this.getTrimMaterialStats());
+        if(null == material.getStats(ArmorMaterialType.TRIM) && null != this.trimMaterialStats && properties.trimEnabled()){
+            TinkerRegistry.addMaterialStats(material, this.trimMaterialStats);
         }
-    }
-
-    public void setCoreMaterialStats(CoreMaterialStats coreMaterialStats) {
-        this.coreMaterialStats = coreMaterialStats;
-    }
-
-    public void setPlatesMaterialStats(PlatesMaterialStats platesMaterialStats) {
-        this.platesMaterialStats = platesMaterialStats;
-    }
-
-    public void setTrimMaterialStats(TrimMaterialStats trimMaterialStats) {
-        this.trimMaterialStats = trimMaterialStats;
     }
 }

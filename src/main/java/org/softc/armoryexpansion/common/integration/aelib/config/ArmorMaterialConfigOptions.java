@@ -2,21 +2,13 @@ package org.softc.armoryexpansion.common.integration.aelib.config;
 
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
 
-@SuppressWarnings("WeakerAccess")
 public class ArmorMaterialConfigOptions {
     protected String name;
     protected boolean material;
     private boolean fluid;
     protected boolean traits;
 
-    ArmorConfigOptions armorOptions;
-
-    ArmorMaterialConfigOptions() {
-        this.name = "DEFAULT";
-        this.material = true;
-        this.traits = true;
-        this.armorOptions = new ArmorConfigOptions(false);
-    }
+    protected ArmorConfigOptions armorOptions;
 
     ArmorMaterialConfigOptions(IBasicMaterial iBasicMaterial) {
         this.name = iBasicMaterial.getIdentifier();
@@ -27,44 +19,50 @@ public class ArmorMaterialConfigOptions {
         this.armorOptions = new ArmorConfigOptions(iBasicMaterial.isArmorMaterial());
     }
 
-    String getName() {
-        return name;
+    protected ArmorMaterialConfigOptions(String name, boolean material, boolean traits, boolean armorOptions) {
+        this.name = name;
+        this.material = material;
+        this.traits = traits;
+        this.armorOptions = new ArmorConfigOptions(armorOptions);
     }
 
-    public boolean isMaterialEnabled(){
+    String getName() {
+        return this.name;
+    }
+
+    public boolean materialEnabled(){
         return this.material;
     }
 
-    boolean isFluidEnabled(){
+    boolean fluidEnabled(){
         return this.fluid;
     }
 
-    boolean isTraitsEnabled(){
+    boolean traitsEnabled(){
         return this.traits;
     }
 
-    public boolean isArmorEnabled(){
+    public boolean armorEnabled(){
         return this.armorOptions.enableArmor;
     }
 
-    public boolean isCoreEnabled(){
+    public boolean coreEnabled(){
         return this.armorOptions.enableCore;
     }
 
-    public boolean isPlatesEnabled(){
+    public boolean platesEnabled(){
         return this.armorOptions.enablePlates;
     }
 
-    public boolean isTrimEnabled(){
+    public boolean trimEnabled(){
         return this.armorOptions.enableTrim;
     }
 
-    class ArmorConfigOptions {
+    static class ArmorConfigOptions {
         private boolean enableArmor;
         private boolean enableCore;
         private boolean enablePlates;
         private boolean enableTrim;
-
 
         ArmorConfigOptions(boolean defVal) {
             this(defVal, defVal, defVal, defVal);

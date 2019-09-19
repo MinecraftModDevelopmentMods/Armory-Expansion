@@ -36,24 +36,24 @@ class CustomMaterialsIntegration extends JsonIntegration {
     static final String DEPENDENCIES =
             "required-after:" + ArmoryExpansion.MODID + "; ";
 
-    private static File configDir;
+    private static File configDirFile;
 
-    public CustomMaterialsIntegration() {
+    CustomMaterialsIntegration() {
         super(INTEGRATION_ID, ArmoryExpansion.MODID, INTEGRATION_ID);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        this.modid = INTEGRATION_ID;
+        this.modId = INTEGRATION_ID;
         this.enableForceJsonCreation();
-        configDir = event.getModConfigurationDirectory();
+        configDirFile = event.getModConfigurationDirectory();
         super.preInit(event);
     }
 
     @Override
     public boolean isLoadable() {
-        return ArmoryExpansion.isIntegrationEnabled(modid);
+        return ArmoryExpansion.isIntegrationEnabled(this.modId);
     }
 
     @Mod.EventHandler
@@ -64,12 +64,12 @@ class CustomMaterialsIntegration extends JsonIntegration {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
-        this.exportAllTraitsToJson(configDir);
-        this.exportAllPartsToJson(configDir);
+        this.exportAllTraitsToJson(configDirFile);
+        this.exportAllPartsToJson(configDirFile);
     }
 
     @SubscribeEvent
-    public void registerBlocks(RegistryEvent.Register<Block> event){
+    public void registerBlocks(RegistryEvent.Register<? super Block> event){
         super.registerBlocks(event);
     }
 
@@ -81,10 +81,8 @@ class CustomMaterialsIntegration extends JsonIntegration {
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
         File output = new File(configDir.getPath() + "/armoryexpansion/traits.txt");
-        try {
-            FileWriter writer = new FileWriter(output);
+        try (FileWriter writer = new FileWriter(output)) {
             writer.write(gson.toJson(traits));
-            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

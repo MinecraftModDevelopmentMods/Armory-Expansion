@@ -10,53 +10,48 @@ public class JsonIntegration extends AbstractIntegration {
     }
 
     protected JsonIntegration(String modId, String root, String json) {
-        this.modid = modId;
-        this.root = root;
+        super(modId, root);
         this.json = json;
     }
 
     @Override
     protected void loadMaterialsFromSource() {
         InputStream stream =
-                getClass()
+                this.getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assets/" + this.root + "/data/" + json + "-materials.json");
-        if(stream == null){
-            return;
+                        .getResourceAsStream("assets/" + this.root + "/data/" + this.json + "/" + this.json + "-materials.json");
+        if (null != stream) {
+            this.loadMaterialsFromJson(stream);
         }
-        this.loadMaterialsFromJson(stream);
     }
 
     @Override
     protected void loadOreDictionaryEntriesFromSource() {
-        InputStream stream = getClass()
+        InputStream stream = this.getClass()
                 .getClassLoader()
-                .getResourceAsStream("assets/" + this.root + "/data/" + json + "-oreDictEntries.json");
-        if(stream == null){
-            return;
+                .getResourceAsStream("assets/" + this.root + "/data/" + this.json + "/" + this.json + "-oreDictEntries.json");
+        if (null != stream) {
+            this.loadOreDictionaryEntriesFromJson(stream);
         }
-        this.loadOreDictionaryEntriesFromJson(stream);
     }
 
     @Override
     protected void loadAlloysFromSource() {
-        InputStream stream = getClass()
+        InputStream stream = this.getClass()
                 .getClassLoader()
-                .getResourceAsStream("assets/" + this.root + "/data/" + json + "-alloys.json");
-        if(stream == null){
-            return;
+                .getResourceAsStream("assets/" + this.root + "/data/" + this.json + "/" + this.json + "-alloys.json");
+        if (null != stream) {
+            this.loadAlloysFromJson(stream);
         }
-        this.loadAlloysFromJson(stream);
     }
 
     @Override
     protected void loadConfigFromSource() {
-        InputStream stream = getClass()
+        InputStream stream = this.getClass()
                 .getClassLoader()
-                .getResourceAsStream("assets/" + this.root + "/data/" + json + "-config.json");
-        if(stream == null){
-            return;
+                .getResourceAsStream("assets/" + this.root + "/data/" + this.json + "/" + this.json + "-config.json");
+        if (null != stream) {
+            this.loadConfigFromJson(stream);
         }
-        this.loadConfigFromJson(stream);
     }
 }

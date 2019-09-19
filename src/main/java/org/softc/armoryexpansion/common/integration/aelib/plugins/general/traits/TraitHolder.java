@@ -1,19 +1,19 @@
 package org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits;
 
-public class TraitHolder{
+public class TraitHolder implements ITraitHolder {
     private String traitName;
     private String traitPart;
 
     public String getTraitName() {
-        return traitName;
+        return this.traitName;
     }
 
     public String getTraitPart() {
-        return traitPart;
+        return this.traitPart;
     }
 
-    public TraitHolder(String traitName, String traitPart) {
-        this.traitName = traitName;
-        this.traitPart = traitPart;
+    public TraitHolder(String name, String part) {
+        this.traitName = name;
+        this.traitPart = part;
     }
 }

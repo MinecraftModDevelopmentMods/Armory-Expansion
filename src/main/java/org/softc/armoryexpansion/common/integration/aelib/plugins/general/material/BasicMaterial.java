@@ -1,8 +1,6 @@
 package org.softc.armoryexpansion.common.integration.aelib.plugins.general.material;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
@@ -10,10 +8,8 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.oredict.OreDictionary;
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderHelper;
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
-import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits.TraitHolder;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -24,32 +20,42 @@ import slimeknights.tconstruct.smeltery.block.BlockMolten;
 import java.util.LinkedList;
 import java.util.List;
 
-@SuppressWarnings("WeakerAccess")
 public abstract class BasicMaterial implements IBasicMaterial {
     protected String identifier;
     protected int color;
     protected MaterialRenderType type = MaterialRenderType.DEFAULT;
-    private ResourceLocation texture;
+    protected ResourceLocation texture;
 
-    private boolean isCastable = false;
-    private boolean isCraftable = false;
+    private boolean castable;
+    private boolean craftable;
 
     protected List<TraitHolder> traits = new LinkedList<>();
 
+    protected BasicMaterial() {
+    }
+
+    protected BasicMaterial(String identifier, int color, MaterialRenderType type) {
+        this.identifier = identifier;
+        this.color = color;
+        this.type = type;
+    }
+
     public void setCastable(boolean castable) {
-        isCastable = castable;
+        this.castable = castable;
     }
 
     public void setCraftable(boolean craftable) {
-        isCraftable = craftable;
+        this.craftable = craftable;
     }
 
+    @Override
     public boolean isCastable() {
-        return this.isCastable;
+        return this.castable;
     }
 
+    @Override
     public boolean isCraftable() {
-        return this.isCraftable;
+        return this.craftable;
     }
 
     public void setTraits(List<TraitHolder> traits) {
@@ -78,15 +84,15 @@ public abstract class BasicMaterial implements IBasicMaterial {
 
     @Override
     public boolean registerTinkersMaterial(boolean canRegister){
-        if (!canRegister || !TinkerRegistry.getMaterial(this.getIdentifier()).getIdentifier().equals("unknown")) {
+        if (!canRegister || !"unknown".equals(TinkerRegistry.getMaterial(this.identifier).getIdentifier())) {
             return false;
         }
 
-        slimeknights.tconstruct.library.materials.Material material = new slimeknights.tconstruct.library.materials.Material(this.getIdentifier(), this.getColor());
-        material.setCastable(this.isCastable())
-                .setCraftable(this.isCraftable())
-                .addItemIngot(this.getIdentifier());
-        if(FMLCommonHandler.instance().getSide().equals(Side.CLIENT)){
+        slimeknights.tconstruct.library.materials.Material material = new slimeknights.tconstruct.library.materials.Material(this.identifier, this.color);
+        material.setCastable(this.castable)
+                .setCraftable(this.craftable)
+                .addItemIngot(this.identifier);
+        if(Side.CLIENT == FMLCommonHandler.instance().getSide()){
             MaterialRenderHelper.setMaterialRenderInfo(material, this);
         }
         this.registerTinkersFluid(true);
@@ -97,11 +103,12 @@ public abstract class BasicMaterial implements IBasicMaterial {
 
     @Override
     public boolean registerTinkersFluid(boolean canRegister){
-        if (!canRegister || !this.isCastable()) {
+        if (!canRegister || !this.castable) {
             return false;
         }
 
-        Fluid materialFluid = new FluidMolten(this.getFluidName(), this.getColor());
+        Fluid materialFluid = new FluidMolten(this.getFluidName(), this.color);
+        materialFluid.setUnlocalizedName(this.getFluidName());
         FluidRegistry.registerFluid(materialFluid);
         FluidRegistry.addBucketForFluid(materialFluid);
         return true;
@@ -109,13 +116,13 @@ public abstract class BasicMaterial implements IBasicMaterial {
 
     @Override
     public boolean registerTinkersFluidIMC(boolean canRegister){
-        if (!canRegister || !this.isCastable()) {
+        if (!canRegister || !this.castable) {
             return false;
         }
 
         NBTTagCompound tag = new NBTTagCompound();
         tag.setString("fluid", this.getFluidName());
-        tag.setString("ore", this.getIdentifier());
+        tag.setString("ore", this.identifier);
         tag.setBoolean("toolforge", true);
         FMLInterModComms.sendMessage(TConstruct.modID, "integrateSmeltery", tag);
         return true;
@@ -123,12 +130,12 @@ public abstract class BasicMaterial implements IBasicMaterial {
 
     @Override
     public String getFluidName(){
-        return "molten_" + this.getIdentifier();
+        return "molten_" + this.identifier;
     }
 
     @Override
     public FluidMolten getFluid(){
-        return new FluidMolten(this.getFluidName(), this.getColor());
+        return new FluidMolten(this.getFluidName(), this.color);
     }
 
     @Override
@@ -136,23 +143,23 @@ public abstract class BasicMaterial implements IBasicMaterial {
         return new BlockMolten(this.getFluid());
     }
 
-    @Override
-    public abstract boolean registerTinkersMaterialStats(MaterialConfigOptions properties);
+//    @Override
+//    public abstract boolean registerTinkersMaterialStats(MaterialConfigOptions properties);
 
     @Override
     public boolean registerTinkersMaterialTraits(boolean canRegister) {
-        slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
+        slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.identifier);
         if ("unknown".equals(material.identifier) || !canRegister) {
             return false;
         }
         this.traits.forEach( t -> {
             ITrait trait = TinkerRegistry.getTrait(t.getTraitName());
-            if(trait != null){
+            if(null != trait){
                 material.addTrait(trait, t.getTraitPart());
             }
         });
         TinkerRegistry.integrate(material);
-        return this.traits.size() > 0;
+        return !this.traits.isEmpty();
     }
 
     @Override
@@ -162,7 +169,7 @@ public abstract class BasicMaterial implements IBasicMaterial {
     }
 
     @Override
-    public boolean equals(Object material) {
-        return material instanceof BasicMaterial && this.getIdentifier().equals(((BasicMaterial) material).getIdentifier());
+    public boolean equals(Object obj) {
+        return obj instanceof BasicMaterial && this.identifier.equals(((IBasicMaterial) obj).getIdentifier());
     }
 }
