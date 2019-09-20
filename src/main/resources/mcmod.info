@@ -15,7 +15,7 @@
   "name": "Armory Expansion - Ice and Fire",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "https://minecraft.curseforge.com/projects/armory-expansion",
+  "url": "https://www.curseforge.com/minecraft/mc-mods/armory-expansion",
   "authorList": ["YaibaToKen"],
   "parent": "armoryexpansion"
 },
@@ -24,7 +24,7 @@
   "name": "Armory Expansion - Construct's Armory",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "https://minecraft.curseforge.com/projects/armory-expansion",
+  "url": "https://www.curseforge.com/minecraft/mc-mods/armory-expansion",
   "authorList": ["YaibaToKen"],
   "parent": "armoryexpansion"
 },
@@ -33,7 +33,7 @@
     "name": "Armory Expansion - Custom Materials",
     "version": "${version}",
     "mcversion": "${mcversion}",
-    "url": "https://minecraft.curseforge.com/projects/armory-expansion",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/armory-expansion",
     "authorList": ["YaibaToKen"],
     "parent": "armoryexpansion"
   }
