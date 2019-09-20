@@ -6,7 +6,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
 
 public interface IIntegration {
     void preInit(FMLPreInitializationEvent event);
@@ -39,9 +38,9 @@ public interface IIntegration {
 
     boolean isLoadable();
 
-    boolean isMaterialEnabled(IBasicMaterial material);
+    boolean isMaterialEnabled(String material);
 
-    boolean isMaterialFluidEnabled(IBasicMaterial material);
+    boolean isMaterialFluidEnabled(String material);
 
     void enableForceJsonCreation();
 }

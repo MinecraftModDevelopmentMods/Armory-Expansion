@@ -27,7 +27,7 @@ import java.util.Set;
         dependencies = CustomMaterialsIntegration.DEPENDENCIES
 )
 @Mod.EventBusSubscriber
-class CustomMaterialsIntegration extends JsonIntegration {
+public class CustomMaterialsIntegration extends JsonIntegration {
     private static final String INTEGRATION_ID = "custommaterials";
     private static final String INTEGRATION_NAME = "Custom Materials";
 
@@ -38,7 +38,7 @@ class CustomMaterialsIntegration extends JsonIntegration {
 
     private static File configDirFile;
 
-    CustomMaterialsIntegration() {
+    public CustomMaterialsIntegration() {
         super(INTEGRATION_ID, ArmoryExpansion.MODID, INTEGRATION_ID);
         MinecraftForge.EVENT_BUS.register(this);
     }

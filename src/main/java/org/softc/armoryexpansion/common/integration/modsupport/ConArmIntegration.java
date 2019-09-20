@@ -124,11 +124,6 @@ public class ConArmIntegration extends JsonIntegration {
                 .forEach(material -> this.addMaterial((IBasicMaterial) material));
     }
 
-    @Override
-    protected void loadAlloysFromSource() {
-        // Left empty on purpose
-    }
-
     private boolean isConversionAvailable(Material material){
         boolean core = !material.hasStats(ArmorMaterialType.CORE) && material.hasStats(MaterialTypes.HEAD);
         boolean plates = !material.hasStats(ArmorMaterialType.PLATES) && material.hasStats(MaterialTypes.HANDLE);

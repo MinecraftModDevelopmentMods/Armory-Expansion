@@ -11,13 +11,5 @@ public interface IToolMaterial {
 
     ExtraMaterialStats getExtraMaterialStats();
 
-    IToolMaterial addPrimaryToolTrait(String trait);
-
-    IToolMaterial addSecondaryToolTrait(String trait);
-
-    IToolMaterial addGlobalToolTrait(String trait);
-
-    IToolMaterial addToolTrait(String trait1, String trait2);
-
     boolean isToolMaterial();
 }

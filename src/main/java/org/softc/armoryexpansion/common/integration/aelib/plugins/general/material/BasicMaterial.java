@@ -10,15 +10,10 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.relauncher.Side;
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderHelper;
 import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits.TraitHolder;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.fluid.FluidMolten;
-import slimeknights.tconstruct.library.traits.ITrait;
 import slimeknights.tconstruct.smeltery.block.BlockMolten;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public abstract class BasicMaterial implements IBasicMaterial {
     protected String identifier;
@@ -29,7 +24,7 @@ public abstract class BasicMaterial implements IBasicMaterial {
     private boolean castable;
     private boolean craftable;
 
-    protected List<TraitHolder> traits = new LinkedList<>();
+//    protected List<TraitHolder> traits = new LinkedList<>();
 
     protected BasicMaterial() {
     }
@@ -56,10 +51,6 @@ public abstract class BasicMaterial implements IBasicMaterial {
     @Override
     public boolean isCraftable() {
         return this.craftable;
-    }
-
-    public void setTraits(List<TraitHolder> traits) {
-        this.traits = traits;
     }
 
     @Override
@@ -141,31 +132,6 @@ public abstract class BasicMaterial implements IBasicMaterial {
     @Override
     public Block getFluidBlock(){
         return new BlockMolten(this.getFluid());
-    }
-
-//    @Override
-//    public abstract boolean registerTinkersMaterialStats(MaterialConfigOptions properties);
-
-    @Override
-    public boolean registerTinkersMaterialTraits(boolean canRegister) {
-        slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.identifier);
-        if ("unknown".equals(material.identifier) || !canRegister) {
-            return false;
-        }
-        this.traits.forEach( t -> {
-            ITrait trait = TinkerRegistry.getTrait(t.getTraitName());
-            if(null != trait){
-                material.addTrait(trait, t.getTraitPart());
-            }
-        });
-        TinkerRegistry.integrate(material);
-        return !this.traits.isEmpty();
-    }
-
-    @Override
-    public IBasicMaterial addTrait(String trait, String location) {
-        this.traits.add(new TraitHolder(trait, location));
-        return this;
     }
 
     @Override

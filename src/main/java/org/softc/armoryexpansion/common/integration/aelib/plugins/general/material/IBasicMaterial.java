@@ -38,8 +38,4 @@ public interface IBasicMaterial {
     boolean registerTinkersFluidIMC(boolean canRegister);
 
     boolean registerTinkersMaterialStats(MaterialConfigOptions properties);
-
-    boolean registerTinkersMaterialTraits(boolean canRegister);
-
-    IBasicMaterial addTrait(String trait, String location);
 }
