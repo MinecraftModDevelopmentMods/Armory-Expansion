@@ -11,13 +11,5 @@ public interface IArmorMaterial {
 
     TrimMaterialStats getTrimMaterialStats();
 
-    IArmorMaterial addPrimaryArmorTrait(String trait);
-
-    IArmorMaterial addSecondaryArmorTrait(String trait);
-
-    IArmorMaterial addGlobalArmorTrait(String trait);
-
-    IArmorMaterial addArmorTrait(String trait1, String trait2);
-
     boolean isArmorMaterial();
 }

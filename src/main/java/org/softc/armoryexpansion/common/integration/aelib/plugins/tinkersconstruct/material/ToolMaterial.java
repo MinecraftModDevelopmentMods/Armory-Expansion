@@ -29,29 +29,6 @@ public class ToolMaterial extends BasicMaterial implements IToolMaterial {
     }
 
     @Override
-    public IToolMaterial addPrimaryToolTrait(String trait) {
-        return (IToolMaterial) this.addTrait(trait, MaterialTypes.HEAD);
-    }
-
-    @Override
-    public IToolMaterial addSecondaryToolTrait(String trait) {
-        this.addTrait(trait, MaterialTypes.HANDLE);
-        return (IToolMaterial) this.addTrait(trait, MaterialTypes.EXTRA);
-    }
-
-    @Override
-    public IToolMaterial addGlobalToolTrait(String trait) {
-        this.addPrimaryToolTrait(trait);
-        return this.addSecondaryToolTrait(trait);
-    }
-
-    @Override
-    public IToolMaterial addToolTrait(String trait1, String trait2) {
-        this.addPrimaryToolTrait(trait1);
-        return this.addSecondaryToolTrait(trait2);
-    }
-
-    @Override
     public boolean isToolMaterial() {
         return null != this.headMaterialStats
                 || null != this.handleMaterialStats
@@ -72,10 +49,10 @@ public class ToolMaterial extends BasicMaterial implements IToolMaterial {
     public boolean registerTinkersMaterialStats(MaterialConfigOptions properties){
         if (properties.materialEnabled() && properties.isToolEnabled()) {
             slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
-            if (!"unknown".equals(material.getIdentifier())) {
+//            if (!"unknown".equals(material.getIdentifier())) {
                 this.registerToolStats(material, properties);
                 return true;
-            }
+//            }
         }
         return false;
     }

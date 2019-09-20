@@ -42,32 +42,6 @@ public class ArmorToolRangedMaterial extends ArmorToolMaterial implements IRange
     }
 
     @Override
-    public IRangedMaterial addPrimaryRangedTrait(String trait) {
-        // TODO Figure out where to apply traits
-        return (IRangedMaterial) this.addTrait(trait, MaterialTypes.BOW);
-    }
-
-    @Override
-    public IRangedMaterial addSecondaryRangedTrait(String trait) {
-        // TODO Figure out where to apply traits
-        return (IRangedMaterial) this.addTrait(trait, MaterialTypes.BOWSTRING);
-    }
-
-    @Override
-    public IRangedMaterial addGlobalRangedTrait(String trait) {
-        // TODO Figure out where to apply traits
-        this.addPrimaryRangedTrait(trait);
-        return this.addSecondaryRangedTrait(trait);
-    }
-
-    @Override
-    public IRangedMaterial addRangedTrait(String trait1, String trait2) {
-        // TODO Figure out where to apply traits
-        this.addPrimaryRangedTrait(trait1);
-        return this.addSecondaryRangedTrait(trait2);
-    }
-
-    @Override
     public boolean isRangedMaterial() {
         return !(null == this.arrowShaftMaterialStats && null == this.bowMaterialStats && null == this.bowStringMaterialStats && null == this.fletchingMaterialStats && null == this.projectileMaterialStats);
     }
@@ -76,12 +50,12 @@ public class ArmorToolRangedMaterial extends ArmorToolMaterial implements IRange
     public boolean registerTinkersMaterialStats(MaterialConfigOptions properties) {
         if (properties.materialEnabled()) {
             Material material = TinkerRegistry.getMaterial(this.getIdentifier());
-            if (!"unknown".equals(material.getIdentifier())) {
+//            if (!"unknown".equals(material.getIdentifier())) {
                 this.registerArmorStats(material, properties);
                 this.registerToolStats(material, properties);
                 this.registerRangedStats(material, properties);
                 return true;
-            }
+//            }
         }
         return false;
     }

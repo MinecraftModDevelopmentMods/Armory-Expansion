@@ -1,7 +1,9 @@
 package org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits;
 
+import java.util.List;
+
 public interface ITraitHolder {
-    String getTraitName();
+    List<String> getTraitNames();
 
     String getTraitPart();
 }

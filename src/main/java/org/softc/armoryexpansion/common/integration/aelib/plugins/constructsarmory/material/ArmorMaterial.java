@@ -41,29 +41,6 @@ public class ArmorMaterial extends BasicMaterial implements IArmorMaterial{
     }
 
     @Override
-    public IArmorMaterial addPrimaryArmorTrait(String trait) {
-        return (IArmorMaterial) this.addTrait(trait, ArmorMaterialType.CORE);
-    }
-
-    @Override
-    public IArmorMaterial addSecondaryArmorTrait(String trait) {
-        this.addTrait(trait, ArmorMaterialType.TRIM);
-        return (IArmorMaterial) this.addTrait(trait, ArmorMaterialType.PLATES);
-    }
-
-    @Override
-    public IArmorMaterial addGlobalArmorTrait(String trait) {
-        this.addPrimaryArmorTrait(trait);
-        return this.addSecondaryArmorTrait(trait);
-    }
-
-    @Override
-    public IArmorMaterial addArmorTrait(String trait1, String trait2) {
-        this.addPrimaryArmorTrait(trait1);
-        return this.addSecondaryArmorTrait(trait2);
-    }
-
-    @Override
     public boolean isToolMaterial() {
         return false;
     }
@@ -84,10 +61,10 @@ public class ArmorMaterial extends BasicMaterial implements IArmorMaterial{
     public boolean registerTinkersMaterialStats(MaterialConfigOptions properties){
         if (properties.materialEnabled() && properties.armorEnabled()) {
             slimeknights.tconstruct.library.materials.Material material = TinkerRegistry.getMaterial(this.getIdentifier());
-            if (!"unknown".equals(material.getIdentifier())) {
+//            if (!"unknown".equals(material.getIdentifier())) {
                 this.registerArmorStats(material, properties);
                 return true;
-            }
+//            }
         }
         return false;
     }

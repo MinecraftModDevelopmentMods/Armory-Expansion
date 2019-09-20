@@ -54,4 +54,14 @@ public class JsonIntegration extends AbstractIntegration {
             this.loadConfigFromJson(stream);
         }
     }
+
+    @Override
+    protected void loadTraitsFromSource() {
+        InputStream stream = this.getClass()
+                .getClassLoader()
+                .getResourceAsStream("assets/" + this.root + "/data/" + this.json + "/" + this.json + "-traits.json");
+        if (null != stream) {
+            this.loadTraitsFromJson(stream);
+        }
+    }
 }

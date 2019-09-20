@@ -13,13 +13,5 @@ public interface IRangedMaterial {
 
     ProjectileMaterialStats getProjectileMaterialStats();
 
-    IRangedMaterial addPrimaryRangedTrait(String trait);
-
-    IRangedMaterial addSecondaryRangedTrait(String trait);
-
-    IRangedMaterial addGlobalRangedTrait(String trait);
-
-    IRangedMaterial addRangedTrait(String trait1, String trait2);
-
     boolean isRangedMaterial();
 }
