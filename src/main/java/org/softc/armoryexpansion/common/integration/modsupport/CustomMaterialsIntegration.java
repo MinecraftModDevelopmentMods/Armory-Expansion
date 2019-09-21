@@ -11,7 +11,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.common.integration.aelib.integration.JsonIntegration;
+import org.softc.armoryexpansion.common.integration.aelib.integration.IndependentJsonIntegration;
+import org.softc.armoryexpansion.common.util.ConfigFileSuffixEnum;
 import slimeknights.tconstruct.library.TinkerRegistry;
 
 import java.io.File;
@@ -27,7 +28,7 @@ import java.util.Set;
         dependencies = CustomMaterialsIntegration.DEPENDENCIES
 )
 @Mod.EventBusSubscriber
-public class CustomMaterialsIntegration extends JsonIntegration {
+public class CustomMaterialsIntegration extends IndependentJsonIntegration {
     private static final String INTEGRATION_ID = "custommaterials";
     private static final String INTEGRATION_NAME = "Custom Materials";
 
@@ -51,11 +52,6 @@ public class CustomMaterialsIntegration extends JsonIntegration {
         super.preInit(event);
     }
 
-    @Override
-    public boolean isLoadable() {
-        return ArmoryExpansion.isIntegrationEnabled(this.modId);
-    }
-
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         super.init(event);
@@ -76,7 +72,7 @@ public class CustomMaterialsIntegration extends JsonIntegration {
     private void exportAllTraitsToJson(File configDir){
         // TODO Figure out how to print a list of all trait identifiers
         Set<String> traits = new HashSet<>();
-        TinkerRegistry.getAllMaterials().forEach(m -> m.getAllTraits().forEach(t -> traits.add(t.getIdentifier())));
+        TinkerRegistry.getAllMaterials().forEach(material -> material.getAllTraits().forEach(t -> traits.add(t.getIdentifier())));
 
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
@@ -112,5 +108,44 @@ public class CustomMaterialsIntegration extends JsonIntegration {
     protected void loadAlloysFromSource() {
         // Left empty on purpose
         // All the alloys should be added through the JSON file
+    }
+
+    @Override
+    protected void saveAlloysToJson(File dir, String fileName, boolean forceCreate){
+        if(!this.alloys.values().isEmpty() || forceCreate) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+            File output = new File(this.getFilePath(dir, fileName, ConfigFileSuffixEnum.ALLOYS_SUFFIX));
+            output.getParentFile().mkdirs();
+            try (FileWriter writer = new FileWriter(output)) {
+                writer.write(this.returnAlloyExample());
+                writer.write(gson.toJson(this.alloys.values()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    protected boolean enableForceJsonCreation(){
+        return true;
+    }
+
+    protected String returnAlloyExample() {
+        return "//  {\n" +
+                "//    \"output\": {\n" +
+                "//      \"fluid\": \"iron\",\n" +
+                "//      \"amount\": 144\n" +
+                "//    },\n" +
+                "//    \"inputs\": [\n" +
+                "//      {\n" +
+                "//        \"fluid\": \"copper\",\n" +
+                "//        \"amount\": 108\n" +
+                "//      },\n" +
+                "//      {\n" +
+                "//        \"fluid\": \"lead\",\n" +
+                "//        \"amount\": 36\n" +
+                "//      }\n" +
+                "//    ]\n" +
+                "//  }\n";
     }
 }

@@ -41,6 +41,4 @@ public interface IIntegration {
     boolean isMaterialEnabled(String material);
 
     boolean isMaterialFluidEnabled(String material);
-
-    void enableForceJsonCreation();
 }

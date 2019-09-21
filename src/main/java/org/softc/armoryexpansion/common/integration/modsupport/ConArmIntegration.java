@@ -117,6 +117,12 @@ public class ConArmIntegration extends JsonIntegration {
         }
     }
 
+    private void addMaterial(IBasicMaterial material){
+        if(this.isMaterialEnabled(material.getIdentifier())){
+            this.materials.putIfAbsent(material.getIdentifier(), material);
+        }
+    }
+
     @Override
     protected void loadMaterialsFromSource() {
         TinkerRegistry.getAllMaterials().stream().filter(this::isConversionAvailable)
