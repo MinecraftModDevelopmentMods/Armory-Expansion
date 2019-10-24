@@ -13,13 +13,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.softc.armoryexpansion.ArmoryExpansion;
 import org.softc.armoryexpansion.common.integration.aelib.integration.IndependentJsonIntegration;
 import org.softc.armoryexpansion.common.util.ConfigFileSuffixEnum;
-import slimeknights.tconstruct.library.TinkerRegistry;
+import slimeknights.tconstruct.library.events.MaterialEvent;
+import slimeknights.tconstruct.library.traits.AbstractTrait;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 @Mod(
         modid = CustomMaterialsIntegration.MODID,
@@ -38,6 +39,8 @@ public class CustomMaterialsIntegration extends IndependentJsonIntegration {
             "required-after:" + ArmoryExpansion.MODID + "; ";
 
     private static File configDirFile;
+
+    private Collection<String> traitIdentifierList = new HashSet<>();
 
     public CustomMaterialsIntegration() {
         super(INTEGRATION_ID, ArmoryExpansion.MODID, INTEGRATION_ID);
@@ -69,16 +72,17 @@ public class CustomMaterialsIntegration extends IndependentJsonIntegration {
         super.registerBlocks(event);
     }
 
-    private void exportAllTraitsToJson(File configDir){
-        // TODO Figure out how to print a list of all trait identifiers
-        Set<String> traits = new HashSet<>();
-        TinkerRegistry.getAllMaterials().forEach(material -> material.getAllTraits().forEach(t -> traits.add(t.getIdentifier())));
+    @SubscribeEvent
+    public void registerTraits(MaterialEvent.TraitRegisterEvent<? super AbstractTrait> event) {
+        this.traitIdentifierList.add(event.trait.getIdentifier());
+    }
 
+    private void exportAllTraitsToJson(File configDir){
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting().setLenient();
         Gson gson = builder.create();
         File output = new File(configDir.getPath() + "/armoryexpansion/traits.txt");
         try (FileWriter writer = new FileWriter(output)) {
-            writer.write(gson.toJson(traits));
+            writer.write(gson.toJson(this.traitIdentifierList));
         } catch (IOException e) {
             e.printStackTrace();
         }
