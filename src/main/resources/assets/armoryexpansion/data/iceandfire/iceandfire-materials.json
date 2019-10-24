@@ -18,9 +18,8 @@
     "identifier": "leatherfrosttroll",
     "color": 3228222,
     "type": "DEFAULT",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": []
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -41,9 +40,8 @@
     "identifier": "chitintandeathworm",
     "color": 12895428,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": []
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -64,38 +62,8 @@
     "identifier": "scalebronzedragon",
     "color": 8674606,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "autoforge_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "autoforge_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "autoforge_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "prideful_armor",
-        "traitPart": "core"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -116,34 +84,8 @@
     "identifier": "scaleblueseaserpent",
     "color": 5592575,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "plates"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -164,34 +106,8 @@
     "identifier": "scalepurpleseaserpent",
     "color": 11141290,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "plates"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -212,26 +128,8 @@
     "identifier": "scalewhitedragon",
     "color": 16777215,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "writable2",
-        "traitPart": "core"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -252,9 +150,8 @@
     "identifier": "chitinwhitedeathworm",
     "color": 16777215,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": []
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -275,9 +172,8 @@
     "identifier": "chitinbrowndeathworm",
     "color": 8005929,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": []
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -298,30 +194,8 @@
     "identifier": "scalegraydragon",
     "color": 5592405,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "autoforge_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "steady_armor",
-        "traitPart": "core"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -342,26 +216,8 @@
     "identifier": "scalesapphiredragon",
     "color": 5592575,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "core"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -382,34 +238,8 @@
     "identifier": "scaletealseaserpent",
     "color": 43690,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "plates"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -430,26 +260,8 @@
     "identifier": "scalebluedragon",
     "color": 14809072,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "lightweight_armor",
-        "traitPart": "core"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -470,9 +282,8 @@
     "identifier": "leatherforesttroll",
     "color": 3752497,
     "type": "DEFAULT",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": []
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -493,38 +304,8 @@
     "identifier": "scalegreendragon",
     "color": 43520,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "autoforge_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "autoforge_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "autoforge_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "shielding_armor",
-        "traitPart": "core"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -545,9 +326,8 @@
     "identifier": "leathermountaintroll",
     "color": 3883584,
     "type": "DEFAULT",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": []
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -568,34 +348,8 @@
     "identifier": "scalebronzeseaserpent",
     "color": 16755200,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "plates"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -616,38 +370,8 @@
     "identifier": "scalereddragon",
     "color": 11141120,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "autoforge_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "autoforge_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "autoforge_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "infernal_armor",
-        "traitPart": "core"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -668,34 +392,8 @@
     "identifier": "scaledeepblueseaserpent",
     "color": 170,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "plates"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -716,34 +414,8 @@
     "identifier": "scaleredseaserpent",
     "color": 16733525,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "plates"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -764,34 +436,8 @@
     "identifier": "scalegreenseaserpent",
     "color": 43520,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "aquaspeed_armor",
-        "traitPart": "plates"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   },
   {
     "coreMaterialStats": {
@@ -812,25 +458,7 @@
     "identifier": "scalesilverdragon",
     "color": 11184810,
     "type": "METAL",
-    "isCastable": false,
-    "isCraftable": true,
-    "traits": [
-      {
-        "traitName": "rough_armor",
-        "traitPart": "core"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "trim"
-      },
-      {
-        "traitName": "rough_armor",
-        "traitPart": "plates"
-      },
-      {
-        "traitName": "blessed_armor",
-        "traitPart": "core"
-      }
-    ]
+    "castable": false,
+    "craftable": true
   }
 ]
