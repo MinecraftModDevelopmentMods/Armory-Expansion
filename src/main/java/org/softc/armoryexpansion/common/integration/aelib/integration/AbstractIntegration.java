@@ -76,7 +76,6 @@ public abstract class AbstractIntegration implements IIntegration {
     public void init(FMLInitializationEvent event) {
         if(this.isLoadable()){
             this.oredictMaterials();
-            this.registerMaterialFluidsIMC();
             this.updateMaterials();
             this.registerMaterialTraits();
         }
@@ -93,6 +92,7 @@ public abstract class AbstractIntegration implements IIntegration {
         if(this.isLoadable()){
             this.registerMaterialStats();
 //            this.registerMaterialFluids();
+            this.registerMaterialFluidsIMC();
             this.registerAlloys();
         }
         ArmoryExpansion.getConfig().save();
