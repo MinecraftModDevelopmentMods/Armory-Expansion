@@ -31,12 +31,14 @@ public class MaterialTraits {
             return false;
         }
         this.traits.forEach(t -> {
-            t.getTraitNames().forEach(name -> {
-                ITrait trait = TinkerRegistry.getTrait(name);
-                if(null != trait){
-                    material.addTrait(trait, t.getTraitPart());
-                }
-            });
+            if (null != t.getTraitNames()) {
+                t.getTraitNames().forEach(name -> {
+                    ITrait trait = TinkerRegistry.getTrait(name);
+                    if(null != trait){
+                        material.addTrait(trait, t.getTraitPart());
+                    }
+                });
+            }
         });
         TinkerRegistry.integrate(material);
         return !this.traits.isEmpty();
