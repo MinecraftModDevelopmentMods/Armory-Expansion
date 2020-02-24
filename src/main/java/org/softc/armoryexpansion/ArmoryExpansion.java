@@ -11,6 +11,7 @@ import slimeknights.tconstruct.TConstruct;
         modid = ArmoryExpansion.MODID,
         name = ArmoryExpansion.NAME,
         version = ArmoryExpansion.VERSION,
+        certificateFingerprint = "@FINGERPRINT@",
         dependencies = ArmoryExpansion.DEPENDENCIES
 )
 @Mod.EventBusSubscriber
