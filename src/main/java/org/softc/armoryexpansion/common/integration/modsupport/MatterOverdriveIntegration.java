@@ -20,9 +20,10 @@ import org.softc.armoryexpansion.common.integration.aelib.integration.JsonIntegr
 public class MatterOverdriveIntegration extends JsonIntegration {
     static final String MODID = ArmoryExpansion.MODID + "-matteroverdrive";
     static final String NAME = ArmoryExpansion.NAME + " - MatterOverdrive";
-    static final String DEPENDENCIES =
-            "required-after:" + ArmoryExpansion.MODID + "; " +
-            "after:matteroverdrive; ";
+    static final String DEPENDENCIES = ""
+            + "required-after:" + ArmoryExpansion.MODID + "; "
+            + "after:matteroverdrive; "
+            ;
 
     public MatterOverdriveIntegration() {
         super("matteroverdrive", ArmoryExpansion.MODID, "matteroverdrive");

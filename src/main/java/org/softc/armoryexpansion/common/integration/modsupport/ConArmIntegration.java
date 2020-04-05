@@ -44,9 +44,10 @@ import java.util.Objects;
 public class ConArmIntegration extends JsonIntegration {
     static final String MODID = ArmoryExpansion.MODID + "-" + ConstructsArmory.MODID;
     static final String NAME = ArmoryExpansion.NAME + " - " + ConstructsArmory.MODNAME;
-    static final String DEPENDENCIES =
-                    "required-after:" + ArmoryExpansion.MODID + "; " +
-                    "after:*";
+    static final String DEPENDENCIES = ""
+            + "required-after:" + ArmoryExpansion.MODID + "; "
+            + "after:*"
+            ;
 
     private static final float STAT_MULT = 1.25f;
     private static final int DURA_MIN = 1;
@@ -113,7 +114,7 @@ public class ConArmIntegration extends JsonIntegration {
         try {
             Collections.addAll(this.jsonMaterials, gson.fromJson(new FileReader(file), ArmorMaterial[].class));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            this.logger.error("Could not find " + file.getAbsolutePath(), e);
         }
     }
 
@@ -172,6 +173,7 @@ public class ConArmIntegration extends JsonIntegration {
 
     private int calculateDurability(Material material, CoreMaterialStats core, HeadMaterialStats head){
         HeadMaterialStats materialHead = material.getStats(MaterialTypes.HEAD);
+        //noinspection NumericCastThatLosesPrecision
         return null != materialHead ? (int) Math.clamp(core.durability * materialHead.durability / head.durability / STAT_MULT, DURA_MIN, DURA_MAX): 0;
     }
 

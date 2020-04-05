@@ -102,6 +102,7 @@ public abstract class BasicMaterial implements IBasicMaterial {
         materialFluid.setUnlocalizedName(this.getFluidName());
         FluidRegistry.registerFluid(materialFluid);
         FluidRegistry.addBucketForFluid(materialFluid);
+        materialFluid.setBlock(this.getFluidBlock());
         return true;
     }
 
@@ -137,5 +138,11 @@ public abstract class BasicMaterial implements IBasicMaterial {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof BasicMaterial && this.identifier.equals(((IBasicMaterial) obj).getIdentifier());
+    }
+
+    @Override
+    public int hashCode() {
+        //noinspection NonFinalFieldReferencedInHashCode
+        return this.identifier.hashCode();
     }
 }

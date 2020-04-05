@@ -21,9 +21,10 @@ import org.softc.armoryexpansion.common.integration.aelib.integration.JsonIntegr
 public class IceAndFireIntegration extends JsonIntegration {
     static final String MODID = ArmoryExpansion.MODID + "-" + IceAndFire.MODID;
     static final String NAME = ArmoryExpansion.NAME + " - " + IceAndFire.NAME;
-    static final String DEPENDENCIES =
-            "required-after:" + ArmoryExpansion.MODID + "; " +
-            "after:" + IceAndFire.MODID + "; ";
+    static final String DEPENDENCIES = ""
+            + "required-after:" + ArmoryExpansion.MODID + "; "
+            + "after:" + IceAndFire.MODID + "; "
+            ;
 
     public IceAndFireIntegration() {
         super(IceAndFire.MODID, ArmoryExpansion.MODID, IceAndFire.MODID);

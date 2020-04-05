@@ -35,8 +35,9 @@ public class CustomMaterialsIntegration extends IndependentJsonIntegration {
 
     static final String MODID = ArmoryExpansion.MODID + "-" + INTEGRATION_ID;
     static final String NAME = ArmoryExpansion.NAME + " - " + INTEGRATION_NAME;
-    static final String DEPENDENCIES =
-            "required-after:" + ArmoryExpansion.MODID + "; ";
+    static final String DEPENDENCIES = ""
+            + "required-after:" + ArmoryExpansion.MODID + "; "
+            ;
 
     private static File configDirFile;
 
@@ -84,7 +85,7 @@ public class CustomMaterialsIntegration extends IndependentJsonIntegration {
         try (FileWriter writer = new FileWriter(output)) {
             writer.write(gson.toJson(this.traitIdentifierList));
         } catch (IOException e) {
-            e.printStackTrace();
+            this.logger.error("Could not write to " + configDir.getPath() + "/armoryexpansion/traits.txt", e);
         }
     }
 
@@ -124,7 +125,7 @@ public class CustomMaterialsIntegration extends IndependentJsonIntegration {
                 writer.write(this.returnAlloyExample());
                 writer.write(gson.toJson(this.alloys.values()));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.error("Could not write to " + this.getFilePath(dir, fileName, ConfigFileSuffixEnum.ALLOYS_SUFFIX), e);
             }
         }
     }
