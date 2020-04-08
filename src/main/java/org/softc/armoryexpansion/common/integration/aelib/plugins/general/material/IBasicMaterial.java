@@ -1,10 +1,10 @@
 package org.softc.armoryexpansion.common.integration.aelib.plugins.general.material;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.ResourceLocation;
-import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
-import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import slimeknights.tconstruct.library.fluid.FluidMolten;
+import net.minecraft.block.*;
+import net.minecraft.util.*;
+import org.softc.armoryexpansion.client.integration.aelib.plugins.tconstruct.material.*;
+import org.softc.armoryexpansion.common.integration.aelib.config.*;
+import slimeknights.tconstruct.library.fluid.*;
 
 public interface IBasicMaterial {
     String getIdentifier();
@@ -38,4 +38,6 @@ public interface IBasicMaterial {
     boolean registerTinkersFluidIMC(boolean canRegister);
 
     boolean registerTinkersMaterialStats(MaterialConfigOptions properties);
+
+    boolean registerTinkersMaterialCasting(MaterialConfigOptions properties);
 }

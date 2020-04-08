@@ -1,34 +1,25 @@
 package org.softc.armoryexpansion.common.integration.aelib.integration;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.logging.log4j.Logger;
-import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.common.integration.aelib.config.IntegrationConfig;
-import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.constructsarmory.material.ArmorToolMaterial;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.constructsarmory.material.ArmorToolRangedMaterial;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.oredictionary.BasicOreDictionary;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.oredictionary.IOreDictionary;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits.MaterialTraits;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkersconstruct.alloys.Alloy;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkersconstruct.alloys.IAlloy;
-import org.softc.armoryexpansion.common.util.ConfigFileSuffixEnum;
+import com.google.gson.*;
+import net.minecraft.block.*;
+import net.minecraft.item.*;
+import net.minecraftforge.common.*;
+import net.minecraftforge.event.*;
+import net.minecraftforge.fml.common.*;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.eventhandler.*;
+import org.apache.logging.log4j.*;
+import org.softc.armoryexpansion.*;
+import org.softc.armoryexpansion.common.integration.aelib.config.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.conarm.material.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.ore_dictionary.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.alloys.*;
+import org.softc.armoryexpansion.common.util.*;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public abstract class AbstractIntegration implements IIntegration {
     protected Logger logger;
@@ -62,7 +53,7 @@ public abstract class AbstractIntegration implements IIntegration {
     public void preInit(FMLPreInitializationEvent event) {
         this.logger = event.getModLog();
         this.configDir = event.getModConfigurationDirectory().getPath();
-        if(this.isLoadable()){
+        if(this.isLoadable()) {
             this.loadIntegrationData(this.configDir);
             this.integrationConfigHelper.syncConfig(this.materials);
             this.saveIntegrationData(this.configDir);
@@ -74,7 +65,7 @@ public abstract class AbstractIntegration implements IIntegration {
 
     @Override
     public void init(FMLInitializationEvent event) {
-        if(this.isLoadable()){
+        if(this.isLoadable()) {
             this.oredictMaterials();
             this.updateMaterials();
             this.registerMaterialTraits();
@@ -84,12 +75,14 @@ public abstract class AbstractIntegration implements IIntegration {
 
     @Override
     public void postInit(FMLPostInitializationEvent event){
-        // Used as a stub
+        if(this.isLoadable()) {
+            this.registerMaterialCasting();
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void registerItems(RegistryEvent<Item> event){
-        if(this.isLoadable()){
+        if(this.isLoadable()) {
             this.registerMaterialStats();
 //            this.registerMaterialFluids();
             this.registerMaterialFluidsIMC();
@@ -421,7 +414,7 @@ public abstract class AbstractIntegration implements IIntegration {
     public void registerFluidBlocks(RegistryEvent.Register<? super Block> event){
         this.materials.values().forEach(material -> {
             if(material.isCastable()){
-                // TODO Fix this!!
+                // FIXME!
                 event.getRegistry().register(material.getFluidBlock());
                 this.logger.info("Registered fluid block for material {" + material.getIdentifier() + "};");
             }
@@ -441,6 +434,15 @@ public abstract class AbstractIntegration implements IIntegration {
         this.materials.values().forEach(material -> {
             if (material.registerTinkersMaterialStats(this.getProperties(material))) {
                 this.logger.info("Registered stats for tinker's material {" + material.getIdentifier() + "};");
+            }
+        });
+    }
+
+    @Override
+    public void registerMaterialCasting() {
+        this.materials.values().forEach(material -> {
+            if (material.registerTinkersMaterialCasting(this.getProperties(material))) {
+                this.logger.info("Registered casting for tinker's material {" + material.getIdentifier() + "};");
             }
         });
     }
