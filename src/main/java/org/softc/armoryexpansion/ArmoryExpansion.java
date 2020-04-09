@@ -1,11 +1,11 @@
 package org.softc.armoryexpansion;
 
-import c4.conarm.ConstructsArmory;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import slimeknights.tconstruct.TConstruct;
+import c4.conarm.*;
+import net.minecraftforge.common.*;
+import net.minecraftforge.common.config.*;
+import net.minecraftforge.fml.common.*;
+import net.minecraftforge.fml.common.event.*;
+import slimeknights.tconstruct.*;
 
 @Mod(
         modid = ArmoryExpansion.MODID,
@@ -17,7 +17,7 @@ import slimeknights.tconstruct.TConstruct;
 public final class ArmoryExpansion {
     public static final String MODID = "armoryexpansion";
     public static final String NAME = "Armory Expansion";
-    public static final String VERSION = "1.4.1";
+    public static final String VERSION = "2.0.0-alpha";
     static final String DEPENDENCIES = ""
             + "required-after:" + TConstruct.modID + "; "
             + "required-after:" + ConstructsArmory.MODID + "; "
