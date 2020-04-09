@@ -84,14 +84,12 @@ public class CustomMaterialsIntegration extends IndependentJsonIntegration {
     }
 
     private void exportAllPartsToJson(File configDir){
-        // TODO This needs to somehow export both tool and armor part identifiers
+//        // TODO This needs to somehow export both tool and armor part identifiers
 //        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 //        Gson gson = builder.create();
 //        File output = new File(configDir.getPath() + "/armoryexpansion/parts.txt");
-//        try {
-//            FileWriter writer = new FileWriter(output);
-//            writer.write(gson.toJson(traits));
-//            writer.close();
+//        try (FileWriter writer = new FileWriter(output)) {
+//            writer.write(gson.toJson(TinkerRegistry.getToolParts()));
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }

@@ -4,7 +4,6 @@ import com.google.gson.*;
 import org.apache.commons.io.input.*;
 import org.softc.armoryexpansion.*;
 import org.softc.armoryexpansion.common.integration.aelib.config.*;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.conarm.material.*;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.ore_dictionary.*;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits.*;
 import org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.alloys.*;

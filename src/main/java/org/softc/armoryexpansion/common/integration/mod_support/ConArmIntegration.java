@@ -152,7 +152,7 @@ public class ConArmIntegration extends JsonIntegration {
 
     private PlatesMaterialStats getPlatesMaterialStats(Material material, Material baseMaterial){
         return new PlatesMaterialStats(
-                this.calculateDefense(material, baseMaterial),
+                this.calculateModifier(material, baseMaterial),
                 this.calculateExtraDurability(material, baseMaterial),
                 this.calculateToughness(material, baseMaterial)
         );
@@ -164,40 +164,43 @@ public class ConArmIntegration extends JsonIntegration {
         );
     }
 
-    private int calculateDurability(Material material, CoreMaterialStats core, HeadMaterialStats head){
-        HeadMaterialStats materialHead = material.getStats(MaterialTypes.HEAD);
-        //noinspection NumericCastThatLosesPrecision
-        return null != materialHead ? (int) Math.clamp(core.durability * materialHead.durability / head.durability / STAT_MULT, DURA_MIN, DURA_MAX): 0;
-    }
-
     private int calculateDurability(Material material, Material baseMaterial){
-        return this.calculateDurability(material, baseMaterial.getStats(ArmorMaterialType.CORE), baseMaterial.getStats(MaterialTypes.HEAD));
-    }
-
-    private float calculateDefense(Material material, CoreMaterialStats core, HeadMaterialStats head){
         HeadMaterialStats materialHead = material.getStats(MaterialTypes.HEAD);
-        return null != materialHead ? Math.clamp(1.5f * core.defense * materialHead.attack / head.attack  / STAT_MULT, DEF_MIN,DEF_MAX) : 0;
+        return null != materialHead
+                ? Math.clampInt(((CoreMaterialStats) baseMaterial.getStats(ArmorMaterialType.CORE)).durability * materialHead.durability
+                / ((HeadMaterialStats) baseMaterial.getStats(MaterialTypes.HEAD)).durability / STAT_MULT, DURA_MIN, DURA_MAX)
+                : 0;
     }
 
     private float calculateDefense(Material material, Material baseMaterial){
-        return this.calculateDefense(material, baseMaterial.getStats(ArmorMaterialType.CORE), baseMaterial.getStats(MaterialTypes.HEAD));
+        HeadMaterialStats materialHead = material.getStats(MaterialTypes.HEAD);
+        return null != materialHead
+                ? Math.clampFloat(1.5f * ((CoreMaterialStats) baseMaterial.getStats(ArmorMaterialType.CORE)).defense * materialHead.attack
+                / ((HeadMaterialStats) baseMaterial.getStats(MaterialTypes.HEAD)).attack  / STAT_MULT, DEF_MIN,DEF_MAX)
+                : 0;
     }
 
-    private float calculateToughness(Material material, PlatesMaterialStats plates, HandleMaterialStats handle){
+    private float calculateModifier(Material material, Material baseMaterial){
         HandleMaterialStats materialHandle = material.getStats(MaterialTypes.HANDLE);
-        return null != materialHandle ? Math.clamp(3 * plates.toughness * materialHandle.durability / handle.durability / STAT_MULT, TOUGH_MIN, TOUGH_MAX) : 0;
+        return null != materialHandle
+                ? Math.clampFloat(1.5f * ((CoreMaterialStats) baseMaterial.getStats(ArmorMaterialType.CORE)).defense * materialHandle.modifier
+                / ((HandleMaterialStats) baseMaterial.getStats(MaterialTypes.HANDLE)).modifier  / STAT_MULT, DEF_MIN,DEF_MAX)
+                : 0;
     }
 
     private float calculateToughness(Material material, Material baseMaterial){
-        return this.calculateToughness(material, baseMaterial.getStats(ArmorMaterialType.PLATES), baseMaterial.getStats(MaterialTypes.HANDLE));
-    }
-
-    private float calculateExtraDurability(Material material, TrimMaterialStats trim, ExtraMaterialStats extra){
-        ExtraMaterialStats materialExtra = material.getStats(MaterialTypes.EXTRA);
-        return null != materialExtra ? 2 * trim.extraDurability * materialExtra.extraDurability / extra.extraDurability / STAT_MULT : 0;
+        HandleMaterialStats materialHandle = material.getStats(MaterialTypes.HANDLE);
+        return null != materialHandle
+                ? Math.clampFloat(3 * ((PlatesMaterialStats) baseMaterial.getStats(ArmorMaterialType.PLATES)).toughness * materialHandle.durability
+                / ((HandleMaterialStats) baseMaterial.getStats(MaterialTypes.HANDLE)).durability / STAT_MULT, TOUGH_MIN, TOUGH_MAX)
+                : 0;
     }
 
     private float calculateExtraDurability(Material material, Material baseMaterial){
-        return this.calculateExtraDurability(material, baseMaterial.getStats(ArmorMaterialType.TRIM), baseMaterial.getStats(MaterialTypes.EXTRA));
+        ExtraMaterialStats materialExtra = material.getStats(MaterialTypes.EXTRA);
+        return null != materialExtra
+                ? 2 * ((TrimMaterialStats) baseMaterial.getStats(ArmorMaterialType.TRIM)).extraDurability * materialExtra.extraDurability
+                / ((ExtraMaterialStats) baseMaterial.getStats(MaterialTypes.EXTRA)).extraDurability / STAT_MULT
+                : 0;
     }
 }
