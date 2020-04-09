@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkersconstruct.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.material;
 
 import slimeknights.tconstruct.library.materials.*;
 

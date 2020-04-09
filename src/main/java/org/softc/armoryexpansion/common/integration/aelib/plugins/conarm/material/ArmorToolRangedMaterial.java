@@ -1,15 +1,20 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkersconstruct.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.conarm.material;
 
-import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import slimeknights.tconstruct.library.TinkerRegistry;
+import org.softc.armoryexpansion.common.integration.aelib.config.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.material.*;
+import slimeknights.tconstruct.library.*;
 import slimeknights.tconstruct.library.materials.*;
 
-public class ToolRangedMaterial extends ToolMaterial implements IRangedMaterial {
+public class ArmorToolRangedMaterial extends ArmorToolMaterial implements IRangedMaterial {
     protected BowMaterialStats bowMaterialStats;
     protected BowStringMaterialStats bowStringMaterialStats;
     protected ArrowShaftMaterialStats arrowShaftMaterialStats;
     protected FletchingMaterialStats fletchingMaterialStats;
     protected ProjectileMaterialStats projectileMaterialStats;
+
+    public ArmorToolRangedMaterial(String identifier, int color) {
+        super(identifier, color);
+    }
 
     @Override
     public BowMaterialStats getBowMaterialStats() {
@@ -46,6 +51,7 @@ public class ToolRangedMaterial extends ToolMaterial implements IRangedMaterial 
         if (properties.materialEnabled()) {
             Material material = TinkerRegistry.getMaterial(this.getIdentifier());
 //            if (!"unknown".equals(material.getIdentifier())) {
+                this.registerArmorStats(material, properties);
                 this.registerToolStats(material, properties);
                 this.registerRangedStats(material, properties);
                 return true;
@@ -54,7 +60,7 @@ public class ToolRangedMaterial extends ToolMaterial implements IRangedMaterial 
         return false;
     }
 
-    private void registerRangedStats(Material material, MaterialConfigOptions properties){
+    protected void registerRangedStats(Material material, MaterialConfigOptions properties){
         if(this.isRangedMaterial()){
             this.registerBowStats(material, properties);
             this.registerBowStringStats(material, properties);

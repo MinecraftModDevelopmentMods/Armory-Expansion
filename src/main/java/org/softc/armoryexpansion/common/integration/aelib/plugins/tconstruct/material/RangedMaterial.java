@@ -1,20 +1,16 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.constructsarmory.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.material;
 
-import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkersconstruct.material.IRangedMaterial;
-import slimeknights.tconstruct.library.TinkerRegistry;
+import org.softc.armoryexpansion.common.integration.aelib.config.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.*;
+import slimeknights.tconstruct.library.*;
 import slimeknights.tconstruct.library.materials.*;
 
-public class ArmorToolRangedMaterial extends ArmorToolMaterial implements IRangedMaterial {
+public class RangedMaterial extends BasicMaterial implements IRangedMaterial {
     protected BowMaterialStats bowMaterialStats;
     protected BowStringMaterialStats bowStringMaterialStats;
     protected ArrowShaftMaterialStats arrowShaftMaterialStats;
     protected FletchingMaterialStats fletchingMaterialStats;
     protected ProjectileMaterialStats projectileMaterialStats;
-
-    public ArmorToolRangedMaterial(String identifier, int color) {
-        super(identifier, color);
-    }
 
     @Override
     public BowMaterialStats getBowMaterialStats() {
@@ -42,6 +38,16 @@ public class ArmorToolRangedMaterial extends ArmorToolMaterial implements IRange
     }
 
     @Override
+    public boolean isToolMaterial() {
+        return false;
+    }
+
+    @Override
+    public boolean isArmorMaterial() {
+        return false;
+    }
+
+    @Override
     public boolean isRangedMaterial() {
         return !(null == this.arrowShaftMaterialStats && null == this.bowMaterialStats && null == this.bowStringMaterialStats && null == this.fletchingMaterialStats && null == this.projectileMaterialStats);
     }
@@ -50,9 +56,7 @@ public class ArmorToolRangedMaterial extends ArmorToolMaterial implements IRange
     public boolean registerTinkersMaterialStats(MaterialConfigOptions properties) {
         if (properties.materialEnabled()) {
             Material material = TinkerRegistry.getMaterial(this.getIdentifier());
-//            if (!"unknown".equals(material.getIdentifier())) {
-                this.registerArmorStats(material, properties);
-                this.registerToolStats(material, properties);
+//            if (!"unknown".equals(material.getIdentifier())){
                 this.registerRangedStats(material, properties);
                 return true;
 //            }
@@ -69,25 +73,25 @@ public class ArmorToolRangedMaterial extends ArmorToolMaterial implements IRange
         }
     }
 
-    private void registerBowStats(Material material, MaterialConfigOptions properties){
+    protected void registerBowStats(Material material, MaterialConfigOptions properties){
         if(null == material.getStats(MaterialTypes.BOW) && null != this.bowMaterialStats && properties.isBowEnabled()){
             TinkerRegistry.addMaterialStats(material, this.bowMaterialStats);
         }
     }
 
-    private void registerBowStringStats(Material material, MaterialConfigOptions properties){
+    protected void registerBowStringStats(Material material, MaterialConfigOptions properties){
         if(null == material.getStats(MaterialTypes.BOWSTRING) && null != this.bowStringMaterialStats && properties.isBowStringEnabled()){
             TinkerRegistry.addMaterialStats(material, this.bowStringMaterialStats);
         }
     }
 
-    private void registerFletchingStats(Material material, MaterialConfigOptions properties){
+    protected void registerFletchingStats(Material material, MaterialConfigOptions properties){
         if(null == material.getStats(MaterialTypes.FLETCHING) && null != this.fletchingMaterialStats && properties.isFletchingEnabled()){
             TinkerRegistry.addMaterialStats(material, this.fletchingMaterialStats);
         }
     }
 
-    private void registerProjectileStats(Material material, MaterialConfigOptions properties){
+    protected void registerProjectileStats(Material material, MaterialConfigOptions properties){
         if(null == material.getStats(MaterialTypes.PROJECTILE) && null != this.projectileMaterialStats && properties.isProjectileEnabled()){
             TinkerRegistry.addMaterialStats(material, this.projectileMaterialStats);
         }

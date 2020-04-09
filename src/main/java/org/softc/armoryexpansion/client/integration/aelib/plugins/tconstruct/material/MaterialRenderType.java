@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material;
+package org.softc.armoryexpansion.client.integration.aelib.plugins.tconstruct.material;
 
 public enum MaterialRenderType {
     DEFAULT,

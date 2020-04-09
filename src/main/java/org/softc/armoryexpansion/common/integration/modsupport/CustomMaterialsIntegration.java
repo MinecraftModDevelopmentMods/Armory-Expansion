@@ -1,26 +1,20 @@
 package org.softc.armoryexpansion.common.integration.modsupport;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import net.minecraft.block.Block;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.common.integration.aelib.integration.IndependentJsonIntegration;
-import org.softc.armoryexpansion.common.util.ConfigFileSuffixEnum;
-import slimeknights.tconstruct.library.events.MaterialEvent;
-import slimeknights.tconstruct.library.traits.AbstractTrait;
+import com.google.gson.*;
+import net.minecraft.block.*;
+import net.minecraftforge.common.*;
+import net.minecraftforge.event.*;
+import net.minecraftforge.fml.common.*;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.eventhandler.*;
+import org.softc.armoryexpansion.*;
+import org.softc.armoryexpansion.common.integration.aelib.integration.*;
+import org.softc.armoryexpansion.common.util.*;
+import slimeknights.tconstruct.library.events.*;
+import slimeknights.tconstruct.library.traits.*;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
+import java.io.*;
+import java.util.*;
 
 @Mod(
         modid = CustomMaterialsIntegration.MODID,
@@ -89,14 +83,12 @@ public class CustomMaterialsIntegration extends IndependentJsonIntegration {
     }
 
     private void exportAllPartsToJson(File configDir){
-        // TODO This needs to somehow export both tool and armor part identifiers
+//        // TODO This needs to somehow export both tool and armor part identifiers
 //        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 //        Gson gson = builder.create();
 //        File output = new File(configDir.getPath() + "/armoryexpansion/parts.txt");
-//        try {
-//            FileWriter writer = new FileWriter(output);
-//            writer.write(gson.toJson(traits));
-//            writer.close();
+//        try (FileWriter writer = new FileWriter(output)) {
+//            writer.write(gson.toJson(TinkerRegistry.getToolParts()));
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }

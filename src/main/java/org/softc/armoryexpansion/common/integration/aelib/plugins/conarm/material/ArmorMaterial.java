@@ -1,13 +1,10 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.constructsarmory.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.conarm.material;
 
-import c4.conarm.lib.materials.ArmorMaterialType;
-import c4.conarm.lib.materials.CoreMaterialStats;
-import c4.conarm.lib.materials.PlatesMaterialStats;
-import c4.conarm.lib.materials.TrimMaterialStats;
-import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
-import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.BasicMaterial;
-import slimeknights.tconstruct.library.TinkerRegistry;
+import c4.conarm.lib.materials.*;
+import org.softc.armoryexpansion.client.integration.aelib.plugins.tconstruct.material.*;
+import org.softc.armoryexpansion.common.integration.aelib.config.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.*;
+import slimeknights.tconstruct.library.*;
 
 public class ArmorMaterial extends BasicMaterial implements IArmorMaterial{
     protected CoreMaterialStats coreMaterialStats;

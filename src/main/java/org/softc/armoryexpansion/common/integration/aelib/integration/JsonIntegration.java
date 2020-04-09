@@ -1,20 +1,15 @@
 package org.softc.armoryexpansion.common.integration.aelib.integration;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.apache.commons.io.input.BoundedInputStream;
-import org.softc.armoryexpansion.ArmoryExpansion;
-import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.constructsarmory.material.ArmorToolRangedMaterial;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.oredictionary.BasicOreDictionary;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.oredictionary.IOreDictionary;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits.MaterialTraits;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.tinkersconstruct.alloys.Alloy;
+import com.google.gson.*;
+import org.apache.commons.io.input.*;
+import org.softc.armoryexpansion.*;
+import org.softc.armoryexpansion.common.integration.aelib.config.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.conarm.material.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.oredictionary.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.alloys.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class JsonIntegration extends AbstractIntegration {
     private String json;

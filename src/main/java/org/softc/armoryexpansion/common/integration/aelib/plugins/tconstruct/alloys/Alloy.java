@@ -1,9 +1,8 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkersconstruct.alloys;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.alloys;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
-import slimeknights.tconstruct.TConstruct;
+import net.minecraft.nbt.*;
+import net.minecraftforge.fml.common.event.*;
+import slimeknights.tconstruct.*;
 
 public final class Alloy implements IAlloy {
     private AlloyComponent output;
