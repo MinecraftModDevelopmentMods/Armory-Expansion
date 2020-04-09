@@ -1,7 +1,7 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkersconstruct.alloys;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.alloys;
 
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.*;
 
 public class AlloyComponent implements IAlloyComponent {
     private String fluid;

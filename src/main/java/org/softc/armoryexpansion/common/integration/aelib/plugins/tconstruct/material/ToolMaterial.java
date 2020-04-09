@@ -1,12 +1,9 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkersconstruct.material;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.material;
 
-import org.softc.armoryexpansion.common.integration.aelib.config.MaterialConfigOptions;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.BasicMaterial;
-import slimeknights.tconstruct.library.TinkerRegistry;
-import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
-import slimeknights.tconstruct.library.materials.HandleMaterialStats;
-import slimeknights.tconstruct.library.materials.HeadMaterialStats;
-import slimeknights.tconstruct.library.materials.MaterialTypes;
+import org.softc.armoryexpansion.common.integration.aelib.config.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.*;
+import slimeknights.tconstruct.library.*;
+import slimeknights.tconstruct.library.materials.*;
 
 public class ToolMaterial extends BasicMaterial implements IToolMaterial {
     protected HeadMaterialStats headMaterialStats;

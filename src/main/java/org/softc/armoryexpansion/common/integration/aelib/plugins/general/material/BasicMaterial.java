@@ -1,19 +1,17 @@
 package org.softc.armoryexpansion.common.integration.aelib.plugins.general.material;
 
-import net.minecraft.block.Block;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
-import net.minecraftforge.fml.relauncher.Side;
-import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderHelper;
-import org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material.MaterialRenderType;
-import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.TinkerRegistry;
-import slimeknights.tconstruct.library.fluid.FluidMolten;
-import slimeknights.tconstruct.smeltery.block.BlockMolten;
+import net.minecraft.block.*;
+import net.minecraft.nbt.*;
+import net.minecraft.util.*;
+import net.minecraftforge.fluids.*;
+import net.minecraftforge.fml.common.*;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.relauncher.*;
+import org.softc.armoryexpansion.client.integration.aelib.plugins.tconstruct.material.*;
+import slimeknights.tconstruct.*;
+import slimeknights.tconstruct.library.*;
+import slimeknights.tconstruct.library.fluid.*;
+import slimeknights.tconstruct.smeltery.block.*;
 
 public abstract class BasicMaterial implements IBasicMaterial {
     protected String identifier;

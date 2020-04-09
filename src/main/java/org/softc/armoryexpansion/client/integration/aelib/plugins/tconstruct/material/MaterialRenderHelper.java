@@ -1,14 +1,15 @@
-package org.softc.armoryexpansion.client.integration.aelib.plugins.tinkers_construct.material;
+package org.softc.armoryexpansion.client.integration.aelib.plugins.tconstruct.material;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.BasicMaterial;
-import slimeknights.tconstruct.library.client.MaterialRenderInfo;
-import slimeknights.tconstruct.library.materials.Material;
+import net.minecraftforge.fml.relauncher.*;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.*;
+import slimeknights.tconstruct.library.client.*;
+import slimeknights.tconstruct.library.materials.*;
 
 @SideOnly(Side.CLIENT)
-public class MaterialRenderHelper {
-    public static void setMaterialRenderInfo(Material material, BasicMaterial ticMaterial) {
+public enum MaterialRenderHelper {
+    ;
+
+    public static void setMaterialRenderInfo(Material material, IBasicMaterial ticMaterial) {
         MaterialRenderInfo materialRenderInfo;
         switch (ticMaterial.getType()) {
             case METAL:

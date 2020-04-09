@@ -1,4 +1,4 @@
-package org.softc.armoryexpansion.common.integration.aelib.plugins.tinkersconstruct.alloys;
+package org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.alloys;
 
 public interface IAlloy {
     void registerTiCAlloy();

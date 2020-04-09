@@ -1,12 +1,10 @@
 package org.softc.armoryexpansion.common.integration.aelib.plugins.general.oredictionary;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
-import org.jetbrains.annotations.Nullable;
-import slimeknights.tconstruct.library.TinkerRegistry;
+import net.minecraft.item.*;
+import net.minecraftforge.oredict.*;
+import slimeknights.tconstruct.library.*;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class BasicOreDictionary implements IOreDictionary {
     protected String identifier;
@@ -18,12 +16,14 @@ public class BasicOreDictionary implements IOreDictionary {
     }
 
     @Override
-    public @Nullable Item getItem(ItemHolder itemHolder) {
+    public Item getItem(ItemHolder itemHolder) {
+        //noinspection ReturnOfNull
         return null != itemHolder ? Item.getByNameOrId(itemHolder.getItemName()) : null;
     }
 
     @Override
-    public @Nullable ItemStack getItemStack(ItemHolder itemHolder) {
+    public ItemStack getItemStack(ItemHolder itemHolder) {
+        //noinspection ReturnOfNull
         return null != this.getItem(itemHolder) ? new ItemStack(this.getItem(itemHolder), 1, itemHolder.getMeta()) : null;
     }
 
