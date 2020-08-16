@@ -36,10 +36,10 @@ repositories {
         name 'CurseForge'
         url 'https://minecraft.curseforge.com/api/maven/'
     }
-    maven {
-        name 'tehnut'
-        url 'http://tehnut.info/maven/'
-    }
+//    maven {
+//        name 'tehnut'
+//        url 'http://tehnut.info/maven/'
+//    }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -119,8 +119,6 @@ dependencies {
     deobfCompile 'llibrary:llibrary:1.7.9:1.12.2'
     deobfCompile 'ice-and-fire-dragons:iceandfire:1.7.0:1.12.2'
 
-    deobfCompile "matteroverdrive:MatterOverdrive-1.12.2:0.7.1.0:universal"
-
 //    deobfCompile 'the-twilight-forest:twilightforest-1.12.2:3.8.689:universal'
 
 //    deobfCompile 'baubles:Baubles:1.12:1.5.2'
@@ -131,9 +129,9 @@ dependencies {
 
 //    deobfCompile 'plustic:plustic:7.1.6.1'
 
-    deobfCompile 'simplecore-api:simplecore:1.12.2:1.7.3.4'
-    deobfCompile 'simpleores:simpleores:1.12.2:1.11.2.2'
-    deobfCompile 'simple-tcon:SimpleTcon:3.0b'
+//    deobfCompile 'simplecore-api:simplecore:1.12.2:1.7.3.4'
+//    deobfCompile 'simpleores:simpleores:1.12.2:1.11.2.2'
+//    deobfCompile 'simple-tcon:SimpleTcon:3.0b'
 }
 
 processResources {
