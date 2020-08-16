@@ -34,7 +34,7 @@ public class CustomMaterialsIntegration extends IndependentJsonIntegration {
 
     private static File configDirFile;
 
-    private Collection<String> traitIdentifierList = new HashSet<>();
+    private final Collection<String> traitIdentifierList = new HashSet<>();
 
     public CustomMaterialsIntegration() {
         super(INTEGRATION_ID, ArmoryExpansion.MODID, INTEGRATION_ID);
@@ -78,7 +78,7 @@ public class CustomMaterialsIntegration extends IndependentJsonIntegration {
         try (FileWriter writer = new FileWriter(output)) {
             writer.write(gson.toJson(this.traitIdentifierList));
         } catch (IOException e) {
-            e.printStackTrace();
+            this.logger.error("", e);
         }
     }
 
@@ -116,7 +116,7 @@ public class CustomMaterialsIntegration extends IndependentJsonIntegration {
                 writer.write(this.returnAlloyExample());
                 writer.write(gson.toJson(this.alloys.values()));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.error("", e);
             }
         }
     }

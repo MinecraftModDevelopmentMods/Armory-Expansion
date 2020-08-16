@@ -3,9 +3,9 @@ package org.softc.armoryexpansion.client.integration.aelib.plugins.tconstruct.ma
 public enum MaterialRenderType {
     DEFAULT,
     METAL,
-    METALTEXTURED,
-    ANIMATEDTEXTURE,
-    BLOCKTEXTURE,
-    MULTICOLOR,
-    INVERSEMULTICOLOR
+    METAL_TEXTURED,
+    ANIMATED_TEXTURE,
+    BLOCK_TEXTURE,
+    MULTI_COLOR,
+    INVERSE_MULTI_COLOR
 }

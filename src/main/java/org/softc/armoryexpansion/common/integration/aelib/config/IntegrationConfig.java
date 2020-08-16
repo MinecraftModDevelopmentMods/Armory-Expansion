@@ -1,19 +1,19 @@
 package org.softc.armoryexpansion.common.integration.aelib.config;
 
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class IntegrationConfig {
-    private static MaterialConfigOptions defaultMaterialConfigOptions;
-    private Map<String, MaterialConfigOptions> integrationMaterials = new HashMap<>();
+    private final Map<String, MaterialConfigOptions> integrationMaterials = new HashMap<>();
+
+    private enum DefaultMaterialConfigOptionsHolder {
+        ;
+        static final MaterialConfigOptions defaultMaterialConfigOptions = new MaterialConfigOptions();
+    }
 
     private static MaterialConfigOptions getDefault(){
-        if (null == defaultMaterialConfigOptions) {
-            defaultMaterialConfigOptions = new MaterialConfigOptions();
-        }
-        return defaultMaterialConfigOptions;
+        return DefaultMaterialConfigOptionsHolder.defaultMaterialConfigOptions;
     }
 
     public void insertMaterialConfigOptions(MaterialConfigOptions materialConfigOptions){

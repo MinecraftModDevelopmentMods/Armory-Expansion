@@ -15,7 +15,7 @@ public enum MaterialRenderHelper {
             case METAL:
                 materialRenderInfo = new MaterialRenderInfo.Metal(ticMaterial.getColor());
                 break;
-            case METALTEXTURED:
+            case METAL_TEXTURED:
                 materialRenderInfo = new MaterialRenderInfo.MetalTextured(ticMaterial.getTexture(), ticMaterial.getColor(), 0.4f, 0.4f, 0.1f);
                 break;
             default:
