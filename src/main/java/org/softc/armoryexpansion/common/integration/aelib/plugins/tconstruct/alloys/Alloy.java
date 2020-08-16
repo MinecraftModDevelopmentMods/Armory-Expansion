@@ -5,8 +5,8 @@ import net.minecraftforge.fml.common.event.*;
 import slimeknights.tconstruct.*;
 
 public final class Alloy implements IAlloy {
-    private AlloyComponent output;
-    private AlloyComponent[] inputs;
+    private final AlloyComponent output;
+    private final AlloyComponent[] inputs;
 
     @Override
     public void registerTiCAlloy(){

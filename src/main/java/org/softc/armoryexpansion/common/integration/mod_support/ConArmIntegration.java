@@ -37,15 +37,15 @@ public class ConArmIntegration extends JsonIntegration {
             + "after:*"
             ;
 
-    private static final float STAT_MULT = 1.25f;
-    private static final int DURA_MIN = 1;
-    private static final int DURA_MAX = 120;
-    private static final int DEF_MIN = 0;
-    private static final int DEF_MAX = 50;
-    private static final int TOUGH_MIN = DEF_MIN / 10;
-    private static final int TOUGH_MAX = DEF_MAX / 10;
+    private static final float STAT_MULTIPLIER = 1.25f;
+    private static final int DURABILITY_MIN = 1;
+    private static final int DURABILITY_MAX = 120;
+    private static final int DEFENSE_MIN = 0;
+    private static final int DEFENSE_MAX = 50;
+    private static final int TOUGHNESS_MIN = DEFENSE_MIN / 10;
+    private static final int TOUGHNESS_MAX = DEFENSE_MAX / 10;
 
-    private Collection<ArmorMaterial> jsonMaterials = new LinkedList<>();
+    private final Collection<ArmorMaterial> jsonMaterials = new LinkedList<>();
 
     public ConArmIntegration() {
         super(ConstructsArmory.MODID, ArmoryExpansion.MODID, ConstructsArmory.MODID);
@@ -120,7 +120,7 @@ public class ConArmIntegration extends JsonIntegration {
     @Override
     protected void loadMaterialsFromSource() {
         TinkerRegistry.getAllMaterials().stream().filter(this::isConversionAvailable)
-                .map(material -> this.newTiCMaterial(material, TinkerMaterials.iron)).filter(material -> !this.jsonMaterials.contains(material))
+                .map(this::newTiCMaterial).filter(material -> !this.jsonMaterials.contains(material))
                 .forEach(material -> this.addMaterial((IBasicMaterial) material));
     }
 
@@ -129,6 +129,10 @@ public class ConArmIntegration extends JsonIntegration {
         boolean plates = !material.hasStats(ArmorMaterialType.PLATES) && material.hasStats(MaterialTypes.HANDLE);
         boolean trim = !material.hasStats(ArmorMaterialType.TRIM) && material.hasStats(MaterialTypes.EXTRA);
         return core || plates || trim;
+    }
+
+    private IArmorMaterial newTiCMaterial(Material material){
+        return this.newTiCMaterial(material, TinkerMaterials.iron);
     }
 
     private IArmorMaterial newTiCMaterial(Material material, Material baseMaterial){
@@ -168,7 +172,7 @@ public class ConArmIntegration extends JsonIntegration {
         HeadMaterialStats materialHead = material.getStats(MaterialTypes.HEAD);
         return null != materialHead
                 ? Math.clampInt(((CoreMaterialStats) baseMaterial.getStats(ArmorMaterialType.CORE)).durability * materialHead.durability
-                / ((HeadMaterialStats) baseMaterial.getStats(MaterialTypes.HEAD)).durability / STAT_MULT, DURA_MIN, DURA_MAX)
+                / ((HeadMaterialStats) baseMaterial.getStats(MaterialTypes.HEAD)).durability / STAT_MULTIPLIER, DURABILITY_MIN, DURABILITY_MAX)
                 : 0;
     }
 
@@ -176,7 +180,7 @@ public class ConArmIntegration extends JsonIntegration {
         HeadMaterialStats materialHead = material.getStats(MaterialTypes.HEAD);
         return null != materialHead
                 ? Math.clampFloat(1.5f * ((CoreMaterialStats) baseMaterial.getStats(ArmorMaterialType.CORE)).defense * materialHead.attack
-                / ((HeadMaterialStats) baseMaterial.getStats(MaterialTypes.HEAD)).attack  / STAT_MULT, DEF_MIN,DEF_MAX)
+                / ((HeadMaterialStats) baseMaterial.getStats(MaterialTypes.HEAD)).attack  / STAT_MULTIPLIER, DEFENSE_MIN, DEFENSE_MAX)
                 : 0;
     }
 
@@ -184,7 +188,7 @@ public class ConArmIntegration extends JsonIntegration {
         HandleMaterialStats materialHandle = material.getStats(MaterialTypes.HANDLE);
         return null != materialHandle
                 ? Math.clampFloat(1.5f * ((CoreMaterialStats) baseMaterial.getStats(ArmorMaterialType.CORE)).defense * materialHandle.modifier
-                / ((HandleMaterialStats) baseMaterial.getStats(MaterialTypes.HANDLE)).modifier  / STAT_MULT, DEF_MIN,DEF_MAX)
+                / ((HandleMaterialStats) baseMaterial.getStats(MaterialTypes.HANDLE)).modifier  / STAT_MULTIPLIER, DEFENSE_MIN, DEFENSE_MAX)
                 : 0;
     }
 
@@ -192,7 +196,7 @@ public class ConArmIntegration extends JsonIntegration {
         HandleMaterialStats materialHandle = material.getStats(MaterialTypes.HANDLE);
         return null != materialHandle
                 ? Math.clampFloat(3 * ((PlatesMaterialStats) baseMaterial.getStats(ArmorMaterialType.PLATES)).toughness * materialHandle.durability
-                / ((HandleMaterialStats) baseMaterial.getStats(MaterialTypes.HANDLE)).durability / STAT_MULT, TOUGH_MIN, TOUGH_MAX)
+                / ((HandleMaterialStats) baseMaterial.getStats(MaterialTypes.HANDLE)).durability / STAT_MULTIPLIER, TOUGHNESS_MIN, TOUGHNESS_MAX)
                 : 0;
     }
 
@@ -200,7 +204,7 @@ public class ConArmIntegration extends JsonIntegration {
         ExtraMaterialStats materialExtra = material.getStats(MaterialTypes.EXTRA);
         return null != materialExtra
                 ? 2 * ((TrimMaterialStats) baseMaterial.getStats(ArmorMaterialType.TRIM)).extraDurability * materialExtra.extraDurability
-                / ((ExtraMaterialStats) baseMaterial.getStats(MaterialTypes.EXTRA)).extraDurability / STAT_MULT
+                / ((ExtraMaterialStats) baseMaterial.getStats(MaterialTypes.EXTRA)).extraDurability / STAT_MULTIPLIER
                 : 0;
     }
 }

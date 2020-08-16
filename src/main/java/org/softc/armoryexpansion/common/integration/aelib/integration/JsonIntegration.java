@@ -12,7 +12,7 @@ import org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.all
 import java.io.*;
 
 public class JsonIntegration extends AbstractIntegration {
-    private String json;
+    private final String json;
 
     protected JsonIntegration(String modId, String root, String json) {
         super(modId, root);
@@ -71,7 +71,7 @@ public class JsonIntegration extends AbstractIntegration {
             jsonAlloys = gson.fromJson(reader, Alloy[].class);
             reader.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            this.logger.error("", e);
         }
 
         this.loadAlloys(jsonAlloys);

@@ -1,6 +1,6 @@
 package org.softc.armoryexpansion.common.integration.aelib.config;
 
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.*;
 
 public class ArmorMaterialConfigOptions {
     protected String name;
@@ -59,10 +59,10 @@ public class ArmorMaterialConfigOptions {
     }
 
     static class ArmorConfigOptions {
-        private boolean enableArmor;
-        private boolean enableCore;
-        private boolean enablePlates;
-        private boolean enableTrim;
+        private final boolean enableArmor;
+        private final boolean enableCore;
+        private final boolean enablePlates;
+        private final boolean enableTrim;
 
         ArmorConfigOptions(boolean defVal) {
             this(defVal, defVal, defVal, defVal);

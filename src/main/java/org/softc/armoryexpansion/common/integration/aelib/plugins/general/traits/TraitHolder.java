@@ -1,10 +1,10 @@
 package org.softc.armoryexpansion.common.integration.aelib.plugins.general.traits;
 
-import java.util.List;
+import java.util.*;
 
 public class TraitHolder implements ITraitHolder {
-    private List<String> traitNames;
-    private String traitPart;
+    private final List<String> traitNames;
+    private final String traitPart;
 
     public List<String> getTraitNames() {
         return this.traitNames;

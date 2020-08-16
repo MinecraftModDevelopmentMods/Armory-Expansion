@@ -66,7 +66,7 @@ public abstract class AbstractIntegration implements IIntegration {
     @Override
     public void init(FMLInitializationEvent event) {
         if(this.isLoadable()) {
-            this.oredictMaterials();
+            this.oreDictMaterials();
             this.updateMaterials();
             this.registerMaterialTraits();
         }
@@ -138,7 +138,7 @@ public abstract class AbstractIntegration implements IIntegration {
             try (FileWriter writer = new FileWriter(output)){
                 writer.write(gson.toJson(this.materialTraits.values()));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.error("", e);
             }
         }
     }
@@ -160,7 +160,7 @@ public abstract class AbstractIntegration implements IIntegration {
                 jsonMaterials = gson.fromJson(new FileReader(input), MaterialTraits[].class);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            this.logger.error("", e);
         }
         this.loadTraits(jsonMaterials);
     }
@@ -188,7 +188,7 @@ public abstract class AbstractIntegration implements IIntegration {
             try (FileWriter writer = new FileWriter(output)){
                 writer.write(gson.toJson(this.materials.values()));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.error("", e);
             }
         }
     }
@@ -210,7 +210,7 @@ public abstract class AbstractIntegration implements IIntegration {
                 jsonMaterials = gson.fromJson(new FileReader(input), ArmorToolRangedMaterial[].class);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            this.logger.error("", e);
         }
         this.loadMaterials(jsonMaterials);
     }
@@ -238,14 +238,14 @@ public abstract class AbstractIntegration implements IIntegration {
             try (FileWriter writer = new FileWriter(output)) {
                 writer.write(gson.toJson(this.oreDictionaryEntries.values()));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.error("", e);
             }
         }
     }
 
-    protected void loadOreDictionaryEntries(IOreDictionary[] jsonOreDicts) {
-        if(null != jsonOreDicts) {
-            for (IOreDictionary iOreDictionary : jsonOreDicts) {
+    protected void loadOreDictionaryEntries(IOreDictionary[] jsonOreDictionaries) {
+        if(null != jsonOreDictionaries) {
+            for (IOreDictionary iOreDictionary : jsonOreDictionaries) {
                 this.oreDictionaryEntries.putIfAbsent(iOreDictionary.getIdentifier(), iOreDictionary);
             }
         }
@@ -260,7 +260,7 @@ public abstract class AbstractIntegration implements IIntegration {
                 jsonMaterials = gson.fromJson(new FileReader(input), BasicOreDictionary[].class);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            this.logger.error("", e);
         }
         this.loadOreDictionaryEntries(jsonMaterials);
     }
@@ -288,7 +288,7 @@ public abstract class AbstractIntegration implements IIntegration {
             try (FileWriter writer = new FileWriter(output)) {
                 writer.write(gson.toJson(this.alloys.values()));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.error("", e);
             }
         }
     }
@@ -310,7 +310,7 @@ public abstract class AbstractIntegration implements IIntegration {
                 jsonAlloys = gson.fromJson(new FileReader(input), Alloy[].class);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            this.logger.error("", e);
         }
         this.loadAlloys(jsonAlloys);
     }
@@ -338,7 +338,7 @@ public abstract class AbstractIntegration implements IIntegration {
             try (FileWriter writer = new FileWriter(output)) {
                 writer.write(gson.toJson(this.integrationConfigHelper.getIntegrationMaterials().values().toArray()));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.error("", e);
             }
         }
     }
@@ -363,7 +363,7 @@ public abstract class AbstractIntegration implements IIntegration {
                 jsonConfig = gson.fromJson(new FileReader(input), MaterialConfigOptions[].class);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            this.logger.error("", e);
         }
         this.loadConfig(jsonConfig);
     }
@@ -372,13 +372,13 @@ public abstract class AbstractIntegration implements IIntegration {
 
     // IIntegration implementations
     @Override
-    public void oredictMaterials() {
+    public void oreDictMaterials() {
         this.materials.values().forEach(material -> {
             if (this.isMaterialEnabled(material.getIdentifier())){
                 IOreDictionary oreDictionary = this.oreDictionaryEntries.get(material.getIdentifier());
                 if (null != oreDictionary)
                     oreDictionary.registerOreDict();
-                this.logger.info("Oredicted material {" + material.getIdentifier() + "};");
+                this.logger.info("Added material to Ore Dictionary {" + material.getIdentifier() + "};");
             }
         });
     }

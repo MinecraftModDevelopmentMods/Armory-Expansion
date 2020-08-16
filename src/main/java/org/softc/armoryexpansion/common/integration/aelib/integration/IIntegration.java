@@ -18,7 +18,7 @@ public interface IIntegration {
 
     void registerFluidBlocks(RegistryEvent.Register<? super Block> event);
 
-    void oredictMaterials();
+    void oreDictMaterials();
 
     void registerMaterials();
 

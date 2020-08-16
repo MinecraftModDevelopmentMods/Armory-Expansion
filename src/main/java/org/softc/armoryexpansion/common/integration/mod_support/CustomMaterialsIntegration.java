@@ -35,7 +35,7 @@ public class CustomMaterialsIntegration extends IndependentJsonIntegration {
 
     private static File configDirFile;
 
-    private Collection<String> traitIdentifierList = new HashSet<>();
+    private final Collection<String> traitIdentifierList = new HashSet<>();
 
     public CustomMaterialsIntegration() {
         super(INTEGRATION_ID, ArmoryExpansion.MODID, INTEGRATION_ID);

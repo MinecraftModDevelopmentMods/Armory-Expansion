@@ -1,10 +1,12 @@
 package org.softc.armoryexpansion.common.integration.aelib.config;
 
-import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.IBasicMaterial;
+import org.softc.armoryexpansion.common.integration.aelib.plugins.general.material.*;
+
+import java.util.*;
 
 public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
-    private ToolConfigOptions toolOptions;
-    private RangedConfigOptions rangedOptions;
+    private final ToolConfigOptions toolOptions;
+    private final RangedConfigOptions rangedOptions;
 
     MaterialConfigOptions() {
         super("DEFAULT", true, true, false);
@@ -60,10 +62,10 @@ public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
     }
 
     private static class ToolConfigOptions {
-        private boolean enableTool;
-        private boolean enableHead;
-        private boolean enableHandle;
-        private boolean enableExtra;
+        private final boolean enableTool;
+        private final boolean enableHead;
+        private final boolean enableHandle;
+        private final boolean enableExtra;
 
         ToolConfigOptions(boolean defVal) {
             this(defVal, defVal, defVal, defVal);
@@ -78,12 +80,12 @@ public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
     }
 
     private static class RangedConfigOptions {
-        private boolean enableRanged;
-        private boolean enableBow;
-        private boolean enableBowString;
-        private boolean enableShaft;
-        private boolean enableFletching;
-        private boolean enableProjectile;
+        private final boolean enableRanged;
+        private final boolean enableBow;
+        private final boolean enableBowString;
+        private final boolean enableShaft;
+        private final boolean enableFletching;
+        private final boolean enableProjectile;
 
         RangedConfigOptions(boolean defVal) {
             this(defVal, defVal, defVal, defVal, defVal, defVal);
@@ -102,5 +104,10 @@ public class MaterialConfigOptions extends ArmorMaterialConfigOptions{
     @Override
     public boolean equals(Object obj){
         return obj instanceof MaterialConfigOptions && this.getName().equals(((ArmorMaterialConfigOptions) obj).getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.toolOptions, this.rangedOptions);
     }
 }

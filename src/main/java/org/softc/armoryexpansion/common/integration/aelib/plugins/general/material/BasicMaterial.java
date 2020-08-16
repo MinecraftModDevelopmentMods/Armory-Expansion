@@ -13,6 +13,8 @@ import slimeknights.tconstruct.library.*;
 import slimeknights.tconstruct.library.fluid.*;
 import slimeknights.tconstruct.smeltery.block.*;
 
+import java.util.*;
+
 public abstract class BasicMaterial implements IBasicMaterial {
     protected String identifier;
     protected int color;
