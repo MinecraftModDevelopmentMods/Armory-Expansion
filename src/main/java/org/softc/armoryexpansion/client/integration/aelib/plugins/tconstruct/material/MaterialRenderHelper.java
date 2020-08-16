@@ -18,10 +18,10 @@ public enum MaterialRenderHelper {
             case METAL_TEXTURED:
                 materialRenderInfo = new MaterialRenderInfo.MetalTextured(ticMaterial.getTexture(), ticMaterial.getColor(), 0.4f, 0.4f, 0.1f);
                 break;
-            case ANIMATEDTEXTURE:
-            case BLOCKTEXTURE:
-            case MULTICOLOR:
-            case INVERSEMULTICOLOR:
+            case ANIMATED_TEXTURE:
+            case BLOCK_TEXTURE:
+            case MULTI_COLOR:
+            case INVERSE_MULTI_COLOR:
             case DEFAULT:
             default:
                 materialRenderInfo = new MaterialRenderInfo.Default(ticMaterial.getColor());
