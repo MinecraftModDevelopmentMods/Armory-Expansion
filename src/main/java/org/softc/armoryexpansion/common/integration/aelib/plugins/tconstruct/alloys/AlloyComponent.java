@@ -4,8 +4,8 @@ package org.softc.armoryexpansion.common.integration.aelib.plugins.tconstruct.al
 import net.minecraft.nbt.*;
 
 public class AlloyComponent implements IAlloyComponent {
-    private String fluid;
-    private int amount;
+    private final String fluid;
+    private final int amount;
 
     public AlloyComponent(String fluid, int amount) {
         this.fluid = fluid;

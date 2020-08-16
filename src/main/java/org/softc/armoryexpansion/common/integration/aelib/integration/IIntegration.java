@@ -1,11 +1,9 @@
 package org.softc.armoryexpansion.common.integration.aelib.integration;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraft.block.*;
+import net.minecraft.item.*;
+import net.minecraftforge.event.*;
+import net.minecraftforge.fml.common.event.*;
 
 public interface IIntegration {
     void preInit(FMLPreInitializationEvent event);
@@ -20,7 +18,7 @@ public interface IIntegration {
 
     void registerFluidBlocks(RegistryEvent.Register<? super Block> event);
 
-    void oredictMaterials();
+    void oreDictMaterials();
 
     void registerMaterials();
 

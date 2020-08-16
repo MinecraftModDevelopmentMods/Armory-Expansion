@@ -13,6 +13,8 @@ import slimeknights.tconstruct.library.*;
 import slimeknights.tconstruct.library.fluid.*;
 import slimeknights.tconstruct.smeltery.block.*;
 
+import java.util.*;
+
 public abstract class BasicMaterial implements IBasicMaterial {
     protected String identifier;
     protected int color;
@@ -135,5 +137,10 @@ public abstract class BasicMaterial implements IBasicMaterial {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof BasicMaterial && this.identifier.equals(((IBasicMaterial) obj).getIdentifier());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.identifier);
     }
 }
